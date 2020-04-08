@@ -1,24 +1,31 @@
 {
   "name": "slate-vue",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "./src/index.ts",
   "repository": "https://github.com/marsprince/slate-vue.git",
   "author": "liujia02 <bit_liujia@163.com>",
   "license": "MIT",
   "dependencies": {
+    "@vue/babel-preset-app": "^4.3.1",
     "slate": "^0.57.1",
-    "vue": "^2.6.11",
-    "vue-hot-reload-api": "^2.3.4"
+    "vue": "^2.6.11"
   },
   "scripts": {
-    "serve": "parcel site/index.html --open"
+    "serve": "webpack-dev-server --config ./config/webpack/site/webpack.dev.conf.js"
   },
   "devDependencies": {
-    "@vue/component-compiler-utils": "^3.1.1",
-    "autoprefixer": "^9.7.6",
-    "parcel-bundler": "^1.12.4",
-    "postcss-import": "^12.0.1",
-    "postcss-url": "^8.0.0",
-    "vue-template-compiler": "^2.6.11"
+    "@babel/core": "^7.9.0",
+    "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
+    "@vue/babel-preset-jsx": "^1.1.2",
+    "babel-loader": "^8.1.0",
+    "html-webpack-plugin": "^4.0.4",
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3",
+    "vue-loader": "^15.9.1",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3",
+    "webpack-merge": "^4.2.2"
   }
 }

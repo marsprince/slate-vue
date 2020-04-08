@@ -1,1 +1,1 @@
-export const Slate = ({ props }) => <p>hello {props.message}</p>
+export const Slate = () => <p>hello!!!!!!</p>

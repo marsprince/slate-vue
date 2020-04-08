@@ -1,16 +1,37 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "module": "commonjs",
+    "target": "esnext",
+    "module": "esnext",
+    "strict": false,
     "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "allowJs": true,
+    "baseUrl": ".",
+    "types": [],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
     "lib": [
-      "es6",
-      "dom"
-    ],
-    "rootDir": "src",
-    "moduleResolution": "node"
-  }
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "site/**/*.ts",
+    "site/**/*.tsx",
+    "site/**/*.vue"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
