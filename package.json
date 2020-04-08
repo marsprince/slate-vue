@@ -1,0 +1,11 @@
+{
+  "name": "slate-vue",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/marsprince/slate-vue.git",
+  "author": "liujia02 <bit_liujia@163.com>",
+  "license": "MIT",
+  "dependencies": {
+    "slate": "^0.57.1"
+  }
+}
