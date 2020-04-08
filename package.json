@@ -6,6 +6,19 @@
   "author": "liujia02 <bit_liujia@163.com>",
   "license": "MIT",
   "dependencies": {
-    "slate": "^0.57.1"
+    "slate": "^0.57.1",
+    "vue": "^2.6.11",
+    "vue-hot-reload-api": "^2.3.4"
+  },
+  "scripts": {
+    "serve": "parcel site/index.html --open"
+  },
+  "devDependencies": {
+    "@vue/component-compiler-utils": "^3.1.1",
+    "autoprefixer": "^9.7.6",
+    "parcel-bundler": "^1.12.4",
+    "postcss-import": "^12.0.1",
+    "postcss-url": "^8.0.0",
+    "vue-template-compiler": "^2.6.11"
   }
 }
