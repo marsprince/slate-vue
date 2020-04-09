@@ -1,5 +1,8 @@
 import Vue from 'vue'
-import app from './pages/index'
+import app from './pages/plaintext'
+import {SlatePlugin} from '../src';
+
+Vue.use(SlatePlugin)
 
 new Vue({
   el: '#app',

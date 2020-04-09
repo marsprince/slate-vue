@@ -1,1 +1,5 @@
-export const Slate = () => <p>hello!!!!!!</p>
+export const Slate = {
+  render() {
+
+  }
+}

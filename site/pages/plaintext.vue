@@ -1,13 +1,16 @@
 <template>
-  <div>123<Slate></Slate></div>
+  <div>123</div>
 </template>
 
 <script>
-  import {Slate} from 'slate-vue'
+  // import {Slate} from 'slate-vue'
   export default {
     name: 'index',
     components: {
-      Slate
+      // Slate
+    },
+    mounted() {
+      console.log(this,this.$editor);
     }
   };
 </script>
