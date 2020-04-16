@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <Slate>
-      <Editable></Editable>
-    </Slate>
-  </div>
+  <Slate :value="initialValue">
+    <Editable></Editable>
+  </Slate>
 </template>
 
 <script>
@@ -11,11 +9,7 @@
 
   // this value is for editor
   const initialValue = [
-    {
-      children: [
-        { text: 'This is editable plain text, just like a <textarea>!' },
-      ],
-    },
+    { text: 'This is editable plain text, just like a <textarea>!' },
   ]
   export default {
     name: 'index',
@@ -23,7 +17,12 @@
       Slate,
       Editable
     },
-    mounted() {
+    data() {
+      return {
+        initialValue
+      }
+    },
+    beforeCreate() {
 
     }
   };

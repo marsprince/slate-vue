@@ -1,6 +1,6 @@
 # System and module
 .DS_Store
-node_modules
+node_modules/
 /dist
 /packages/*/dist
 .cache
@@ -19,5 +19,4 @@ yarn-error.log*
 *.sln
 *.sw*
 
-dist
-.cache
+dist/

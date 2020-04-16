@@ -4,7 +4,7 @@ export interface SlatePluginOptions {
 
 }
 
-export const SlatePlugin = {
+export default {
   install(Vue, options) {
     Vue.prototype.$editor = createEditor()
   }

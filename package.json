@@ -1,26 +1,27 @@
 {
-  "name": "slate-vue",
-  "version": "0.0.1",
-  "main": "src/index.ts",
-  "repository": "https://github.com/marsprince/slate-vue.git",
-  "author": "liujia02 <bit_liujia@163.com>",
-  "license": "MIT",
-  "dependencies": {
-    "@vue/babel-preset-app": "^4.3.1",
-    "slate": "^0.57.1",
-    "vue": "^2.6.11"
-  },
+  "private": true,
+  "name": "slate-packages",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "serve": "webpack-dev-server --config ./config/webpack/site/webpack.dev.conf.js"
+    "build": "webpack --config ./config/webpack/site/webpack.prod.conf.js",
+    "serve": "webpack-dev-server --config ./config/webpack/site/webpack.dev.conf.js",
+    "watch": "yarn build --watch",
+    "start": "npm-run-all --parallel --print-label watch serve"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
+    "@vue/babel-preset-app": "^4.3.1",
     "@vue/babel-preset-jsx": "^1.1.2",
     "babel-loader": "^8.1.0",
     "html-webpack-plugin": "^4.0.4",
+    "npm-run-all": "^4.1.5",
+    "slate-vue": "*",
     "ts-loader": "^6.2.2",
     "typescript": "^3.8.3",
+    "vue": "^2.6.11",
     "vue-loader": "^15.9.1",
     "vue-template-compiler": "^2.6.11",
     "vue-tsx-support": "^2.3.3",

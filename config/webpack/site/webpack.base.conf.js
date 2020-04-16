@@ -10,6 +10,7 @@ module.exports = {
       { test: /\.js$/, use: 'babel-loader', exclude: /node_modules/},
       { test: /\.vue$/, use: 'vue-loader' },
       { test: /\.tsx$/, use: ['babel-loader','ts-loader']},
+      { test: /\.ts$/, use: ['babel-loader','ts-loader']},
     ]
   },
   resolve:{
