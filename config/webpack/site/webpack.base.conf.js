@@ -11,6 +11,8 @@ module.exports = {
       { test: /\.vue$/, use: 'vue-loader' },
       { test: /\.tsx$/, use: ['babel-loader','ts-loader']},
       { test: /\.ts$/, use: ['babel-loader','ts-loader']},
+      { test: /\.css$/, use: ['style-loader', 'css-loader']},
+      { test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader']},
     ]
   },
   resolve:{

@@ -1,7 +1,7 @@
 {
   "name": "slate-vue",
   "version": "0.0.1",
-  "peerDependencies": {
+  "dependencies": {
     "slate": "^0.57.1"
   },
   "main": "./dist/index.js",

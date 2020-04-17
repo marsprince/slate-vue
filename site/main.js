@@ -1,6 +1,7 @@
 import Vue from 'vue'
-import app from './pages/plaintext'
+import app from './app'
 import { SlatePlugin } from 'slate-vue';
+import './index.css'
 
 Vue.use(SlatePlugin)
 

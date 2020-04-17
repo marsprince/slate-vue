@@ -42,7 +42,7 @@ const Children = tsx.component({
           text={n}
         />
       )
-      // set n and its index
+      // set n and its index in children
       NODE_TO_INDEX.set(n, i)
       // set n and its parent
       NODE_TO_PARENT.set(n, node)
