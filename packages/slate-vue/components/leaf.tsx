@@ -12,10 +12,10 @@ import { RenderLeafProps } from './editable'
 
 const Leaf = tsx.component({
   props: {
-    renderLeaf: Function,
     text: Object,
     leaf: Object
   },
+  inject: ['renderLeaf'],
   components: {
     string
   },

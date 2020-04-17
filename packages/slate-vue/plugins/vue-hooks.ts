@@ -1,4 +1,5 @@
 // @ts-nocheck
+// same react hooks in vue, forked from https://github.com/yyx990803/vue-hooks
 let currentInstance = null
 let isMounting = false
 let callIndex = 0
@@ -9,19 +10,6 @@ function ensureCurrentInstance() {
       `invalid hooks call: hooks can only be called in a function passed to withHooks.`
     )
   }
-}
-
-export function useState(initial) {
-  ensureCurrentInstance()
-  const id = ++callIndex
-  const state = currentInstance.$data._state
-  const updater = newValue => {
-    state[id] = newValue
-  }
-  if (isMounting) {
-    currentInstance.$set(state, id, initial)
-  }
-  return [state[id], updater]
 }
 
 export function useEffect(rawEffect, deps) {
@@ -71,77 +59,6 @@ export function useRef(initial) {
   const id = ++callIndex
   const { _refsStore: refs } = currentInstance
   return isMounting ? (refs[id] = { current: initial }) : refs[id]
-}
-
-export function useData(initial) {
-  const id = ++callIndex
-  const state = currentInstance.$data._state
-  if (isMounting) {
-    currentInstance.$set(state, id, initial)
-  }
-  return state[id]
-}
-
-export function useMounted(fn) {
-  useEffect(fn, [])
-}
-
-export function useDestroyed(fn) {
-  useEffect(() => fn, [])
-}
-
-export function useUpdated(fn, deps) {
-  const isMount = useRef(true)
-  useEffect(() => {
-    if (isMount.current) {
-      isMount.current = false
-    } else {
-      return fn()
-    }
-  }, deps)
-}
-
-export function useWatch(getter, cb, options) {
-  ensureCurrentInstance()
-  if (isMounting) {
-    currentInstance.$watch(getter, cb, options)
-  }
-}
-
-export function useComputed(getter) {
-  ensureCurrentInstance()
-  const id = ++callIndex
-  const store = currentInstance._computedStore
-  if (isMounting) {
-    store[id] = getter()
-    currentInstance.$watch(getter, val => {
-      store[id] = val
-    }, { sync: true })
-  }
-  return store[id]
-}
-
-export function withHooks(render) {
-  return {
-    data() {
-      return {
-        _state: {}
-      }
-    },
-    created() {
-      this._effectStore = {}
-      this._refsStore = {}
-      this._computedStore = {}
-    },
-    render(h) {
-      callIndex = 0
-      currentInstance = this
-      isMounting = !this._vnode
-      const ret = render(h, this.$attrs, this.$props)
-      currentInstance = null
-      return ret
-    }
-  }
 }
 
 export function hooks (Vue) {

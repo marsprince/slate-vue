@@ -1,10 +1,11 @@
 // @ts-nocheck
+import * as tsx from "vue-tsx-support"
 import getDirection from 'direction'
 import { Editor, Node, Range, NodeEntry, Element as SlateElement } from 'slate'
 
 import Text from './text'
 import Children from './children'
-import { ReactEditor, useEditor, useReadOnly } from '../index'
+import { ReactEditor } from '../index'
 import { SelectedContext } from '../hooks/use-selected'
 import { useIsomorphicLayoutEffect } from '../hooks/use-isomorphic-layout-effect'
 import {
@@ -36,8 +37,8 @@ const Element = (props: {
     renderLeaf,
     selection,
   } = props
-  const ref = useRef<HTMLElement>(null)
-  const editor = useEditor()
+  // const ref = useRef<HTMLElement>(null)
+  const editor = this.$editor
   const readOnly = useReadOnly()
   const isInline = editor.isInline(element)
   const key = ReactEditor.findKey(editor, element)
@@ -130,58 +131,23 @@ const Element = (props: {
   )
 }
 
-const MemoizedElement = React.memo(Element, (prev, next) => {
-  return (
-    prev.decorate === next.decorate &&
-    prev.element === next.element &&
-    prev.renderElement === next.renderElement &&
-    prev.renderLeaf === next.renderLeaf &&
-    isRangeListEqual(prev.decorations, next.decorations) &&
-    (prev.selection === next.selection ||
-      (!!prev.selection &&
-        !!next.selection &&
-        Range.equals(prev.selection, next.selection)))
-  )
-})
-
 /**
  * The default element renderer.
  */
 
-export const DefaultElement = (props: RenderElementProps) => {
-  const { attributes, children, element } = props
-  const editor = useEditor()
-  const Tag = editor.isInline(element) ? 'span' : 'div'
-  return (
-    <Tag {...attributes} style={{ position: 'relative' }}>
-      {children}
-    </Tag>
-  )
-}
-
-/**
- * Check if a list of ranges is equal to another.
- *
- * PERF: this requires the two lists to also have the ranges inside them in the
- * same order, but this is an okay constraint for us since decorations are
- * kept in order, and the odd case where they aren't is okay to re-render for.
- */
-
-const isRangeListEqual = (list: Range[], another: Range[]): boolean => {
-  if (list.length !== another.length) {
-    return false
-  }
-
-  for (let i = 0; i < list.length; i++) {
-    const range = list[i]
-    const other = another[i]
-
-    if (!Range.equals(range, other)) {
-      return false
+export const DefaultElement = (props) => {
+  return tsx.component({
+    render() {
+      const { attributes, children, element } = props
+      const editor = this.$editor
+      const Tag = editor.isInline(element) ? 'span' : 'div'
+      return (
+        <Tag {...{attrs: attributes}} style={{ position: 'relative' }}>
+          {children}
+        </Tag>
+      )
     }
-  }
-
-  return true
+  })
 }
 
-export default MemoizedElement
+export default Element
