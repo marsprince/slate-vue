@@ -9,7 +9,11 @@
 
   // this value is for editor
   const initialValue = [
-    { text: 'This is editable plain text, just like a <textarea>!' },
+    {
+      children: [
+        { text: 'This is editable plain text, just like a <textarea>!' },
+      ],
+    },
   ]
   export default {
     name: 'index',
