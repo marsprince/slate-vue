@@ -2,9 +2,10 @@
   "name": "slate-vue",
   "version": "0.0.1",
   "dependencies": {
+    "lodash": "^4.17.15",
     "slate": "^0.57.1"
   },
-  "main": "./dist/index.js",
+  "main": "./dist/index.es.js",
   "repository": "https://github.com/marsprince/slate-vue.git",
   "author": "liujia02 <bit_liujia@163.com>",
   "license": "MIT"

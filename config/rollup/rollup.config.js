@@ -1,7 +1,7 @@
 // This is for sdk
 import typescript from "rollup-plugin-typescript2";
 import babel from 'rollup-plugin-babel'
-const path = require('path');
+import path from "path"
 
 export default {
   plugins: [

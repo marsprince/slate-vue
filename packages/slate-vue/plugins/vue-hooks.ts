@@ -58,7 +58,18 @@ export function useRef(initial) {
   ensureCurrentInstance()
   const id = ++callIndex
   const { _refsStore: refs } = currentInstance
-  return isMounting ? (refs[id] = { current: initial }) : refs[id]
+  // added for auto inject $refs
+  currentInstance.$on('hook:mounted', function() {
+    if(this.$refs[id]) {
+      refs[id].current = this.$refs[id]
+    }
+  });
+  currentInstance.$on('hook:updated', function(){
+    if(this.$refs[id]) {
+      refs[id].current = this.$refs[id]
+    }
+  });
+  return isMounting ? (refs[id] = { current: initial, id }) : refs[id]
 }
 
 export function hooks (Vue) {
@@ -83,7 +94,8 @@ export function hooks (Vue) {
           callIndex = 0
           currentInstance = this
           isMounting = !this._vnode
-          const hookProps = hooks(this.$props)
+          // changed for get this
+          const hookProps = hooks.call(this, this.$props)
           Object.assign(this._self, hookProps)
           const ret = render.call(this, h)
           currentInstance = null

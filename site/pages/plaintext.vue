@@ -1,5 +1,5 @@
 <template>
-  <Slate :value="initialValue">
+  <Slate :value="JSON.stringify(initialValue)">
     <Editable></Editable>
   </Slate>
 </template>

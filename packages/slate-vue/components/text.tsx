@@ -12,6 +12,7 @@ import {
   NODE_TO_ELEMENT,
   ELEMENT_TO_NODE,
 } from '../utils/weak-maps'
+import { useRef, useEffect } from '../plugins/vue-hooks';
 
 /**
  * Text.
@@ -33,6 +34,26 @@ const Text = tsx.component({
       'parent': this.parent
     }
   },
+  hooks() {
+    const ref = this.ref = useRef(null);
+    const {text} = this;
+    const editor = this.$editor;
+    const key = ReactEditor.findKey(editor, text)
+    const initRef = () => {
+      useEffect(()=>{
+        if (ref.current) {
+          KEY_TO_ELEMENT.set(key, ref.current)
+          NODE_TO_ELEMENT.set(text, ref.current)
+          ELEMENT_TO_NODE.set(ref.current, text)
+        } else {
+          KEY_TO_ELEMENT.delete(key)
+          NODE_TO_ELEMENT.delete(text)
+        }
+      }, [])
+    };
+
+    initRef()
+  },
   render(h, ctx) {
     const { text } = this
     const leaves = SlateText.decorations(text, [])
@@ -46,7 +67,7 @@ const Text = tsx.component({
         )
     }
     return (
-      <span data-slate-node="text">
+      <span data-slate-node="text" ref={this.ref.id}>
         {children}
       </span>
     )
