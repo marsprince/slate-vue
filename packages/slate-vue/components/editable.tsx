@@ -3,9 +3,9 @@ import * as tsx from "vue-tsx-support";
 import { useEffect, useRef } from '../plugins/vue-hooks';
 // import throttle from 'lodash/throttle'
 import {ReactEditor} from '..';
-import {IS_FOCUSED, EDITOR_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE} from '../utils/weak-maps';
+import { IS_FOCUSED, EDITOR_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, IS_READ_ONLY, PLACEHOLDER_SYMBOL } from '../utils/weak-maps';
 import {DOMNode,isDOMNode, DOMRange, isDOMElement} from '../utils/dom';
-import {Transforms, Range,Editor, Element} from 'slate';
+import {Transforms, Range,Editor, Element, Node} from 'slate';
 import {DOMStaticRange} from '../utils/dom';
 import { IS_FIREFOX, IS_SAFARI, IS_EDGE_LEGACY } from '../utils/environment'
 /**
@@ -47,7 +47,12 @@ const hasTarget = (
   target: EventTarget | null
 ): target is DOMNode => {
   return isDOMNode(target) && ReactEditor.hasDOMNode(editor, target)
-}
+};
+/**
+ * A default memoized decorate function.
+ */
+const defaultDecorate = () => []
+
 // the contentEditable div
 export const Editable = tsx.component({
   // some global props will provide for child component
@@ -55,7 +60,12 @@ export const Editable = tsx.component({
     autoFocus: Boolean,
     renderLeaf: Function,
     renderElement: Function,
-    readOnly: Boolean
+    readOnly: Boolean,
+    decorate: {
+      type: Function,
+      default: defaultDecorate
+    },
+    placeholder: String
   },
   components: {
     Children
@@ -123,7 +133,7 @@ export const Editable = tsx.component({
         }
       }
     },
-    onBeforeInput(event: Event & {
+    onDOMBeforeInput(event: Event & {
       data: string | null
       dataTransfer: DataTransfer | null
       getTargetRanges(): DOMStaticRange[]
@@ -131,7 +141,10 @@ export const Editable = tsx.component({
       isComposing: boolean
     }) {
       const editor = this.$editor;
-      if(!this.readOnly) {
+      if (
+        !this.readOnly &&
+        hasEditableTarget(editor, event.target)
+      ) {
         const { selection } = editor
         const { inputType: type } = event
         const data = event.dataTransfer || event.data || undefined
@@ -336,7 +349,8 @@ export const Editable = tsx.component({
   hooks() {
     const ref = this.ref = useRef(null);
     const editor = this.$editor;
-    // all listener
+    IS_READ_ONLY.set(editor, this.readOnly)
+
     const initListener = ()=>{
       // Attach a native DOM event handler for `selectionchange`
       useEffect(()=>{
@@ -366,7 +380,6 @@ export const Editable = tsx.component({
       })
     };
     const updateSelection = ()=> {
-      // Whenever the editor updates, make sure the DOM selection state is in sync.
       useEffect(() => {
         const { selection } = editor
         const domSelection = window.getSelection()
@@ -416,21 +429,46 @@ export const Editable = tsx.component({
       })
     }
 
+    // init selectionchange
     initListener();
+    // Update element-related weak maps with the DOM element ref.
     updateRef();
+    // The autoFocus TextareaHTMLAttribute doesn't do anything on a div, so it
+    // needs to be manually focused.
     updateAutoFocus();
+    // Whenever the editor updates, make sure the DOM selection state is in sync.
     updateSelection();
   },
   render() {
     const editor = this.$editor;
     const ref = this.ref;
-    // name must be correspond with standard
+    // name must be corresponded with standard
     const on = {
       keydown: this.onKeyDown,
-      beforeinput: this.onBeforeInput,
       focus: this.onFocus,
-      blur: this.onBlur
+      blur: this.onBlur,
+      beforeinput: this.onDOMBeforeInput
+    };
+    const initDecorations = () => {
+      const decorations = this.decorate([editor, []])
+      const {placeholder} = this
+      if (
+        placeholder &&
+        editor.children.length === 1 &&
+        Array.from(Node.texts(editor)).length === 1 &&
+        Node.string(editor) === ''
+      ) {
+        const start = Editor.start(editor, [])
+        decorations.push({
+          [PLACEHOLDER_SYMBOL]: true,
+          placeholder,
+          anchor: start,
+          focus: start,
+        })
+      }
     }
+    // initDecorations
+    initDecorations();
     return (
       <div
         ref = {ref.id}

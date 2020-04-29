@@ -18,7 +18,7 @@ export const Slate = tsx.component({
   },
   created() {
     // This method is forked from Vuex, but is not an efficient methods, still need to be improved
-    // prepare two objects, one for immer, other for vue
+    // prepare two objects, one for immer, the other for vue
     // when we get immer result, patch it to vue
     this.$editor.children = JSON.parse(this.value);
     const $$data = JSON.parse(this.value);
