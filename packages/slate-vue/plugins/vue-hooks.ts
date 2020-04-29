@@ -12,7 +12,7 @@ function ensureCurrentInstance() {
   }
 }
 
-export function useEffect(rawEffect, deps) {
+export function useEffect(rawEffect, deps?:Array) {
   ensureCurrentInstance()
   const id = ++callIndex
   if (isMounting) {

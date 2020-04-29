@@ -4,10 +4,13 @@ import { useEffect, useRef } from '../plugins/vue-hooks';
 // import throttle from 'lodash/throttle'
 import {ReactEditor} from '..';
 import {IS_FOCUSED, EDITOR_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE} from '../utils/weak-maps';
-import {DOMNode,isDOMNode} from '../utils/dom';
-import {Transforms, Range,Editor} from 'slate';
+import {DOMNode,isDOMNode, DOMRange, isDOMElement} from '../utils/dom';
+import {Transforms, Range,Editor, Element} from 'slate';
 import {DOMStaticRange} from '../utils/dom';
-
+import { IS_FIREFOX, IS_SAFARI, IS_EDGE_LEGACY } from '../utils/environment'
+/**
+ * Check if the target is editable and in the editor.
+ */
 const hasEditableTarget = (
   editor: ReactEditor,
   target: EventTarget | null
@@ -16,6 +19,34 @@ const hasEditableTarget = (
     isDOMNode(target) &&
     ReactEditor.hasDOMNode(editor, target, { editable: true })
   )
+};
+
+/**
+ * Check if two DOM range objects are equal.
+ */
+
+const isRangeEqual = (a: DOMRange, b: DOMRange) => {
+  return (
+    (a.startContainer === b.startContainer &&
+      a.startOffset === b.startOffset &&
+      a.endContainer === b.endContainer &&
+      a.endOffset === b.endOffset) ||
+    (a.startContainer === b.endContainer &&
+      a.startOffset === b.endOffset &&
+      a.endContainer === b.startContainer &&
+      a.endOffset === b.startOffset)
+  )
+};
+
+/**
+ * Check if the target is in the editor.
+ */
+
+const hasTarget = (
+  editor: ReactEditor,
+  target: EventTarget | null
+): target is DOMNode => {
+  return isDOMNode(target) && ReactEditor.hasDOMNode(editor, target)
 }
 // the contentEditable div
 export const Editable = tsx.component({
@@ -38,13 +69,28 @@ export const Editable = tsx.component({
   },
   data() {
     return {
-      latestElement: null
+      latestElement: null,
+      isComposing: false,
+      isUpdatingSelection: false
     }
   },
   methods: {
-    onClick(e) {
-      console.log('click');
-      console.log(e);
+    onClick(event) {
+      const editor = this.$editor
+      if (
+        !this.readOnly &&
+        hasTarget(editor, event.target) &&
+        isDOMNode(event.target)
+      ) {
+        const node = ReactEditor.toSlateNode(editor, event.target)
+        const path = ReactEditor.findPath(editor, node)
+        const start = Editor.start(editor, path)
+
+        if (Editor.void(editor, { at: start })) {
+          const range = Editor.range(editor, start)
+          Transforms.select(editor, range)
+        }
+      }
     },
     onSelectionchange(e) {
       const { readOnly } = this;
@@ -210,11 +256,87 @@ export const Editable = tsx.component({
     },
     onKeyDown(e) {
 
+    },
+    onFocus(event) {
+      const editor = this.$editor
+      if (
+        !this.readOnly &&
+        !this.isUpdatingSelection &&
+        hasEditableTarget(editor, event.target)
+      ) {
+        const el = ReactEditor.toDOMNode(editor, editor)
+        this.latestElement = window.document.activeElement
+
+        // COMPAT: If the editor has nested editable elements, the focus
+        // can go to them. In Firefox, this must be prevented because it
+        // results in issues with keyboard navigation. (2017/03/30)
+        if (IS_FIREFOX && event.target !== el) {
+          el.focus()
+          return
+        }
+
+        IS_FOCUSED.set(editor, true)
+      }
+    },
+    onBlur(event) {
+      const editor = this.$editor
+      if (
+        this.readOnly ||
+        this.isUpdatingSelection ||
+        !hasEditableTarget(editor, event.target)
+      ) {
+        return
+      }
+
+      // COMPAT: If the current `activeElement` is still the previous
+      // one, this is due to the window being blurred when the tab
+      // itself becomes unfocused, so we want to abort early to allow to
+      // editor to stay focused when the tab becomes focused again.
+      if (this.latestElement === window.document.activeElement) {
+        return
+      }
+
+      const { relatedTarget } = event
+      const el = ReactEditor.toDOMNode(editor, editor)
+
+      // COMPAT: The event should be ignored if the focus is returning
+      // to the editor from an embedded editable element (eg. an <input>
+      // element inside a void node).
+      if (relatedTarget === el) {
+        return
+      }
+
+      // COMPAT: The event should be ignored if the focus is moving from
+      // the editor to inside a void node's spacer element.
+      if (
+        isDOMElement(relatedTarget) &&
+        relatedTarget.hasAttribute('data-slate-spacer')
+      ) {
+        return
+      }
+
+      // COMPAT: The event should be ignored if the focus is moving to a
+      // non- editable section of an element that isn't a void node (eg.
+      // a list item of the check list example).
+      if (
+        relatedTarget != null &&
+        isDOMNode(relatedTarget) &&
+        ReactEditor.hasDOMNode(editor, relatedTarget)
+      ) {
+        const node = ReactEditor.toSlateNode(editor, relatedTarget)
+
+        if (Element.isElement(node) && !editor.isVoid(node)) {
+          return
+        }
+      }
+
+      IS_FOCUSED.delete(editor)
     }
   },
   hooks() {
     const ref = this.ref = useRef(null);
     const editor = this.$editor;
+    // all listener
     const initListener = ()=>{
       // Attach a native DOM event handler for `selectionchange`
       useEffect(()=>{
@@ -222,16 +344,16 @@ export const Editable = tsx.component({
         return () => {
           document.removeEventListener('selectionchange', this.onSelectionchange)
         }
-      }, []);
+      });
     };
-    const initRef = () => {
-      // use autofocus
+    const updateAutoFocus = () => {
       useEffect(() => {
         if (ref.current && this.autoFocus) {
           ref.current.focus()
         }
       }, [this.autoFocus])
-
+    }
+    const updateRef = () => {
       // Update element-related weak maps with the DOM element ref.
       useEffect(() => {
         if (ref.current) {
@@ -241,10 +363,63 @@ export const Editable = tsx.component({
         } else {
           NODE_TO_ELEMENT.delete(editor)
         }
-      },[])
+      })
     };
+    const updateSelection = ()=> {
+      // Whenever the editor updates, make sure the DOM selection state is in sync.
+      useEffect(() => {
+        const { selection } = editor
+        const domSelection = window.getSelection()
+
+        if (this.isComposing || !domSelection || !ReactEditor.isFocused(editor)) {
+          return
+        }
+
+        const hasDomSelection = domSelection.type !== 'None'
+
+        // If the DOM selection is properly unset, we're done.
+        if (!selection && !hasDomSelection) {
+          return
+        }
+
+        const newDomRange = selection && ReactEditor.toDOMRange(editor, selection)
+
+        // If the DOM selection is already correct, we're done.
+        if (
+          hasDomSelection &&
+          newDomRange &&
+          isRangeEqual(domSelection.getRangeAt(0), newDomRange)
+        ) {
+          return
+        }
+
+        // Otherwise the DOM selection is out of sync, so update it.
+        const el = ReactEditor.toDOMNode(editor, editor)
+        this.isUpdatingSelection = true
+        domSelection.removeAllRanges()
+
+        if (newDomRange) {
+          domSelection.addRange(newDomRange!)
+          // const leafEl = newDomRange.startContainer.parentElement!
+          // scrollIntoView(leafEl, { scrollMode: 'if-needed' })
+        }
+
+        setTimeout(() => {
+          // COMPAT: In Firefox, it's not enough to create a range, you also need
+          // to focus the contenteditable element too. (2016/11/16)
+          if (newDomRange && IS_FIREFOX) {
+            el.focus()
+          }
+
+          this.isUpdatingSelection = false
+        })
+      })
+    }
+
     initListener();
-    initRef();
+    updateRef();
+    updateAutoFocus();
+    updateSelection();
   },
   render() {
     const editor = this.$editor;
@@ -252,7 +427,9 @@ export const Editable = tsx.component({
     // name must be correspond with standard
     const on = {
       keydown: this.onKeyDown,
-      beforeinput: this.onBeforeInput
+      beforeinput: this.onBeforeInput,
+      focus: this.onFocus,
+      blur: this.onBlur
     }
     return (
       <div

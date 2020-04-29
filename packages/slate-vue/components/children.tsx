@@ -31,8 +31,9 @@ const Children = tsx.component({
       !editor.isInline(node) &&
       Editor.hasInlines(editor, node)
     const children = []
-    for(let i=0;i<editor.children.length;i++) {
-      const n = node.children[i] as Descendant
+    const childArr = Editor.isEditor(node) ? node._state.$$data :node.children
+    for(let i=0;i<childArr.length;i++) {
+      const n = childArr[i] as Descendant
       if(Element.isElement(n)) {
         children.push(
           <ElementComponent
@@ -41,7 +42,7 @@ const Children = tsx.component({
       } else {
         children.push(
           <TextComponent
-            isLast={isLeafBlock && i === node.children.length - 1}
+            isLast={isLeafBlock && i === childArr.length - 1}
             parent={node}
             text={n}
           />
