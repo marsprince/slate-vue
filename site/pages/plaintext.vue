@@ -1,6 +1,6 @@
 <template>
   <Slate :value="JSON.stringify(initialValue)">
-    <Editable></Editable>
+    <Editable placeholder="Enter some plain text..."></Editable>
   </Slate>
 </template>
 

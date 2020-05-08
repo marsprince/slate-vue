@@ -1,6 +1,5 @@
-// @ts-nocheck
 import { Node, Ancestor, Editor, Range } from 'slate'
-
+import Vue from 'vue';
 import { Key } from './key'
 
 /**
@@ -43,3 +42,9 @@ export const EDITOR_TO_ON_CHANGE = new WeakMap<Editor, () => void>()
  */
 
 export const PLACEHOLDER_SYMBOL = (Symbol('placeholder') as unknown) as string
+export const EDITABLE_SYMBOL = (Symbol('editable') as unknown) as string
+
+/**
+ * vue component
+ */
+export const VUE_COMPONENT = new Map<string, Vue>()

@@ -6,7 +6,6 @@ import TextComponent from './text'
 import ElementComponent from './element'
 import {ReactEditor} from '../index';
 import { NODE_TO_INDEX, NODE_TO_PARENT } from '../utils/weak-maps';
-import Fragment from './fragment'
 
 /**
  * Children.
@@ -15,17 +14,17 @@ import Fragment from './fragment'
 const Children = tsx.component({
   props: {
     node: Object,
-    decorate: Function,
     decorations: Array
   },
   components: {
     TextComponent,
-    ElementComponent,
-    Fragment
+    ElementComponent
   },
+  inject: ['decorate'],
   render() {
     const editor: any = this.$editor;
-    const {node} = this
+    const {node, decorations} = this;
+    const path = ReactEditor.findPath(editor, node)
     const isLeafBlock =
       Element.isElement(node) &&
       !editor.isInline(node) &&
@@ -33,11 +32,22 @@ const Children = tsx.component({
     const children = []
     const childArr = Editor.isEditor(node) ? node._state.$$data :node.children
     for(let i=0;i<childArr.length;i++) {
-      const n = childArr[i] as Descendant
+      const n = childArr[i] as Descendant;
+      const p = path.concat(i);
+      const ds = this.decorate([n, p]);
+      const range = Editor.range(editor, p)
+      for (const dec of decorations) {
+        const d = Range.intersection(dec, range)
+
+        if (d) {
+          ds.push(d)
+        }
+      }
       if(Element.isElement(n)) {
         children.push(
           <ElementComponent
             element={n}
+            decorations={ds}
           />)
       } else {
         children.push(
@@ -45,6 +55,7 @@ const Children = tsx.component({
             isLast={isLeafBlock && i === childArr.length - 1}
             parent={node}
             text={n}
+            decorations={ds}
           />
         )
       }
@@ -53,7 +64,7 @@ const Children = tsx.component({
       // set n and its parent
       NODE_TO_PARENT.set(n, node)
     }
-    return <Fragment>{children}</Fragment>;
+    return <fragment>{children}</fragment>;
   }
 });
 

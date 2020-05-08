@@ -3,7 +3,7 @@ import * as tsx from "vue-tsx-support";
 import { useEffect, useRef } from '../plugins/vue-hooks';
 // import throttle from 'lodash/throttle'
 import {ReactEditor} from '..';
-import { IS_FOCUSED, EDITOR_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, IS_READ_ONLY, PLACEHOLDER_SYMBOL } from '../utils/weak-maps';
+import { IS_FOCUSED, EDITOR_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, IS_READ_ONLY, PLACEHOLDER_SYMBOL, EDITABLE_SYMBOL, VUE_COMPONENT } from '../utils/weak-maps';
 import {DOMNode,isDOMNode, DOMRange, isDOMElement} from '../utils/dom';
 import {Transforms, Range,Editor, Element, Node} from 'slate';
 import {DOMStaticRange} from '../utils/dom';
@@ -74,6 +74,7 @@ export const Editable = tsx.component({
     return {
       'renderLeaf': this.renderLeaf,
       'renderElement': this.renderElement,
+      'decorate': this.decorate,
       'readOnly': this.readOnly
     }
   },
@@ -440,8 +441,10 @@ export const Editable = tsx.component({
     updateSelection();
   },
   render() {
+    // set vue component
+    VUE_COMPONENT.set(EDITABLE_SYMBOL, this);
     const editor = this.$editor;
-    const ref = this.ref;
+    const {ref, decorate} = this;
     // name must be corresponded with standard
     const on = {
       keydown: this.onKeyDown,
@@ -449,8 +452,8 @@ export const Editable = tsx.component({
       blur: this.onBlur,
       beforeinput: this.onDOMBeforeInput
     };
+    const decorations = decorate([editor, []]);
     const initDecorations = () => {
-      const decorations = this.decorate([editor, []])
       const {placeholder} = this
       if (
         placeholder &&
@@ -458,6 +461,7 @@ export const Editable = tsx.component({
         Array.from(Node.texts(editor)).length === 1 &&
         Node.string(editor) === ''
       ) {
+        console.log('in');
         const start = Editor.start(editor, [])
         decorations.push({
           [PLACEHOLDER_SYMBOL]: true,
@@ -466,9 +470,9 @@ export const Editable = tsx.component({
           focus: start,
         })
       }
+      return decorations
     }
-    // initDecorations
-    initDecorations();
+    initDecorations()
     return (
       <div
         ref = {ref.id}
@@ -488,6 +492,7 @@ export const Editable = tsx.component({
         {...{on}}
         >
         <Children
+          decorations={decorations}
           node={editor}
         />
       </div>

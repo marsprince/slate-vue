@@ -6,6 +6,7 @@ import * as tsx from 'vue-tsx-support'
 import {EDITOR_TO_ON_CHANGE} from '../utils/weak-maps';
 import {patch} from '../utils/patch'
 import Vue from 'vue';
+import {VUE_COMPONENT, EDITABLE_SYMBOL} from '../utils/weak-maps';
 
 export const Slate = tsx.component({
   props: {
@@ -28,7 +29,13 @@ export const Slate = tsx.component({
   },
   render() {
     EDITOR_TO_ON_CHANGE.set(this.$editor,()=>{
+      // patch to update all use
       patch(this.$editor.children, this.$editor)
+      // update editable manual
+      const editable = VUE_COMPONENT.get(EDITABLE_SYMBOL)
+      if(editable) {
+        editable.$forceUpdate()
+      }
     })
     return this.$scopedSlots.default()
   }

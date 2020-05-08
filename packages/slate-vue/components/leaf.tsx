@@ -21,9 +21,30 @@ const Leaf = tsx.component({
   },
   render(h) {
     const { renderLeaf = DefaultLeaf, text, leaf} = this;
-    const children =  (
+    let children =  (
       <string text={text} editor={this.$editor} leaf={leaf}/>
       );
+    if (leaf[PLACEHOLDER_SYMBOL]) {
+      children = (
+        <fragment>
+          <span
+            contentEditable={false}
+            style={{
+              pointerEvents: 'none',
+              display: 'inline-block',
+              verticalAlign: 'text-top',
+              width: '0',
+              maxWidth: '100%',
+              whiteSpace: 'nowrap',
+              opacity: '0.333',
+            }}
+          >
+            {leaf.placeholder}
+          </span>
+          {children}
+        </fragment>
+      )
+    }
     const attributes: {
      'data-slate-leaf': true
     } = {

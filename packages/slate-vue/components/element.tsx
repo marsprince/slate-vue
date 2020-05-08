@@ -15,7 +15,8 @@ import Children from './children'
 
 export const Element = tsx.component({
   props: {
-    element: Object
+    element: Object,
+    decorations: Array
   },
   provide: ['renderElement'],
   components:{
@@ -23,9 +24,10 @@ export const Element = tsx.component({
   },
   render(h) {
     // call renderElement with children, attribute and element
-    const {element, renderElement = DefaultElement} = this;
+    const {element, renderElement = DefaultElement, decorations} = this;
     let children: JSX.Element | null = (
       <Children
+        decorations={decorations}
         node={element}
       />
     )

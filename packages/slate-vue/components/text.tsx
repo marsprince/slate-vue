@@ -23,6 +23,7 @@ const Text = tsx.component({
     text: Object,
     isLast: Boolean,
     parent: Object,
+    decorations: Array
   },
   components: {
     leaf
@@ -56,7 +57,7 @@ const Text = tsx.component({
   },
   render(h, ctx) {
     const { text } = this
-    const leaves = SlateText.decorations(text, [])
+    const leaves = SlateText.decorations(text, this.decorations)
     const children = []
     for (let i = 0; i < leaves.length; i++) {
       const leaf = leaves[i];

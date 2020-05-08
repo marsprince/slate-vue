@@ -5,7 +5,8 @@
     "lodash": "^4.17.15",
     "slate": "^0.57.1"
   },
-  "main": "./dist/index.es.js",
+  "main": "./dist/index.common.js",
+  "module": "./dist/index.es.js",
   "repository": "https://github.com/marsprince/slate-vue.git",
   "author": "liujia02 <bit_liujia@163.com>",
   "license": "MIT"
