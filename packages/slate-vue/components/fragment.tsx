@@ -110,15 +110,15 @@ export const fragment = tsx.component({
   render(h) {
     const children = this.$slots.default
 
-    // add fragment attribute on the children
-    if (children && children.length)
-      children.forEach(child =>
-        child.data = { ...child.data, attrs: { fragment: this.name, ...(child.data || {}).attrs } }
-      )
+    // // add fragment attribute on the children
+    // if (children && children.length)
+    //   children.forEach(child =>
+    //     child.data = { ...child.data, attrs: { fragment: this.name, ...(child.data || {}).attrs } }
+    //   )
 
     return h(
       "div",
-      { attrs: { fragment: this.name } },
+      { },
       children
     )
   }

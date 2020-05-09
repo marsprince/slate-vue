@@ -106,7 +106,7 @@ export const Editable = tsx.component({
     onSelectionchange(e) {
       const { readOnly } = this;
       const editor = this.$editor
-      if (!readOnly) {
+      if (!readOnly && !this.isComposing && !this.isUpdatingSelection) {
         const { activeElement } = window.document
         const el = ReactEditor.toDOMNode(editor, editor)
         const domSelection = window.getSelection()
@@ -413,7 +413,7 @@ export const Editable = tsx.component({
         domSelection.removeAllRanges()
 
         if (newDomRange) {
-          domSelection.addRange(newDomRange!)
+          domSelection.addRange(newDomRange)
           // const leafEl = newDomRange.startContainer.parentElement!
           // scrollIntoView(leafEl, { scrollMode: 'if-needed' })
         }
@@ -461,7 +461,6 @@ export const Editable = tsx.component({
         Array.from(Node.texts(editor)).length === 1 &&
         Node.string(editor) === ''
       ) {
-        console.log('in');
         const start = Editor.start(editor, [])
         decorations.push({
           [PLACEHOLDER_SYMBOL]: true,

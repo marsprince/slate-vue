@@ -28,7 +28,7 @@ const Leaf = tsx.component({
       children = (
         <fragment>
           <span
-            contentEditable={false}
+            contenteditable={false}
             style={{
               pointerEvents: 'none',
               display: 'inline-block',
@@ -41,10 +41,11 @@ const Leaf = tsx.component({
           >
             {leaf.placeholder}
           </span>
-          {children}
+          <string text={text} editor={this.$editor} leaf={leaf}/>
         </fragment>
       )
     }
+
     const attributes: {
      'data-slate-leaf': true
     } = {
