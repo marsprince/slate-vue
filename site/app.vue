@@ -1,11 +1,11 @@
 <template>
   <div class="main">
-    <plaintext></plaintext>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-  import plaintext from './pages/plaintext';
+  import plaintext from './pages/plaintext/index';
   export default {
     name: 'app',
     components: {
