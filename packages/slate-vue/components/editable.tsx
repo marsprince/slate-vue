@@ -1,8 +1,7 @@
 import Children from './children';
 import * as tsx from "vue-tsx-support";
 import { useEffect, useRef } from '../plugins/vue-hooks';
-// import throttle from 'lodash/throttle'
-import {ReactEditor} from '..';
+import {VueEditor} from '..';
 import { IS_FOCUSED, EDITOR_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, IS_READ_ONLY, PLACEHOLDER_SYMBOL, EDITABLE_SYMBOL, VUE_COMPONENT } from '../utils/weak-maps';
 import {DOMNode,isDOMNode, DOMRange, isDOMElement} from '../utils/dom';
 import {Transforms, Range,Editor, Element, Node} from 'slate';
@@ -12,12 +11,12 @@ import { IS_FIREFOX, IS_SAFARI, IS_EDGE_LEGACY } from '../utils/environment'
  * Check if the target is editable and in the editor.
  */
 const hasEditableTarget = (
-  editor: ReactEditor,
+  editor: VueEditor,
   target: EventTarget | null
 ): target is DOMNode => {
   return (
     isDOMNode(target) &&
-    ReactEditor.hasDOMNode(editor, target, { editable: true })
+    VueEditor.hasDOMNode(editor, target, { editable: true })
   )
 };
 
@@ -43,10 +42,10 @@ const isRangeEqual = (a: DOMRange, b: DOMRange) => {
  */
 
 const hasTarget = (
-  editor: ReactEditor,
+  editor: VueEditor,
   target: EventTarget | null
 ): target is DOMNode => {
-  return isDOMNode(target) && ReactEditor.hasDOMNode(editor, target)
+  return isDOMNode(target) && VueEditor.hasDOMNode(editor, target)
 };
 /**
  * A default memoized decorate function.
@@ -93,8 +92,8 @@ export const Editable = tsx.component({
         hasTarget(editor, event.target) &&
         isDOMNode(event.target)
       ) {
-        const node = ReactEditor.toSlateNode(editor, event.target)
-        const path = ReactEditor.findPath(editor, node)
+        const node = VueEditor.toSlateNode(editor, event.target)
+        const path = VueEditor.findPath(editor, node)
         const start = Editor.start(editor, path)
 
         if (Editor.void(editor, { at: start })) {
@@ -108,7 +107,7 @@ export const Editable = tsx.component({
       const editor = this.$editor
       if (!readOnly && !this.isComposing && !this.isUpdatingSelection) {
         const { activeElement } = window.document
-        const el = ReactEditor.toDOMNode(editor, editor)
+        const el = VueEditor.toDOMNode(editor, editor)
         const domSelection = window.getSelection()
         const domRange =
           domSelection &&
@@ -127,7 +126,7 @@ export const Editable = tsx.component({
           hasEditableTarget(editor, domRange.startContainer) &&
           hasEditableTarget(editor, domRange.endContainer)
         ) {
-          const range = ReactEditor.toSlateRange(editor, domRange)
+          const range = VueEditor.toSlateRange(editor, domRange)
           Transforms.select(editor, range)
         } else {
           Transforms.deselect(editor)
@@ -168,7 +167,7 @@ export const Editable = tsx.component({
           const [targetRange] = event.getTargetRanges()
 
           if (targetRange) {
-            const range = ReactEditor.toSlateRange(editor, targetRange)
+            const range = VueEditor.toSlateRange(editor, targetRange)
 
             if (!selection || !Range.equals(selection, range)) {
               Transforms.select(editor, range)
@@ -255,7 +254,7 @@ export const Editable = tsx.component({
           case 'insertReplacementText':
           case 'insertText': {
             if (data instanceof DataTransfer) {
-              ReactEditor.insertData(editor, data)
+              VueEditor.insertData(editor, data)
             } else if (typeof data === 'string') {
               Editor.insertText(editor, data)
             }
@@ -278,7 +277,7 @@ export const Editable = tsx.component({
         !this.isUpdatingSelection &&
         hasEditableTarget(editor, event.target)
       ) {
-        const el = ReactEditor.toDOMNode(editor, editor)
+        const el = VueEditor.toDOMNode(editor, editor)
         this.latestElement = window.document.activeElement
 
         // COMPAT: If the editor has nested editable elements, the focus
@@ -311,7 +310,7 @@ export const Editable = tsx.component({
       }
 
       const { relatedTarget } = event
-      const el = ReactEditor.toDOMNode(editor, editor)
+      const el = VueEditor.toDOMNode(editor, editor)
 
       // COMPAT: The event should be ignored if the focus is returning
       // to the editor from an embedded editable element (eg. an <input>
@@ -335,9 +334,9 @@ export const Editable = tsx.component({
       if (
         relatedTarget != null &&
         isDOMNode(relatedTarget) &&
-        ReactEditor.hasDOMNode(editor, relatedTarget)
+        VueEditor.hasDOMNode(editor, relatedTarget)
       ) {
-        const node = ReactEditor.toSlateNode(editor, relatedTarget)
+        const node = VueEditor.toSlateNode(editor, relatedTarget)
 
         if (Element.isElement(node) && !editor.isVoid(node)) {
           return
@@ -385,7 +384,7 @@ export const Editable = tsx.component({
         const { selection } = editor
         const domSelection = window.getSelection()
 
-        if (this.isComposing || !domSelection || !ReactEditor.isFocused(editor)) {
+        if (this.isComposing || !domSelection || !VueEditor.isFocused(editor)) {
           return
         }
 
@@ -396,7 +395,7 @@ export const Editable = tsx.component({
           return
         }
 
-        const newDomRange = selection && ReactEditor.toDOMRange(editor, selection)
+        const newDomRange = selection && VueEditor.toDOMRange(editor, selection)
 
         // If the DOM selection is already correct, we're done.
         if (
@@ -408,7 +407,7 @@ export const Editable = tsx.component({
         }
 
         // Otherwise the DOM selection is out of sync, so update it.
-        const el = ReactEditor.toDOMNode(editor, editor)
+        const el = VueEditor.toDOMNode(editor, editor)
         this.isUpdatingSelection = true
         domSelection.removeAllRanges()
 
@@ -475,7 +474,7 @@ export const Editable = tsx.component({
     return (
       <div
         ref = {ref.id}
-        contenteditable={true}
+        contenteditable={this.readOnly ? false : true}
         data-slate-editor
         data-slate-node="value"
         style={{

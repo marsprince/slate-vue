@@ -2,7 +2,7 @@
  * a copy of slate-react
  */
 
-import { Editor, Node, Path, Point, Range, Transforms } from 'slate'
+import { Editor, Node, Operation, Path, Point, Range, Transforms } from 'slate';
 
 import { Key } from '../utils/key'
 import {
@@ -30,16 +30,17 @@ import {
  * A React and DOM-specific version of the `Editor` interface.
  */
 
-export interface ReactEditor extends Editor {
+export interface VueEditor extends Editor {
   insertData: (data: DataTransfer) => void
+  _operation: Operation | null
 }
 
-export const ReactEditor = {
+export const VueEditor = {
   /**
    * Find a key for a Slate node.
    */
 
-  findKey(editor: ReactEditor, node: Node): Key {
+  findKey(editor: VueEditor, node: Node): Key {
     let key = NODE_TO_KEY.get(node)
 
     if (!key) {
@@ -54,7 +55,7 @@ export const ReactEditor = {
    * Find the path of Slate node.
    */
 
-  findPath(editor: ReactEditor, node: Node): Path {
+  findPath(editor: VueEditor, node: Node): Path {
     const path: Path = []
     let child = node
 
@@ -88,7 +89,7 @@ export const ReactEditor = {
    * Check if the editor is focused.
    */
 
-  isFocused(editor: ReactEditor): boolean {
+  isFocused(editor: VueEditor): boolean {
     return !!IS_FOCUSED.get(editor)
   },
 
@@ -96,7 +97,7 @@ export const ReactEditor = {
    * Check if the editor is in read-only mode.
    */
 
-  isReadOnly(editor: ReactEditor): boolean {
+  isReadOnly(editor: VueEditor): boolean {
     return !!IS_READ_ONLY.get(editor)
   },
 
@@ -104,8 +105,8 @@ export const ReactEditor = {
    * Blur the editor.
    */
 
-  blur(editor: ReactEditor): void {
-    const el = ReactEditor.toDOMNode(editor, editor)
+  blur(editor: VueEditor): void {
+    const el = VueEditor.toDOMNode(editor, editor)
     IS_FOCUSED.set(editor, false)
 
     if (window.document.activeElement === el) {
@@ -117,8 +118,8 @@ export const ReactEditor = {
    * Focus the editor.
    */
 
-  focus(editor: ReactEditor): void {
-    const el = ReactEditor.toDOMNode(editor, editor)
+  focus(editor: VueEditor): void {
+    const el = VueEditor.toDOMNode(editor, editor)
     IS_FOCUSED.set(editor, true)
 
     if (window.document.activeElement !== el) {
@@ -130,7 +131,7 @@ export const ReactEditor = {
    * Deselect the editor.
    */
 
-  deselect(editor: ReactEditor): void {
+  deselect(editor: VueEditor): void {
     const { selection } = editor
     const domSelection = window.getSelection()
 
@@ -148,12 +149,12 @@ export const ReactEditor = {
    */
 
   hasDOMNode(
-    editor: ReactEditor,
+    editor: VueEditor,
     target: DOMNode,
     options: { editable?: boolean } = {}
   ): boolean {
     const { editable = false } = options
-    const editorEl = ReactEditor.toDOMNode(editor, editor)
+    const editorEl = VueEditor.toDOMNode(editor, editor)
     let targetEl
 
     // COMPAT: In Firefox, reading `target.nodeType` will throw an error if
@@ -186,7 +187,7 @@ export const ReactEditor = {
    * Insert data from a `DataTransfer` into the editor.
    */
 
-  insertData(editor: ReactEditor, data: DataTransfer): void {
+  insertData(editor: VueEditor, data: DataTransfer): void {
     editor.insertData(data)
   },
 
@@ -194,11 +195,10 @@ export const ReactEditor = {
    * Find the native DOM element from a Slate node.
    */
 
-  toDOMNode(editor: ReactEditor, node: Node): HTMLElement {
+  toDOMNode(editor: VueEditor, node: Node): HTMLElement {
     const domNode = Editor.isEditor(node)
       ? EDITOR_TO_ELEMENT.get(editor)
-      : KEY_TO_ELEMENT.get(ReactEditor.findKey(editor, node))
-
+      : KEY_TO_ELEMENT.get(VueEditor.findKey(editor, node))
     if (!domNode) {
       throw new Error(
         `Cannot resolve a DOM node from Slate node: ${JSON.stringify(node)}`
@@ -212,9 +212,9 @@ export const ReactEditor = {
    * Find a native DOM selection point from a Slate point.
    */
 
-  toDOMPoint(editor: ReactEditor, point: Point): DOMPoint {
+  toDOMPoint(editor: VueEditor, point: Point): DOMPoint {
     const [node] = Editor.node(editor, point.path)
-    const el = ReactEditor.toDOMNode(editor, node)
+    const el = VueEditor.toDOMNode(editor, node)
     let domPoint: DOMPoint | undefined
 
     // If we're inside a void node, force the offset to 0, otherwise the zero
@@ -264,13 +264,12 @@ export const ReactEditor = {
    * Find a native DOM range from a Slate `range`.
    */
 
-  toDOMRange(editor: ReactEditor, range: Range): DOMRange {
+  toDOMRange(editor: VueEditor, range: Range): DOMRange {
     const { anchor, focus } = range
-    const domAnchor = ReactEditor.toDOMPoint(editor, anchor)
+    const domAnchor = VueEditor.toDOMPoint(editor, anchor)
     const domFocus = Range.isCollapsed(range)
       ? domAnchor
-      : ReactEditor.toDOMPoint(editor, focus)
-
+      : VueEditor.toDOMPoint(editor, focus)
     const domRange = window.document.createRange()
     const start = Range.isBackward(range) ? domFocus : domAnchor
     const end = Range.isBackward(range) ? domAnchor : domFocus
@@ -283,7 +282,7 @@ export const ReactEditor = {
    * Find a Slate node from a native DOM `element`.
    */
 
-  toSlateNode(editor: ReactEditor, domNode: DOMNode): Node {
+  toSlateNode(editor: VueEditor, domNode: DOMNode): Node {
     let domEl = isDOMElement(domNode) ? domNode : domNode.parentElement
 
     if (domEl && !domEl.hasAttribute('data-slate-node')) {
@@ -303,7 +302,7 @@ export const ReactEditor = {
    * Get the target range from a DOM `event`.
    */
 
-  findEventRange(editor: ReactEditor, event: any): Range {
+  findEventRange(editor: VueEditor, event: any): Range {
     if ('nativeEvent' in event) {
       event = event.nativeEvent
     }
@@ -314,8 +313,8 @@ export const ReactEditor = {
       throw new Error(`Cannot resolve a Slate range from a DOM event: ${event}`)
     }
 
-    const node = ReactEditor.toSlateNode(editor, event.target)
-    const path = ReactEditor.findPath(editor, node)
+    const node = VueEditor.toSlateNode(editor, event.target)
+    const path = VueEditor.findPath(editor, node)
 
     // If the drop target is inside a void node, move it into either the
     // next or previous node, depending on which side the `x` and `y`
@@ -361,7 +360,7 @@ export const ReactEditor = {
     }
 
     // Resolve a Slate range from the DOM range.
-    const range = ReactEditor.toSlateRange(editor, domRange)
+    const range = VueEditor.toSlateRange(editor, domRange)
     return range
   },
 
@@ -369,7 +368,7 @@ export const ReactEditor = {
    * Find a Slate point from a DOM selection's `domNode` and `domOffset`.
    */
 
-  toSlatePoint(editor: ReactEditor, domPoint: DOMPoint): Point {
+  toSlatePoint(editor: VueEditor, domPoint: DOMPoint): Point {
     const [nearestNode, nearestOffset] = normalizeDOMPoint(domPoint)
     const parentNode = nearestNode.parentNode as DOMElement
     let textNode: DOMElement | null = null
@@ -437,8 +436,8 @@ export const ReactEditor = {
     // COMPAT: If someone is clicking from one Slate editor into another,
     // the select event fires twice, once for the old editor's `element`
     // first, and then afterwards for the correct `element`. (2017/03/03)
-    const slateNode = ReactEditor.toSlateNode(editor, textNode!)
-    const path = ReactEditor.findPath(editor, slateNode)
+    const slateNode = VueEditor.toSlateNode(editor, textNode!)
+    const path = VueEditor.findPath(editor, slateNode)
     return { path, offset }
   },
 
@@ -447,7 +446,7 @@ export const ReactEditor = {
    */
 
   toSlateRange(
-    editor: ReactEditor,
+    editor: VueEditor,
     domRange: DOMRange | DOMStaticRange | DOMSelection
   ): Range {
     const el =
@@ -487,10 +486,10 @@ export const ReactEditor = {
       )
     }
 
-    const anchor = ReactEditor.toSlatePoint(editor, [anchorNode, anchorOffset])
+    const anchor = VueEditor.toSlatePoint(editor, [anchorNode, anchorOffset])
     const focus = isCollapsed
       ? anchor
-      : ReactEditor.toSlatePoint(editor, [focusNode, focusOffset])
+      : VueEditor.toSlatePoint(editor, [focusNode, focusOffset])
 
     return { anchor, focus }
   },

@@ -22,6 +22,9 @@ export const Element = tsx.component({
   components:{
     Children
   },
+  mounted() {
+    // watcherPlugin(this)
+  },
   render(h) {
     // call renderElement with children, attribute and element
     const {element, renderElement = DefaultElement, decorations} = this;

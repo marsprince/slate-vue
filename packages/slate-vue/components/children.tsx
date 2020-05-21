@@ -1,10 +1,10 @@
 // functional children component to render node
 // node is an union type: editor, element,text
 import * as tsx from "vue-tsx-support";
-import { Editor, Range, Element, NodeEntry, Ancestor, Descendant } from 'slate'
+import { Editor, Range, Element, NodeEntry, Ancestor, Descendant, Operation } from 'slate';
 import TextComponent from './text'
 import ElementComponent from './element'
-import {ReactEditor} from '../index';
+import {VueEditor} from '../index';
 import { NODE_TO_INDEX, NODE_TO_PARENT } from '../utils/weak-maps';
 
 /**
@@ -24,7 +24,7 @@ const Children = tsx.component({
   render() {
     const editor: any = this.$editor;
     const {node, decorations} = this;
-    const path = ReactEditor.findPath(editor, node)
+    const path = VueEditor.findPath(editor, node)
     const isLeafBlock =
       Element.isElement(node) &&
       !editor.isInline(node) &&

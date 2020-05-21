@@ -1,7 +1,7 @@
 // the minimum component, just a span
 import * as tsx from "vue-tsx-support";
 import { Editor, Text, Path, Element, Node } from 'slate'
-import {ReactEditor} from '../plugins/react-editor';
+import {VueEditor} from '../plugins/vue-editor';
 
 /**
  * Leaf strings with text in them.
@@ -12,9 +12,8 @@ const TextString = tsx.component({
     text: String,
     isTrailing: Boolean
   },
-  functional: true,
-  render(h, ctx) {
-    const { text, isTrailing = false } = ctx.props
+  render() {
+    const { text, isTrailing = false } = this
     return (
       <span data-slate-string>
         {text}
@@ -55,7 +54,7 @@ const string = tsx.component({
   },
   render() {
     const { leaf, editor,isLast, parent, text } = this
-    const path = ReactEditor.findPath(editor, text)
+    const path = VueEditor.findPath(editor, text)
     const parentPath = Path.parent(path)
 
     // COMPAT: Render text inside void nodes with a zero-width space.

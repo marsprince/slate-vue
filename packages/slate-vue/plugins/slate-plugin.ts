@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { createEditor } from 'slate'
+import { createEditor, Operation } from 'slate';
 import {hooks} from './vue-hooks';
 import {withVue} from './with-vue';
 import {fragment} from '../components/fragment';

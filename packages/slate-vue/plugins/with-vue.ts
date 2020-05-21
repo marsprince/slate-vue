@@ -1,26 +1,28 @@
-import { Editor, Node, Path, Operation, Transforms } from 'slate'
+import { Editor, Text, Node, Path, Operation, Transforms } from 'slate'
 
-import { ReactEditor } from './react-editor'
+import { VueEditor } from './vue-editor'
 import { Key } from '../utils/key'
-import { EDITOR_TO_ON_CHANGE, NODE_TO_KEY } from '../utils/weak-maps'
+import { EDITOR_TO_ON_CHANGE, NODE_TO_KEY, NODE_TO_ELEMENT } from '../utils/weak-maps'
 
 /**
  * `withReact` adds React and DOM specific behaviors to the editor.
  */
 
 export const withVue = <T extends Editor>(editor: T) => {
-  const e = editor as T & ReactEditor
+  const e = editor as T & VueEditor
   const { apply, onChange } = e
 
+  // we must change ob all the time
   e.apply = (op: Operation) => {
     const matches: [Path, Key][] = []
+    // global operation for render
 
     switch (op.type) {
       case 'insert_text':
       case 'remove_text':
       case 'set_node': {
         for (const [node, path] of Editor.levels(e, { at: op.path })) {
-          const key = ReactEditor.findKey(e, node)
+          const key = VueEditor.findKey(e, node)
           matches.push([path, key])
         }
 
@@ -34,7 +36,7 @@ export const withVue = <T extends Editor>(editor: T) => {
         for (const [node, path] of Editor.levels(e, {
           at: Path.parent(op.path),
         })) {
-          const key = ReactEditor.findKey(e, node)
+          const key = VueEditor.findKey(e, node)
           matches.push([path, key])
         }
 

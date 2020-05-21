@@ -5,6 +5,7 @@ import * as tsx from 'vue-tsx-support'
 import string from './string'
 import { PLACEHOLDER_SYMBOL } from '../utils/weak-maps'
 import { RenderLeafProps } from './editable'
+import { watcherPlugin } from '../plugins/slate-plugin';
 
 /**
  * Individual leaves in a text node with unique formatting.
@@ -127,8 +128,7 @@ const Leaf = tsx.component({
 
 const DefaultLeaf = (props) => {
   return tsx.component({
-    functional: true,
-    render(h, ctx) {
+    render() {
       const { attributes, children } = props
       return <span {...{attrs: attributes}}>{children}</span>
     }

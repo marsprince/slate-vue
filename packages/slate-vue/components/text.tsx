@@ -5,7 +5,7 @@ import * as tsx from 'vue-tsx-support'
 import { Range, Element, Text as SlateText } from 'slate'
 
 import leaf from './leaf'
-import { ReactEditor } from '../index'
+import { VueEditor } from '../index'
 // import { RenderLeafProps } from './editable'
 import {
   KEY_TO_ELEMENT,
@@ -39,7 +39,7 @@ const Text = tsx.component({
     const ref = this.ref = useRef(null);
     const {text} = this;
     const editor = this.$editor;
-    const key = ReactEditor.findKey(editor, text)
+    const key = VueEditor.findKey(editor, text)
     const initRef = () => {
       useEffect(()=>{
         if (ref.current) {

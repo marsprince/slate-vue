@@ -4,18 +4,13 @@
  */
 import * as tsx from 'vue-tsx-support'
 import {EDITOR_TO_ON_CHANGE} from '../utils/weak-maps';
-import {patch} from '../utils/patch'
 import Vue from 'vue';
 import {VUE_COMPONENT, EDITABLE_SYMBOL} from '../utils/weak-maps';
+import {patch} from '../utils/patch';
 
 export const Slate = tsx.component({
   props: {
     value: String
-  },
-  data() {
-    return {
-      state: {}
-    }
   },
   created() {
     // This method is forked from Vuex, but is not an efficient methods, still need to be improved
@@ -23,15 +18,15 @@ export const Slate = tsx.component({
     // when we get immer result, patch it to vue
     this.$editor.children = JSON.parse(this.value);
     const $$data = JSON.parse(this.value);
-    this.$editor._state = Vue.observable({
+    this.$editor._state= Vue.observable({
       $$data
     })
   },
   render() {
     EDITOR_TO_ON_CHANGE.set(this.$editor,()=>{
       // patch to update all use
-      patch(this.$editor.children, this.$editor)
       // update editable manual
+      patch(this.$editor.children, this.$editor)
       const editable = VUE_COMPONENT.get(EDITABLE_SYMBOL)
       if(editable) {
         editable.$forceUpdate()
