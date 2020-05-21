@@ -18,7 +18,7 @@ export const Element = tsx.component({
     element: Object,
     decorations: Array
   },
-  provide: ['renderElement'],
+  inject: ['renderElement'],
   components:{
     Children
   },

@@ -32,6 +32,10 @@ export const Slate = tsx.component({
         editable.$forceUpdate()
       }
     })
-    return this.$scopedSlots.default()
+    return (
+      <fragment>
+        {this.$scopedSlots.default()}
+      </fragment>
+    )
   }
 })

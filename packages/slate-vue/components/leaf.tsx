@@ -42,7 +42,7 @@ const Leaf = tsx.component({
           >
             {leaf.placeholder}
           </span>
-          <string text={text} editor={this.$editor} leaf={leaf}/>
+          {children}
         </fragment>
       )
     }
@@ -54,7 +54,8 @@ const Leaf = tsx.component({
     };
     const renderChildren = renderLeaf({
       children,
-      attributes
+      attributes,
+      leaf
     })
     return h(renderChildren)
   }
@@ -129,7 +130,7 @@ const Leaf = tsx.component({
 const DefaultLeaf = (props) => {
   return tsx.component({
     render() {
-      const { attributes, children } = props
+      let { attributes, children } = props
       return <span {...{attrs: attributes}}>{children}</span>
     }
   })
