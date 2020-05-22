@@ -25,9 +25,6 @@
       return {
         initialValue
       }
-    },
-    beforeCreate() {
-
     }
   };
 </script>

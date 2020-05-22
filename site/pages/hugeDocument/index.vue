@@ -25,7 +25,7 @@
       })
     }
   }
-  console.log(initialValue);
+
   export default {
     name: 'index',
     components: {
