@@ -12,7 +12,12 @@ export const routes = [
     path: '/richtext',
     name: '/richtext',
     component: () => import('../pages/richtext/index')
-  }
+  },
+  {
+    path: '/huge-document',
+    name: '/hugeDocument',
+    component: () => import('../pages/hugeDocument/index')
+  },
 ]
 
 export const router = new VueRouter({

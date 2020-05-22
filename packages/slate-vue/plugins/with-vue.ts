@@ -3,6 +3,7 @@ import { Editor, Text, Node, Path, Operation, Transforms } from 'slate'
 import { VueEditor } from './vue-editor'
 import { Key } from '../utils/key'
 import { EDITOR_TO_ON_CHANGE, NODE_TO_KEY, NODE_TO_ELEMENT } from '../utils/weak-maps'
+import {vueRuntime} from './vue-runtime';
 
 /**
  * `withReact` adds React and DOM specific behaviors to the editor.
@@ -17,9 +18,23 @@ export const withVue = <T extends Editor>(editor: T) => {
     const matches: [Path, Key][] = []
     // global operation for render
 
+    e._operation = op
+
     switch (op.type) {
-      case 'insert_text':
-      case 'remove_text':
+      case 'insert_text': {
+        vueRuntime(() => {
+          const leaf = Node.leaf(editor, op.path)
+          leaf.text = leaf.text.slice(0, op.offset) + op.text + leaf.text.slice(op.offset)
+        })
+        break
+      }
+      case 'remove_text': {
+        vueRuntime(() => {
+          const leaf = Node.leaf(editor, op.path)
+          leaf.text = leaf.text.slice(0, op.offset) + leaf.text.slice(op.offset + op.text.length, leaf.text.length)
+        })
+        break
+      }
       case 'set_node': {
         for (const [node, path] of Editor.levels(e, { at: op.path })) {
           const key = VueEditor.findKey(e, node)

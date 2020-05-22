@@ -8,6 +8,7 @@ import { Editor, Node, Range, NodeEntry, Element as SlateElement } from 'slate'
 
 import Text from './text'
 import Children from './children'
+import {elementWatcherPlugin} from '../plugins/slate-plugin';
 
 /**
  * Element.
@@ -23,7 +24,7 @@ export const Element = tsx.component({
     Children
   },
   mounted() {
-    // watcherPlugin(this)
+    elementWatcherPlugin(this)
   },
   render(h) {
     // call renderElement with children, attribute and element

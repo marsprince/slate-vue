@@ -25,6 +25,7 @@ import {
   isDOMElement,
   normalizeDOMPoint,
 } from '../utils/dom'
+import { vueRuntimeFunc } from './vue-runtime';
 
 /**
  * A React and DOM-specific version of the `Editor` interface.
@@ -494,3 +495,5 @@ export const VueEditor = {
     return { anchor, focus }
   },
 }
+
+VueEditor.toDOMRange = vueRuntimeFunc(VueEditor.toDOMRange)

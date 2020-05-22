@@ -42,7 +42,6 @@ export const EDITOR_TO_ON_CHANGE = new WeakMap<Editor, () => void>()
  */
 
 export const PLACEHOLDER_SYMBOL = (Symbol('placeholder') as unknown) as string
-export const EDITABLE_SYMBOL = (Symbol('editable') as unknown) as string
 
 /**
  * vue component

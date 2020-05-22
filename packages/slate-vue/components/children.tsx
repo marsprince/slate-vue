@@ -6,6 +6,7 @@ import TextComponent from './text'
 import ElementComponent from './element'
 import {VueEditor} from '../index';
 import { NODE_TO_INDEX, NODE_TO_PARENT } from '../utils/weak-maps';
+import {elementWatcherPlugin} from '../plugins/slate-plugin';
 
 /**
  * Children.
@@ -21,6 +22,9 @@ const Children = tsx.component({
     ElementComponent
   },
   inject: ['decorate'],
+  mounted() {
+    elementWatcherPlugin(this)
+  },
   render() {
     const editor: any = this.$editor;
     const {node, decorations} = this;
@@ -30,7 +34,7 @@ const Children = tsx.component({
       !editor.isInline(node) &&
       Editor.hasInlines(editor, node)
     const children = []
-    const childArr = Editor.isEditor(node) ? node._state.$$data :node.children
+    const childArr = Editor.isEditor(node) ? node._state :node.children
     for(let i=0;i<childArr.length;i++) {
       const n = childArr[i] as Descendant;
       const p = path.concat(i);
