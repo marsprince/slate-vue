@@ -28,7 +28,7 @@
 - [x] support plain text
 - [ ] support readonly
 - [x] support rich text
-- [x] support search highlighting
+- [ ] support search highlighting
 
 ## next plan
 
