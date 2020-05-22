@@ -7,7 +7,14 @@ export interface SlatePluginOptions {
 
 }
 
-export default {
+export const SlateMixin = {
+  mounted() {
+    const editor = this.$editor
+    editor._state.__ob__.dep.addSub(this._watcher)
+  }
+}
+
+export const SlatePlugin = {
   install(Vue, options) {
     Vue.prototype.$editor = withVue(createEditor());
     Vue.component('fragment', fragment)

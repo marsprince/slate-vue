@@ -26,6 +26,9 @@ export const Slate = tsx.component({
     EDITOR_TO_ON_CHANGE.set(this.$editor,()=>{
       // patch to update all use
       // update editable manual
+      // notify all update
+      this.$editor._state.__ob__.dep.notify()
+      // replace new state
       patch(this.$editor.children, this.$editor)
       const editable = VUE_COMPONENT.get(EDITABLE_SYMBOL)
       if(editable) {
