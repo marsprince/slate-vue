@@ -162,7 +162,7 @@ export const transform = function(editor: Editor, op: Operation) {
         }
       }
 
-      parent.children.splice(index + 1, 0, newNode)
+      getChildren(parent).splice(index + 1, 0, newNode)
 
       break
     }
