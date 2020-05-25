@@ -2,7 +2,7 @@
 import path from "path"
 import typescript from "rollup-plugin-typescript2";
 import babel from '@rollup/plugin-babel'
-// import commonjs from '@rollup/plugin-commonjs'
+import commonjs from '@rollup/plugin-commonjs'
 
 export default {
   plugins: [
@@ -10,11 +10,7 @@ export default {
       exclude: "node_modules/**",
       tsconfig: path.join(__dirname, '../../packages/slate-vue/tsconfig.json'),
     }),
-    // commonjs({
-    //   namedExports: {
-    //     'node_modules/vue-fragment/dist/vue-fragment.min.js': [ 'Plugin' ]
-    //   }
-    // }),
+    commonjs(),
     babel({
       extensions: ['.ts', '.tsx'],
     })

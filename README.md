@@ -1,7 +1,3 @@
-## bug:
-
-- [ ] richtext: 在全部删除时报错
-
 ## feature:
 
 ### all feature support
@@ -29,6 +25,10 @@
 - [ ] support readonly
 - [x] support rich text
 - [ ] support search highlighting
+
+## bugs:
+
+- [ ] richtext: 输入后placeholder不更新
 
 ## next plan
 

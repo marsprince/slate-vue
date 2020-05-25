@@ -1,35 +1,24 @@
 // in vue runtime, we must change same slate original behavior
 
 // same
-import { Editor, Node, Path, Text } from 'slate';
+import { Node } from 'slate';
+import {runtimeNode} from './runtime-util';
 
 const runtime = () => {
-  const {get} = Node
-  Node.get = (root: Node, path: Path): Node => {
-    let node = root
-
-    for (let i = 0; i < path.length; i++) {
-      const p = path[i]
-      const children = Editor.isEditor(node) ? node._state: node.children
-
-      if (Text.isText(node) || !children[p]) {
-        throw new Error(
-          `Cannot find a descendant at path [${path}] in node: ${JSON.stringify(
-            root
-          )}`
-        )
-      }
-
-      node = children[p]
-    }
-
-    return node
-  }
-  // Text.isText = (value: any): value is Text => {
-  //   return typeof value.text === 'string'
-  // };
+  const {get, nodes, has, first, child, last} = Node
+  Node.child = runtimeNode.child
+  Node.has = runtimeNode.has
+  Node.get = runtimeNode.get
+  Node.first = runtimeNode.first
+  Node.last = runtimeNode.last
+  Node.nodes = runtimeNode.nodes
   return () => {
     Node.get = get
+    Node.nodes = nodes
+    Node.has = has
+    Node.first = first
+    Node.child = child
+    Node.last = last
   }
 }
 

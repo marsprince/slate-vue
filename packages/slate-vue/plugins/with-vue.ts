@@ -4,6 +4,7 @@ import { VueEditor } from './vue-editor'
 import { Key } from '../utils/key'
 import { EDITOR_TO_ON_CHANGE, NODE_TO_KEY, NODE_TO_ELEMENT } from '../utils/weak-maps'
 import {vueRuntime} from './vue-runtime';
+import {transform} from './runtime-util';
 
 /**
  * `withReact` adds React and DOM specific behaviors to the editor.
@@ -21,20 +22,8 @@ export const withVue = <T extends Editor>(editor: T) => {
     e._operation = op
 
     switch (op.type) {
-      case 'insert_text': {
-        vueRuntime(() => {
-          const leaf = Node.leaf(editor, op.path)
-          leaf.text = leaf.text.slice(0, op.offset) + op.text + leaf.text.slice(op.offset)
-        })
-        break
-      }
-      case 'remove_text': {
-        vueRuntime(() => {
-          const leaf = Node.leaf(editor, op.path)
-          leaf.text = leaf.text.slice(0, op.offset) + leaf.text.slice(op.offset + op.text.length, leaf.text.length)
-        })
-        break
-      }
+      case 'insert_text':
+      case 'remove_text':
       case 'set_node': {
         for (const [node, path] of Editor.levels(e, { at: op.path })) {
           const key = VueEditor.findKey(e, node)
@@ -70,6 +59,11 @@ export const withVue = <T extends Editor>(editor: T) => {
       const [node] = Editor.node(e, path)
       NODE_TO_KEY.set(node, key)
     }
+
+    // apply all change to _state
+    vueRuntime(()=>{
+      transform(editor, op)
+    }, editor)
   }
 
   e.insertData = (data: DataTransfer) => {

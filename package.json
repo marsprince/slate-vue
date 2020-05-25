@@ -13,6 +13,7 @@
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@rollup/plugin-babel": "^5.0.0",
+    "@rollup/plugin-commonjs": "^12.0.0",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
     "@vue/babel-preset-app": "^4.3.1",
     "@vue/babel-preset-jsx": "^1.1.2",
