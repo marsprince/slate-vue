@@ -28,7 +28,7 @@
 
 ## bugs:
 
-- [ ] richtext: 无法输入黑体
+
 
 ## next plan
 

@@ -477,6 +477,7 @@ export const Editable = tsx.component({
           gvm.$emit('forceUpdate')
         }
       } else {
+        // for placeholder update
         if(initPlaceholder) {
           initPlaceholder = false
           gvm.$emit('forceUpdate')

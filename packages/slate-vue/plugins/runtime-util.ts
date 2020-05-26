@@ -4,6 +4,10 @@ export const getChildren = (node: Node) => {
   return Editor.isEditor(node) ? node._state: node.children
 }
 
+const clone = (node: Node) => {
+  return JSON.parse(JSON.stringify(node))
+}
+
 // a minimum version of Editor.transform for runtime
 export const transform = function(editor: Editor, op: Operation) {
   switch (op.type) {
@@ -11,7 +15,7 @@ export const transform = function(editor: Editor, op: Operation) {
       const { path, node } = op
       const parent = Node.parent(editor, path)
       const index = path[path.length - 1]
-      getChildren(parent).splice(index, 0, node)
+      getChildren(parent).splice(index, 0, clone(node))
 
       break
     }

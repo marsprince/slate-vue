@@ -63,7 +63,7 @@ export const withVue = <T extends Editor>(editor: T) => {
     // apply all change to _state
     vueRuntime(()=>{
       transform(editor, op)
-    }, editor)
+    })
   }
 
   e.insertData = (data: DataTransfer) => {
