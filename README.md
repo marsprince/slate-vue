@@ -28,7 +28,6 @@
 
 ## bugs:
 
-- [ ] richtext: 输入后placeholder不更新
 - [ ] richtext: 无法输入黑体
 
 ## next plan

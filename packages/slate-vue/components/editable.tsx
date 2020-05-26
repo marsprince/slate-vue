@@ -8,6 +8,7 @@ import {Transforms, Range,Editor, Element, Node} from 'slate';
 import {DOMStaticRange} from '../utils/dom';
 import { IS_FIREFOX, IS_SAFARI, IS_EDGE_LEGACY } from '../utils/environment'
 import {SlateMixin} from '..';
+import {gvm} from '../plugins/slate-plugin'
 
 /**
  * Check if the target is editable and in the editor.
@@ -53,6 +54,8 @@ const hasTarget = (
  * A default memoized decorate function.
  */
 const defaultDecorate = () => []
+
+let initPlaceholder = false
 
 // the contentEditable div
 export const Editable = tsx.component({
@@ -469,9 +472,15 @@ export const Editable = tsx.component({
           anchor: start,
           focus: start,
         })
-        editor._vue.placeholder = true
+        if(!initPlaceholder) {
+          initPlaceholder = true
+          gvm.$emit('forceUpdate')
+        }
       } else {
-        editor._vue.placeholder = false
+        if(initPlaceholder) {
+          initPlaceholder = false
+          gvm.$emit('forceUpdate')
+        }
       }
       return decorations
     }

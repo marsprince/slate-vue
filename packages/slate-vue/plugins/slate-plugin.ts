@@ -2,6 +2,8 @@ import { createEditor, Operation } from 'slate';
 import {hooks} from './vue-hooks';
 import {withVue} from './with-vue';
 import {fragment} from '../components/fragment';
+import Vue from 'vue'
+export const gvm = new Vue()
 
 export interface SlatePluginOptions {
 
@@ -12,15 +14,15 @@ export const elementWatcherPlugin = (vm) => {
   const update = vm._watcher.update;
   vm._watcher.update = () => {
     const op: Operation = vm.$editor._operation;
-    const { placeholder } = vm.$editor._vue;
     // some op doesn't change element, so prevent updating
     if(op.type === 'remove_text' || op.type === 'insert_text' || op.type === 'set_selection') {
-      if(!placeholder) {
-        return
-      }
+      return
     }
     update.call(vm._watcher)
   }
+  gvm.$on('forceUpdate', ()=>{
+    update.call(vm._watcher)
+  })
 }
 
 export const SlateMixin = {
