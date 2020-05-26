@@ -6,22 +6,27 @@ export const routes = [
   {
     path: '/plaintext',
     name: '/plaintext',
-    component: () => import('../pages/plaintext/index')
+    component: () => import('../pages/plaintext')
   },
   {
     path: '/richtext',
     name: '/richtext',
-    component: () => import('../pages/richtext/index')
+    component: () => import('../pages/richtext')
   },
   {
     path: '/huge-document',
     name: '/hugeDocument',
-    component: () => import('../pages/hugeDocument/index')
+    component: () => import('../pages/hugeDocument')
   },
   {
     path: '/readonly',
     name: '/readonly',
     component: () => import('../pages/readonly')
+  },
+  {
+    path: '/links',
+    name: '/links',
+    component: () => import('../pages/links')
   },
 ]
 

@@ -16,7 +16,7 @@
 - [ ] support hovering toolbar
 - [x] support huge document
 - [ ] support images
-- [ ] support links
+- [x] support links
 - [ ] support markdown preview
 - [ ] support markdown shortcut
 - [ ] support mentions
