@@ -18,6 +18,11 @@ export const routes = [
     name: '/hugeDocument',
     component: () => import('../pages/hugeDocument/index')
   },
+  {
+    path: '/readonly',
+    name: '/readonly',
+    component: () => import('../pages/readonly')
+  },
 ]
 
 export const router = new VueRouter({

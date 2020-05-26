@@ -22,7 +22,7 @@
 - [ ] support mentions
 - [ ] support paste html
 - [x] support plain text
-- [ ] support readonly
+- [x] support readonly
 - [x] support rich text
 - [ ] support search highlighting
 
