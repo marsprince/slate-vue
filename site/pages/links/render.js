@@ -6,12 +6,12 @@ export const renderElement = ({ attributes, children, element }) => {
       switch (element.type) {
         case 'link':
           return (
-            <a {...attributes} href={element.url}>
+            <a {...{attrs: attributes}} href={element.url}>
               {children}
             </a>
           )
         default:
-          return <p {...attributes}>{children}</p>
+          return <p {...{attrs: attributes}}>{children}</p>
       }
     }
   }

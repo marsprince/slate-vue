@@ -28,7 +28,7 @@
 
 ## bugs:
 
-
+- [ ] can't add image
 
 ## next plan
 

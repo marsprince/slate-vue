@@ -2,6 +2,7 @@
   "name": "slate-vue",
   "version": "0.0.1",
   "dependencies": {
+    "direction": "^1.0.4",
     "lodash": "^4.17.15",
     "slate": "^0.57.1"
   },

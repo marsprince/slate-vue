@@ -47,3 +47,4 @@ export const PLACEHOLDER_SYMBOL = (Symbol('placeholder') as unknown) as string
  * vue component
  */
 export const VUE_COMPONENT = new Map<string, Vue>()
+export const KEY_TO_VNODE = new Map<Object, any>()

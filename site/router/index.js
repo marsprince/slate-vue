@@ -28,6 +28,11 @@ export const routes = [
     name: '/links',
     component: () => import('../pages/links')
   },
+  {
+    path: '/images',
+    name: '/images',
+    component: () => import('../pages/images')
+  },
 ]
 
 export const router = new VueRouter({
