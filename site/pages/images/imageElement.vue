@@ -5,8 +5,7 @@
         :src="element.url"
         :style="{ boxShadow: selected && focused ? '0 0 0 3px #B4D5FF' : 'none'}"
       />
-    </div>
-    <slot></slot>
+    </div><!-- why there has an blank when using enter?/--><slot></slot>
   </div>
 </template>
 <script>

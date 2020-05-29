@@ -56,7 +56,6 @@
     }
 
     editor.insertData = data => {
-      console.log(data);
       const text = data.getData('text/plain')
       const { files } = data
 

@@ -4,7 +4,7 @@ import * as tsx from "vue-tsx-support";
 import { Editor, Range, Element, NodeEntry, Ancestor, Descendant, Operation, Path } from 'slate';
 import TextComponent from './text'
 import ElementComponent from './element'
-import {VueEditor} from '../index';
+import { SlateMixin, VueEditor } from '../index';
 import { KEY_TO_VNODE, NODE_TO_INDEX, NODE_TO_PARENT } from '../utils/weak-maps';
 import {elementWatcherPlugin} from '../plugins/slate-plugin';
 
@@ -22,11 +22,11 @@ const Children = tsx.component({
     ElementComponent
   },
   inject: ['decorate'],
+  mixins: [SlateMixin],
   mounted() {
     elementWatcherPlugin(this)
   },
   render() {
-    console.log('render child');
     const editor: any = this.$editor;
     const {node, decorations} = this;
     const path = VueEditor.findPath(editor, node)

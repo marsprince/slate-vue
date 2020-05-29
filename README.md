@@ -5,6 +5,7 @@
 - [x] base use
 - [ ] hotkey
 - [ ] history
+- [ ] paste and copy
 - [ ] ......
 
 ### all example support
@@ -28,7 +29,7 @@
 
 ## bugs:
 
-- [ ] can't add image
+
 
 ## next plan
 
