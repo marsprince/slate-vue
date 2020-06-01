@@ -9,13 +9,12 @@
   </div>
 </template>
 <script>
-  import {SelectedMixin} from 'slate-vue';
+  import {SelectedMixin, FocusedMixin} from 'slate-vue';
 
   export default {
     name: 'imageElement',
-    mixins: [SelectedMixin],
+    mixins: [SelectedMixin, FocusedMixin],
     props: {
-      focused: Boolean,
       element: Object
     },
   };

@@ -5,7 +5,7 @@
 - [x] base use
 - [ ] hotkey
 - [ ] history
-- [ ] paste and copy
+- [x] paste and copy
 - [ ] ......
 
 ### all example support

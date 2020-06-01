@@ -10,7 +10,7 @@ export const renderElement = ({ attributes, children, element }) => {
     render() {
       switch (element.type) {
         case 'image':
-          return <ImageElement element={element} {...{attrs: attributes}} focused={gvm.focused}>{children}</ImageElement>
+          return <ImageElement element={element} {...{attrs: attributes}}>{children}</ImageElement>
         default:
           return <p {...{attrs: attributes}}>{children}</p>
       }

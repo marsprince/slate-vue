@@ -29,7 +29,11 @@ export const elementWatcherPlugin = (vm, type) => {
       if(op.type === 'remove_text' || op.type === 'insert_text') {
         return
       }
+      // use gvm.selected, so element does't update
       if(op.type === 'set_selection' && type === 'element') {
+        return
+      }
+      if(op.type === 'remove_node' && type === 'element') {
         return
       }
     }
@@ -57,6 +61,14 @@ export const SelectedMixin = {
       }
     }
   },
+}
+
+export const FocusedMixin = {
+  computed: {
+    focused() {
+      return gvm.focused
+    }
+  }
 }
 
 export const SlatePlugin = {
