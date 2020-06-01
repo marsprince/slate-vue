@@ -16,7 +16,7 @@
 - [ ] support forced layout
 - [ ] support hovering toolbar
 - [x] support huge document
-- [ ] support images
+- [x] support images
 - [x] support links
 - [ ] support markdown preview
 - [ ] support markdown shortcut

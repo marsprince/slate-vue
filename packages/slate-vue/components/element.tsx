@@ -44,7 +44,7 @@ export const Element = tsx.component({
         KEY_TO_ELEMENT.delete(key)
         NODE_TO_ELEMENT.delete(element)
       }
-    }, [])
+    })
   },
   render(h) {
     // call renderElement with children, attribute and element

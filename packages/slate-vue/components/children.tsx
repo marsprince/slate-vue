@@ -95,9 +95,7 @@ const Children = tsx.component({
       }
       if(Element.isElement(n)) {
         // set selected, nexttick is ugly, and will be corrected if I have enough time
-        this.$nextTick(()=>{
-          gvm.$set(gvm.selected, key.id, !!sel)
-        })
+        gvm.$set(gvm.selected, key.id, !!sel)
         cacheVnode =
           <ElementComponent
             element={n}

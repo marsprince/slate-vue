@@ -50,7 +50,7 @@ const Text = tsx.component({
           KEY_TO_ELEMENT.delete(key)
           NODE_TO_ELEMENT.delete(text)
         }
-      }, [])
+      })
     };
 
     initRef()
