@@ -12,6 +12,10 @@ function ensureCurrentInstance() {
   }
 }
 
+function findEl(component) {
+  return component._isVue ? component.$el : component
+}
+
 export function useEffect(rawEffect, deps?:Array) {
   ensureCurrentInstance()
   const id = ++callIndex
@@ -61,12 +65,12 @@ export function useRef(initial) {
   // added for auto inject $refs
   currentInstance.$on('hook:mounted', function() {
     if(this.$refs[id]) {
-      refs[id].current = this.$refs[id]
+      refs[id].current = findEl(this.$refs[id])
     }
   });
   currentInstance.$on('hook:updated', function(){
     if(this.$refs[id]) {
-      refs[id].current = this.$refs[id]
+      refs[id].current = findEl(this.$refs[id])
     }
   });
   return isMounting ? (refs[id] = { current: initial, id }) : refs[id]

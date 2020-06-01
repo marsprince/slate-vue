@@ -5,6 +5,8 @@
 import * as tsx from 'vue-tsx-support'
 import {EDITOR_TO_ON_CHANGE} from '../utils/weak-maps';
 import Vue from 'vue';
+import {gvm} from '../plugins/slate-plugin'
+import { VueEditor } from '..';
 
 export const Slate = tsx.component({
   props: {
@@ -24,11 +26,10 @@ export const Slate = tsx.component({
     EDITOR_TO_ON_CHANGE.set(this.$editor,()=>{
       // patch to update all use
       // update editable manual
-
       // notify all update
       this.$editor._state.__ob__.dep.notify()
-      // replace new state
-      // patch(this.$editor.children, this.$editor)
+      // update focus manual
+      gvm.focused = VueEditor.isFocused(this.$editor)
     })
     return (
       <fragment>

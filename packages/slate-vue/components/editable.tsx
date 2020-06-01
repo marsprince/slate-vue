@@ -451,6 +451,7 @@ export const Editable = tsx.component({
     const {ref, decorate} = this;
     // name must be corresponded with standard
     const on = {
+      click: this.onClick,
       keydown: this.onKeyDown,
       focus: this.onFocus,
       blur: this.onBlur,
@@ -507,6 +508,7 @@ export const Editable = tsx.component({
         <Children
           decorations={decorations}
           node={editor}
+          selection={editor.selection}
         />
       </div>
     )

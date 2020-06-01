@@ -4,8 +4,8 @@ import * as tsx from "vue-tsx-support";
 import { Editor, Range, Element, NodeEntry, Ancestor, Descendant, Operation, Path } from 'slate';
 import TextComponent from './text'
 import ElementComponent from './element'
-import { SlateMixin, VueEditor } from '../index';
-import { KEY_TO_VNODE, NODE_TO_INDEX, NODE_TO_PARENT } from '../utils/weak-maps';
+import { gvm, SlateMixin, VueEditor } from '../index';
+import { KEY_TO_VNODE, NODE_TO_INDEX, NODE_TO_KEY, NODE_TO_PARENT } from '../utils/weak-maps';
 import {elementWatcherPlugin} from '../plugins/slate-plugin';
 
 /**
@@ -15,7 +15,8 @@ import {elementWatcherPlugin} from '../plugins/slate-plugin';
 const Children = tsx.component({
   props: {
     node: Object,
-    decorations: Array
+    decorations: Array,
+    selection: Object
   },
   components: {
     TextComponent,
@@ -24,11 +25,11 @@ const Children = tsx.component({
   inject: ['decorate'],
   mixins: [SlateMixin],
   mounted() {
-    elementWatcherPlugin(this)
+    elementWatcherPlugin(this, 'children')
   },
   render() {
     const editor: any = this.$editor;
-    const {node, decorations} = this;
+    const {node, decorations, selection} = this;
     const path = VueEditor.findPath(editor, node)
     const isLeafBlock =
       Element.isElement(node) &&
@@ -44,6 +45,7 @@ const Children = tsx.component({
       const p = path.concat(i);
       const ds = this.decorate([n, p]);
       const range = Editor.range(editor, p)
+      const sel = selection && Range.intersection(range, selection)
       for (const dec of decorations) {
         const d = Range.intersection(dec, range)
 
@@ -92,6 +94,10 @@ const Children = tsx.component({
         }
       }
       if(Element.isElement(n)) {
+        // set selected, nexttick is ugly, and will be corrected if I have enough time
+        this.$nextTick(()=>{
+          gvm.$set(gvm.selected, key.id, !!sel)
+        })
         cacheVnode =
           <ElementComponent
             element={n}

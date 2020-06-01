@@ -10,9 +10,9 @@ import getDirection from 'direction'
 import Text from './text'
 import Children from './children'
 import {elementWatcherPlugin} from '../plugins/slate-plugin';
-import { NODE_TO_PARENT, NODE_TO_INDEX, KEY_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE } from '../utils/weak-maps';
+import { NODE_TO_PARENT, NODE_TO_INDEX, KEY_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, NODE_TO_KEY } from '../utils/weak-maps';
 import { useEffect, useRef } from '../plugins/vue-hooks';
-import { VueEditor } from '..';
+import { VueEditor, gvm } from '..';
 
 /**
  * Element.
@@ -28,7 +28,7 @@ export const Element = tsx.component({
     Children
   },
   mounted() {
-    elementWatcherPlugin(this)
+    elementWatcherPlugin(this, 'element')
   },
   hooks() {
     const ref = this.ref = useRef(null);
@@ -109,12 +109,12 @@ export const Element = tsx.component({
       NODE_TO_INDEX.set(text, 0)
       NODE_TO_PARENT.set(text, element)
     }
+
     return h(renderElement({
       element,
       attributes,
-      children,
-      ref
-    }))
+      children
+    }), {ref: ref.id})
   }
 })
 
@@ -125,11 +125,11 @@ export const Element = tsx.component({
 export const DefaultElement = (props) => {
   return tsx.component({
     render() {
-      const { attributes, children, element, ref } = props
+      const { attributes, children, element } = props
       const editor = this.$editor
       const Tag = editor.isInline(element) ? 'span' : 'div'
       return (
-        <Tag {...{attrs: attributes}} ref={ref.id} style={{ position: 'relative' }}>
+        <Tag {...{attrs: attributes}} style={{ position: 'relative' }}>
           {children}
         </Tag>
       )

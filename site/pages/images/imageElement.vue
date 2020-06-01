@@ -9,10 +9,12 @@
   </div>
 </template>
 <script>
+  import {SelectedMixin} from 'slate-vue';
+
   export default {
     name: 'imageElement',
+    mixins: [SelectedMixin],
     props: {
-      selected: Boolean,
       focused: Boolean,
       element: Object
     },
