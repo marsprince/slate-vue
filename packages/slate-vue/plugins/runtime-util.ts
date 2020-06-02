@@ -1,4 +1,5 @@
 import { Editor, Operation, Node, Path, Text, Descendant, NodeEntry } from 'slate';
+import { NODE_TO_KEY } from '../utils/weak-maps';
 
 export const getChildren = (node: Node) => {
   return Editor.isEditor(node) ? node._state: node.children

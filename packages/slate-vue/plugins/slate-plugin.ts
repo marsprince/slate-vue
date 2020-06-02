@@ -1,9 +1,10 @@
-import { createEditor, Operation } from 'slate';
+import { createEditor, Operation, Editor, Range } from 'slate';
 import {hooks} from './vue-hooks';
 import {withVue} from './with-vue';
 import {fragment} from '../components/fragment';
 import Vue from 'vue'
-import {NODE_TO_KEY} from '..';
+import { NODE_TO_ELEMENT, NODE_TO_KEY } from '../utils/weak-maps';
+import {VueEditor} from './vue-editor'
 
 // an vm for focused and so on
 export const gvm = new Vue({
@@ -11,7 +12,23 @@ export const gvm = new Vue({
     // If editor is focused
     focused: false,
     // selected element key
-    selected: {}
+    selected: {
+      elements: []
+    },
+  },
+  methods: {
+    updateSelected() {
+      const editor = this.$editor
+      const {selection} = editor
+      this.selected.elements.forEach(node => {
+        const key = NODE_TO_KEY.get(node).id
+        const p = VueEditor.findPath(editor, node)
+        console.log(key);
+        const range = Editor.range(editor, p)
+        const selected = Range.intersection(range, selection)
+        this.$set(this.selected, key, !!selected)
+      })
+    }
   }
 })
 
@@ -26,11 +43,7 @@ export const elementWatcherPlugin = (vm, type) => {
     const op: Operation = vm.$editor._operation;
     // some op doesn't change element, so prevent updating
     if(op) {
-      if(op.type === 'remove_text' || op.type === 'insert_text') {
-        return
-      }
-      // use gvm.selected, so element does't update
-      if(op.type === 'set_selection' && type === 'element') {
+      if(op.type === 'remove_text' || op.type === 'insert_text' || op.type === 'set_selection') {
         return
       }
       if(op.type === 'remove_node' && type === 'element') {
@@ -52,6 +65,10 @@ export const SlateMixin = {
 }
 
 export const SelectedMixin = {
+  created() {
+    const element = this.element || this.node
+    gvm.selected.elements.push(element)
+  },
   computed: {
     selected() {
       if(this.element) {

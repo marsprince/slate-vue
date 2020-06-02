@@ -30,6 +30,9 @@ export const Slate = tsx.component({
       this.$editor._state.__ob__.dep.notify()
       // update focus manual
       gvm.focused = VueEditor.isFocused(this.$editor)
+      gvm.updateSelected()
+      // emit onchange event
+      this.$emit('onChange')
     })
     return (
       <fragment>

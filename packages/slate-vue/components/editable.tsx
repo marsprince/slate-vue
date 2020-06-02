@@ -9,9 +9,26 @@ import {DOMStaticRange} from '../utils/dom';
 import { IS_FIREFOX, IS_SAFARI, IS_EDGE_LEGACY } from '../utils/environment'
 import {SlateMixin, gvm} from '..';
 import { vueRuntime } from '../plugins/vue-runtime';
+import Hotkeys from '../utils/hotkeys'
 
 // COMPAT: Firefox/Edge Legacy don't support the `beforeinput` event
 const HAS_BEFORE_INPUT_SUPPORT = !(IS_FIREFOX || IS_EDGE_LEGACY)
+
+/**
+ * Check if an event is overrided by a handler.
+ */
+
+
+const isEventHandled = (
+  event: any,
+  handler?: (event: any) => void
+) => {
+  if (!handler) {
+    return false
+  }
+  handler(event)
+  return event.defaultPrevented || event.cancelBubble
+}
 
 /**
  * Check if the target is editable and in the editor.
@@ -197,7 +214,9 @@ export const Editable = tsx.component({
       type: Function,
       default: defaultDecorate
     },
-    placeholder: String
+    placeholder: String,
+    // user event
+    onKeyDown: Function
   },
   components: {
     Children
@@ -401,8 +420,207 @@ export const Editable = tsx.component({
     onCompositionEnd(e) {
 
     },
-    onKeyDown(e) {
+    _onKeyDown(event) {
+      const editor = this.$editor
+      if (
+        !this.readOnly &&
+        hasEditableTarget(editor, event.target) &&
+        !isEventHandled(event, this.onKeyDown)
+      ) {
+        const nativeEvent = event
+        const { selection } = editor
 
+        // COMPAT: Since we prevent the default behavior on
+        // `beforeinput` events, the browser doesn't think there's ever
+        // any history stack to undo or redo, so we have to manage these
+        // hotkeys ourselves. (2019/11/06)
+        if (Hotkeys.isRedo(nativeEvent)) {
+          event.preventDefault()
+
+          if (editor.redo) {
+            editor.redo()
+          }
+
+          return
+        }
+
+        if (Hotkeys.isUndo(nativeEvent)) {
+          event.preventDefault()
+
+          if (editor.undo) {
+            editor.undo()
+          }
+
+          return
+        }
+
+        // COMPAT: Certain browsers don't handle the selection updates
+        // properly. In Chrome, the selection isn't properly extended.
+        // And in Firefox, the selection isn't properly collapsed.
+        // (2017/10/17)
+        if (Hotkeys.isMoveLineBackward(nativeEvent)) {
+          event.preventDefault()
+          Transforms.move(editor, { unit: 'line', reverse: true })
+          return
+        }
+
+        if (Hotkeys.isMoveLineForward(nativeEvent)) {
+          event.preventDefault()
+          Transforms.move(editor, { unit: 'line' })
+          return
+        }
+
+        if (Hotkeys.isExtendLineBackward(nativeEvent)) {
+          event.preventDefault()
+          Transforms.move(editor, {
+            unit: 'line',
+            edge: 'focus',
+            reverse: true,
+          })
+          return
+        }
+
+        if (Hotkeys.isExtendLineForward(nativeEvent)) {
+          event.preventDefault()
+          Transforms.move(editor, { unit: 'line', edge: 'focus' })
+          return
+        }
+
+        // COMPAT: If a void node is selected, or a zero-width text node
+        // adjacent to an inline is selected, we need to handle these
+        // hotkeys manually because browsers won't be able to skip over
+        // the void node with the zero-width space not being an empty
+        // string.
+        if (Hotkeys.isMoveBackward(nativeEvent)) {
+          event.preventDefault()
+
+          if (selection && Range.isCollapsed(selection)) {
+            Transforms.move(editor, { reverse: true })
+          } else {
+            Transforms.collapse(editor, { edge: 'start' })
+          }
+
+          return
+        }
+
+        if (Hotkeys.isMoveForward(nativeEvent)) {
+          event.preventDefault()
+
+          if (selection && Range.isCollapsed(selection)) {
+            Transforms.move(editor)
+          } else {
+            Transforms.collapse(editor, { edge: 'end' })
+          }
+
+          return
+        }
+
+        if (Hotkeys.isMoveWordBackward(nativeEvent)) {
+          event.preventDefault()
+          Transforms.move(editor, { unit: 'word', reverse: true })
+          return
+        }
+
+        if (Hotkeys.isMoveWordForward(nativeEvent)) {
+          event.preventDefault()
+          Transforms.move(editor, { unit: 'word' })
+          return
+        }
+
+        // COMPAT: Certain browsers don't support the `beforeinput` event, so we
+        // fall back to guessing at the input intention for hotkeys.
+        // COMPAT: In iOS, some of these hotkeys are handled in the
+        if (!HAS_BEFORE_INPUT_SUPPORT) {
+          // We don't have a core behavior for these, but they change the
+          // DOM if we don't prevent them, so we have to.
+          if (
+            Hotkeys.isBold(nativeEvent) ||
+            Hotkeys.isItalic(nativeEvent) ||
+            Hotkeys.isTransposeCharacter(nativeEvent)
+          ) {
+            event.preventDefault()
+            return
+          }
+
+          if (Hotkeys.isSplitBlock(nativeEvent)) {
+            event.preventDefault()
+            Editor.insertBreak(editor)
+            return
+          }
+
+          if (Hotkeys.isDeleteBackward(nativeEvent)) {
+            event.preventDefault()
+
+            if (selection && Range.isExpanded(selection)) {
+              Editor.deleteFragment(editor)
+            } else {
+              Editor.deleteBackward(editor)
+            }
+
+            return
+          }
+
+          if (Hotkeys.isDeleteForward(nativeEvent)) {
+            event.preventDefault()
+
+            if (selection && Range.isExpanded(selection)) {
+              Editor.deleteFragment(editor)
+            } else {
+              Editor.deleteForward(editor)
+            }
+
+            return
+          }
+
+          if (Hotkeys.isDeleteLineBackward(nativeEvent)) {
+            event.preventDefault()
+
+            if (selection && Range.isExpanded(selection)) {
+              Editor.deleteFragment(editor)
+            } else {
+              Editor.deleteBackward(editor, { unit: 'line' })
+            }
+
+            return
+          }
+
+          if (Hotkeys.isDeleteLineForward(nativeEvent)) {
+            event.preventDefault()
+
+            if (selection && Range.isExpanded(selection)) {
+              Editor.deleteFragment(editor)
+            } else {
+              Editor.deleteForward(editor, { unit: 'line' })
+            }
+
+            return
+          }
+
+          if (Hotkeys.isDeleteWordBackward(nativeEvent)) {
+            event.preventDefault()
+
+            if (selection && Range.isExpanded(selection)) {
+              Editor.deleteFragment(editor)
+            } else {
+              Editor.deleteBackward(editor, { unit: 'word' })
+            }
+
+            return
+          }
+
+          if (Hotkeys.isDeleteWordForward(nativeEvent)) {
+            event.preventDefault()
+
+            if (selection && Range.isExpanded(selection)) {
+              Editor.deleteFragment(editor)
+            } else {
+              Editor.deleteForward(editor, { unit: 'word' })
+            }
+
+            return
+          }
+        }
+      }
     },
     onFocus(event) {
       const editor = this.$editor
@@ -612,18 +830,17 @@ export const Editable = tsx.component({
     updateSelection();
   },
   render() {
-    // set vue component
     const editor = this.$editor;
     const {ref, decorate} = this;
     // name must be corresponded with standard
     const on = {
       click: this.onClick,
-      keydown: this.onKeyDown,
+      keydown: this._onKeyDown,
       focus: this.onFocus,
       blur: this.onBlur,
       beforeinput: this.onDOMBeforeInput,
       copy: this.onCopy,
-      cut: this.onCut
+      cut: this.onCut,
     };
     const decorations = decorate([editor, []]);
     const initDecorations = () => {

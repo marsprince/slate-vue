@@ -15,8 +15,7 @@ import {elementWatcherPlugin} from '../plugins/slate-plugin';
 const Children = tsx.component({
   props: {
     node: Object,
-    decorations: Array,
-    selection: Object
+    decorations: Array
   },
   components: {
     TextComponent,
@@ -29,7 +28,7 @@ const Children = tsx.component({
   },
   render() {
     const editor: any = this.$editor;
-    const {node, decorations, selection} = this;
+    const {node, decorations} = this;
     const path = VueEditor.findPath(editor, node)
     const isLeafBlock =
       Element.isElement(node) &&
@@ -45,7 +44,6 @@ const Children = tsx.component({
       const p = path.concat(i);
       const ds = this.decorate([n, p]);
       const range = Editor.range(editor, p)
-      const sel = selection && Range.intersection(range, selection)
       for (const dec of decorations) {
         const d = Range.intersection(dec, range)
 
@@ -94,8 +92,7 @@ const Children = tsx.component({
         }
       }
       if(Element.isElement(n)) {
-        // set selected, nexttick is ugly, and will be corrected if I have enough time
-        gvm.$set(gvm.selected, key.id, !!sel)
+        // set selected
         cacheVnode =
           <ElementComponent
             element={n}

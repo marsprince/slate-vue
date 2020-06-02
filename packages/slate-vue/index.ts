@@ -4,4 +4,4 @@ export {SlatePlugin, SlateMixin, gvm, SelectedMixin, FocusedMixin} from "./plugi
 export {Slate} from "./components/slate"
 export {Editable} from "./components/editable"
 export {VueEditor} from "./plugins/vue-editor"
-export * from './utils/weak-maps'
+export {useEffect, useRef} from './plugins/vue-hooks'

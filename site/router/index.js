@@ -5,33 +5,38 @@ Vue.use(VueRouter)
 export const routes = [
   {
     path: '/plaintext',
-    name: '/plaintext',
+    name: 'plaintext',
     component: () => import('../pages/plaintext')
   },
   {
     path: '/richtext',
-    name: '/richtext',
+    name: 'richtext',
     component: () => import('../pages/richtext')
   },
   {
     path: '/huge-document',
-    name: '/hugeDocument',
+    name: 'hugeDocument',
     component: () => import('../pages/hugeDocument')
   },
   {
     path: '/readonly',
-    name: '/readonly',
+    name: 'readonly',
     component: () => import('../pages/readonly')
   },
   {
     path: '/links',
-    name: '/links',
+    name: 'links',
     component: () => import('../pages/links')
   },
   {
     path: '/images',
-    name: '/images',
+    name: 'images',
     component: () => import('../pages/images')
+  },
+  {
+    path: '/mentions',
+    name: 'mentions',
+    component: () => import('../pages/mentions')
   },
 ]
 
