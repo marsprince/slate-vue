@@ -20,14 +20,18 @@ export const gvm = new Vue({
     updateSelected() {
       const editor = this.$editor
       const {selection} = editor
-      this.selected.elements.forEach(node => {
-        const key = NODE_TO_KEY.get(node).id
-        const p = VueEditor.findPath(editor, node)
-        console.log(key);
-        const range = Editor.range(editor, p)
-        const selected = Range.intersection(range, selection)
-        this.$set(this.selected, key, !!selected)
-      })
+      if(selection) {
+        this.selected.elements.forEach(node => {
+          const key = NODE_TO_KEY.get(node)
+          if(key) {
+            const {id} = key
+            const p = VueEditor.findPath(editor, node)
+            const range = Editor.range(editor, p)
+            const selected = Range.intersection(range, selection)
+            this.$set(this.selected, id, !!selected)
+          }
+        })
+      }
     }
   }
 })

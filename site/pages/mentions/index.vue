@@ -8,12 +8,19 @@
       placeholder="Enter some text..."
       :onKeyDown="onKeyDown"
     />
+    <fragment>
+      <div class="mentions" v-if="target && chars.length > 0" :ref="ref.id">
+        <div class="mentions__item" v-for="(char, i) in chars" :key="char" :style="[{background: i === index ? '#B4D5FF' : 'transparent'}]">
+          {{char}}
+        </div>
+      </div>
+    </fragment>
   </Slate>
 </template>
 <script>
-  import {Slate, Editable} from 'slate-vue'
+  import { Slate, Editable, useEffect, useRef, VueEditor, Transforms } from 'slate-vue';
   import {renderElement} from './render';
-  import {Editor, Transforms, Range} from 'slate'
+  import {Editor, Range} from 'slate'
   import { CHARACTERS, insertMention, withMentions } from './utils';
 
   // this value is for editor
@@ -50,6 +57,20 @@
       Slate,
       Editable
     },
+    hooks() {
+      const ref = this.ref = useRef(null)
+      const {target, index, search, chars} = this
+      const editor = this.$editor
+      useEffect(() => {
+        if (target && chars.length > 0) {
+          const el = ref.current
+          const domRange = VueEditor.toDOMRange(editor, target)
+          const rect = domRange.getBoundingClientRect()
+          el.style.top = `${rect.top + window.pageYOffset + 24}px`
+          el.style.left = `${rect.left + window.pageXOffset}px`
+        }
+      }, [chars.length, editor, index, search, target])
+    },
     data() {
       return {
         target: null,
@@ -69,7 +90,7 @@
     methods: {
       onKeyDown(event) {
         const editor = this.$editor
-        const {chars} = this
+        const {chars,index} = this
         if (this.target) {
           switch (event.key) {
             case 'ArrowDown':
@@ -97,7 +118,6 @@
         }
       },
       onChange() {
-        console.log('change');
         const editor = this.$editor
         const { selection } = editor
 
@@ -130,6 +150,19 @@
   };
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+.mentions {
+  top: -9999px;
+  left: -9999px;
+  position: absolute;
+  z-index: 1;
+  padding: 3px;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 5px rgba(0,0,0,.2);
+  &__item {
+    padding: 1px 3px;
+    border-radius: 3px;
+  }
+}
 </style>

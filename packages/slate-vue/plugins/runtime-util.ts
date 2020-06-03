@@ -1,11 +1,11 @@
-import { Editor, Operation, Node, Path, Text, Descendant, NodeEntry } from 'slate';
+import { Editor, Operation, Node, Path, Text, Descendant, NodeEntry, Transforms as SlateTransforms, Location } from 'slate';
 import { NODE_TO_KEY } from '../utils/weak-maps';
 
 export const getChildren = (node: Node) => {
   return Editor.isEditor(node) ? node._state: node.children
 }
 
-const clone = (node: Node) => {
+export const clone = (node: any): any => {
   return JSON.parse(JSON.stringify(node))
 }
 
@@ -85,6 +85,7 @@ export const transform = function(editor: Editor, op: Operation) {
 
     case 'remove_node': {
       const { path } = op
+      NODE_TO_KEY.delete(Node.get(editor, path))
       const index = path[path.length - 1]
       const parent = Node.parent(editor, path)
       getChildren(parent).splice(index, 1)
@@ -337,3 +338,19 @@ export const runtimeNode = {
     }
   }
 }
+
+export const isVueObject = (obj) => {
+  return obj.__ob__
+}
+
+// a Transform version for runtime
+export const Transforms = (() => {
+  const {select} = SlateTransforms
+  SlateTransforms.select = (editor: Editor, target: Location) => {
+    if(isVueObject(target)) {
+      target = clone(target)
+    }
+    return select(editor, target)
+  }
+  return SlateTransforms
+})()

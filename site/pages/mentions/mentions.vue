@@ -15,9 +15,6 @@
     mixins: [SelectedMixin, FocusedMixin],
     props: {
       element: Object
-    },
-    updated() {
-      console.log(this.selected);
     }
   };
 </script>
