@@ -9,7 +9,7 @@ import getDirection from 'direction'
 
 import Text from './text'
 import Children from './children'
-import {elementWatcherPlugin} from '../plugins/slate-plugin';
+import { elementWatcherPlugin, ReadOnlyMixin } from '../plugins/slate-plugin';
 import { NODE_TO_PARENT, NODE_TO_INDEX, KEY_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, NODE_TO_KEY } from '../utils/weak-maps';
 import { useEffect, useRef } from '../plugins/vue-hooks';
 import { VueEditor, gvm } from '..';
@@ -23,10 +23,11 @@ export const Element = tsx.component({
     element: Object,
     decorations: Array
   },
-  inject: ['renderElement', 'readOnly'],
+  inject: ['renderElement'],
   components:{
     Children
   },
+  mixins: [ReadOnlyMixin],
   mounted() {
     elementWatcherPlugin(this, 'element')
   },

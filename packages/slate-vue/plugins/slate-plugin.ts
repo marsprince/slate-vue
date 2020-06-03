@@ -15,6 +15,7 @@ export const gvm = new Vue({
     selected: {
       elements: []
     },
+    readOnly: false
   },
   methods: {
     updateSelected() {
@@ -82,6 +83,14 @@ export const SelectedMixin = {
       }
     }
   },
+}
+
+export const ReadOnlyMixin = {
+  computed: {
+    readOnly() {
+      return gvm.readOnly
+    }
+  }
 }
 
 export const FocusedMixin = {

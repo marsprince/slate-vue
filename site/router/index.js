@@ -38,6 +38,11 @@ export const routes = [
     name: 'mentions',
     component: () => import('../pages/mentions')
   },
+  {
+    path: '/check-lists',
+    name: 'check-lists',
+    component: () => import('../pages/check-lists')
+  },
 ]
 
 export const router = new VueRouter({

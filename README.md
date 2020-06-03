@@ -1,16 +1,16 @@
-## feature:
+## progress:
 
 ### all feature support
 
 - [x] base use
-- [ ] hotkey
+- [x] hotkey
 - [ ] history
 - [x] paste and copy
 - [ ] ......
 
 ### all example support
 
-- [ ] support checklists
+- [x] support checklists
 - [ ] support voids
 - [ ] support embeds
 - [ ] support forced layout
@@ -27,13 +27,14 @@
 - [x] support rich text
 - [ ] support search highlighting
 
-## known bugs:
+## known bugs
 
+- [ ] can't focus
 
 ## performance
 
 
 ## next plan
 
-- [ ] support an full feature editor out of the box
+- [ ] support a full feature editor out of the box
 - [ ] support vue3

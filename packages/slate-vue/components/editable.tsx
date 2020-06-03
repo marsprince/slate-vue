@@ -754,6 +754,7 @@ export const Editable = tsx.component({
       useEffect(() => {
         if (ref.current && this.autoFocus) {
           ref.current.focus()
+          console.log(window.getSelection());
         }
       }, [this.autoFocus])
     }
