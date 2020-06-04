@@ -753,8 +753,10 @@ export const Editable = tsx.component({
     const updateAutoFocus = () => {
       useEffect(() => {
         if (ref.current && this.autoFocus) {
-          ref.current.focus()
-          console.log(window.getSelection());
+          // can't focus in current event loop?
+          setTimeout(()=>{
+            ref.current.focus()
+          }, 0)
         }
       }, [this.autoFocus])
     }

@@ -29,7 +29,6 @@
 
 ## known bugs
 
-- [ ] can't focus
 
 ## performance
 
