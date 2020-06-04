@@ -216,7 +216,8 @@ export const Editable = tsx.component({
     },
     placeholder: String,
     // user event
-    onKeyDown: Function
+    onKeyDown: Function,
+    onDOMBeforeInput: Function
   },
   components: {
     Children
@@ -286,7 +287,7 @@ export const Editable = tsx.component({
         }
       }
     },
-    onDOMBeforeInput(event: Event & {
+    _onDOMBeforeInput(event: Event & {
       data: string | null
       dataTransfer: DataTransfer | null
       getTargetRanges(): DOMStaticRange[]
@@ -296,7 +297,8 @@ export const Editable = tsx.component({
       const editor = this.$editor;
       if (
         !this.readOnly &&
-        hasEditableTarget(editor, event.target)
+        hasEditableTarget(editor, event.target) &&
+        !isEventHandled(event, this.onDOMBeforeInput)
       ) {
         const { selection } = editor
         const { inputType: type } = event
@@ -841,7 +843,7 @@ export const Editable = tsx.component({
       keydown: this._onKeyDown,
       focus: this.onFocus,
       blur: this.onBlur,
-      beforeinput: this.onDOMBeforeInput,
+      beforeinput: this._onDOMBeforeInput,
       copy: this.onCopy,
       cut: this.onCut,
     };

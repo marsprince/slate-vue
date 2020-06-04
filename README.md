@@ -14,7 +14,7 @@
 - [ ] support voids
 - [x] support embeds
 - [x] support forced layout
-- [ ] support hovering toolbar
+- [x] support hovering toolbar
 - [x] support huge document
 - [x] support images
 - [x] support links
@@ -35,5 +35,7 @@
 
 ## next plan
 
-- [ ] support a full feature editor out of the box
+- [ ] more typescript support
 - [ ] support vue3
+- [ ] support a full feature editor out of the box
+

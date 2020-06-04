@@ -53,6 +53,11 @@ export const routes = [
     name: 'forced-layout',
     component: () => import('../pages/forced-layout')
   },
+  {
+    path: '/hovering-toolbar',
+    name: 'hovering-toolbar',
+    component: () => import('../pages/hovering-toolbar')
+  },
 ]
 
 export const router = new VueRouter({
