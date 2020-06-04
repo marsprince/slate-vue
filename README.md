@@ -12,7 +12,7 @@
 
 - [x] support checklists
 - [ ] support voids
-- [ ] support embeds
+- [x] support embeds
 - [ ] support forced layout
 - [ ] support hovering toolbar
 - [x] support huge document

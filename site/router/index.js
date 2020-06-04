@@ -43,6 +43,11 @@ export const routes = [
     name: 'check-lists',
     component: () => import('../pages/check-lists')
   },
+  {
+    path: '/embeds',
+    name: 'embeds',
+    component: () => import('../pages/embeds')
+  },
 ]
 
 export const router = new VueRouter({
