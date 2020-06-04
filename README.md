@@ -13,7 +13,7 @@
 - [x] support checklists
 - [ ] support voids
 - [x] support embeds
-- [ ] support forced layout
+- [x] support forced layout
 - [ ] support hovering toolbar
 - [x] support huge document
 - [x] support images

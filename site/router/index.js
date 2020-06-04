@@ -48,6 +48,11 @@ export const routes = [
     name: 'embeds',
     component: () => import('../pages/embeds')
   },
+  {
+    path: '/forced-layout',
+    name: 'forced-layout',
+    component: () => import('../pages/forced-layout')
+  },
 ]
 
 export const router = new VueRouter({
