@@ -4,8 +4,8 @@
   "dependencies": {
     "direction": "^1.0.4",
     "is-hotkey": "^0.1.6",
-    "lodash": "^4.17.15",
-    "slate": "^0.57.1"
+    "slate": "^0.57.1",
+    "slate-history": "^0.58.3"
   },
   "main": "./dist/index.common.js",
   "module": "./dist/index.es.js",

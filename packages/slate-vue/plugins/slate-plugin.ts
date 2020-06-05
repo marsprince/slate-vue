@@ -3,8 +3,9 @@ import {hooks} from './vue-hooks';
 import {withVue} from './with-vue';
 import {fragment} from '../components/fragment';
 import Vue from 'vue'
-import { NODE_TO_ELEMENT, NODE_TO_KEY } from '../utils/weak-maps';
+import { NODE_TO_KEY } from '../utils/weak-maps';
 import {VueEditor} from './vue-editor'
+import { withHistory } from 'slate-history'
 
 // an vm for focused and so on
 export const gvm = new Vue({
@@ -103,7 +104,7 @@ export const FocusedMixin = {
 
 export const SlatePlugin = {
   install(Vue, options) {
-    Vue.prototype.$editor = withVue(createEditor());
+    Vue.prototype.$editor = withHistory(withVue(createEditor()));
     Vue.component('fragment', fragment)
     Vue.use(hooks)
   }

@@ -4,7 +4,7 @@
 
 - [x] base use
 - [x] hotkey
-- [ ] history
+- [x] history
 - [x] paste and copy
 - [ ] ......
 
