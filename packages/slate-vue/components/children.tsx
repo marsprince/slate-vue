@@ -4,7 +4,7 @@ import * as tsx from "vue-tsx-support";
 import { Editor, Range, Element, NodeEntry, Ancestor, Descendant, Operation, Path } from 'slate';
 import TextComponent from './text'
 import ElementComponent from './element'
-import { gvm, SlateMixin, VueEditor } from '../index';
+import { SlateMixin, VueEditor } from '../index';
 import { KEY_TO_VNODE, NODE_TO_INDEX, NODE_TO_KEY, NODE_TO_PARENT } from '../utils/weak-maps';
 import {elementWatcherPlugin} from '../plugins/slate-plugin';
 
@@ -14,8 +14,7 @@ import {elementWatcherPlugin} from '../plugins/slate-plugin';
 
 const Children = tsx.component({
   props: {
-    node: Object,
-    decorations: Array
+    node: Object
   },
   components: {
     TextComponent,
@@ -28,7 +27,7 @@ const Children = tsx.component({
   },
   render() {
     const editor: any = this.$editor;
-    const {node, decorations} = this;
+    const {node} = this;
     const path = VueEditor.findPath(editor, node)
     const isLeafBlock =
       Element.isElement(node) &&
@@ -42,15 +41,7 @@ const Children = tsx.component({
       const n = childArr[i] as Descendant;
       const key = VueEditor.findKey(editor, n)
       const p = path.concat(i);
-      const ds = this.decorate([n, p]);
       const range = Editor.range(editor, p)
-      for (const dec of decorations) {
-        const d = Range.intersection(dec, range)
-
-        if (d) {
-          ds.push(d)
-        }
-      }
       // set n and its index in children
       NODE_TO_INDEX.set(n, i)
       // set n and its parent
@@ -96,7 +87,6 @@ const Children = tsx.component({
         cacheVnode =
           <ElementComponent
             element={n}
-            decorations={ds}
             key={key.id}
           />
         children.push(cacheVnode)
@@ -105,7 +95,6 @@ const Children = tsx.component({
           isLast={isLeafBlock && i === childArr.length - 1}
           parent={node}
           text={n}
-          decorations={ds}
           key={key.id}
         />
         children.push(cacheVnode)

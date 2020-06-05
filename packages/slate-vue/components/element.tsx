@@ -20,8 +20,7 @@ import { VueEditor, gvm } from '..';
 
 export const Element = tsx.component({
   props: {
-    element: Object,
-    decorations: Array
+    element: Object
   },
   inject: ['renderElement'],
   components:{
@@ -49,12 +48,11 @@ export const Element = tsx.component({
   },
   render(h) {
     // call renderElement with children, attribute and element
-    const {element, renderElement = DefaultElement, decorations, ref} = this;
+    const {element, renderElement = DefaultElement, ref} = this;
     const editor = this.$editor
     const isInline = editor.isInline(element)
     let children: JSX.Element | null = (
       <Children
-        decorations={decorations}
         node={element}
       />
     )

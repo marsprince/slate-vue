@@ -2,16 +2,16 @@
 // under text is just render logic, so provide isLast, parent ,text for children
 
 import * as tsx from 'vue-tsx-support'
-import { Range, Element, Text as SlateText } from 'slate'
+import { Range, Element, Text as SlateText, Node, Editor } from 'slate';
 
 import leaf from './leaf'
-import { VueEditor } from '../index'
+import { gvm, VueEditor } from '../index';
 // import { RenderLeafProps } from './editable'
 import {
   KEY_TO_ELEMENT,
   NODE_TO_ELEMENT,
-  ELEMENT_TO_NODE,
-} from '../utils/weak-maps'
+  ELEMENT_TO_NODE, PLACEHOLDER_SYMBOL,
+} from '../utils/weak-maps';
 import { useRef, useEffect } from '../plugins/vue-hooks';
 
 /**
@@ -28,6 +28,7 @@ const Text = tsx.component({
   components: {
     leaf
   },
+  inject: ['decorate', 'placeholder'],
   provide() {
     return {
       'text': this.text,
@@ -56,8 +57,30 @@ const Text = tsx.component({
     initRef()
   },
   render(h, ctx) {
-    const { text } = this
-    const leaves = SlateText.decorations(text, this.decorations)
+    const { text, placeholder } = this
+    let decorations = this.decorations;
+    if(!decorations) {
+      const editor = this.$editor
+      const p = VueEditor.findPath(editor, text)
+      decorations = this.decorate([text, p])
+
+      // init placeholder
+      if (
+        placeholder &&
+        editor.children.length === 1 &&
+        Array.from(Node.texts(editor)).length === 1 &&
+        Node.string(editor) === ''
+      ) {
+        const start = Editor.start(editor, [])
+        decorations.push({
+          [PLACEHOLDER_SYMBOL]: true,
+          placeholder,
+          anchor: start,
+          focus: start,
+        })
+      }
+    }
+    const leaves = SlateText.decorations(text, decorations)
     const children = []
     for (let i = 0; i < leaves.length; i++) {
       const leaf = leaves[i];

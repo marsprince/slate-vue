@@ -56,33 +56,34 @@
         search: ''
       }
     },
-    computed: {
-      decorate() {
-        return ([node, path]) => {
-          const ranges = []
-          const {search} = this
+    methods: {
+      decorate([node, path]) {
+        const ranges = []
+        const {search} = this
 
-          if (search && Text.isText(node)) {
-            const { text } = node
-            const parts = text.split(search)
-            let offset = 0
+        if (search && Text.isText(node)) {
+          const { text } = node
+          const parts = text.split(search)
+          let offset = 0
 
-            parts.forEach((part, i) => {
-              if (i !== 0) {
-                ranges.push({
-                  anchor: { path, offset: offset - search.length },
-                  focus: { path, offset },
-                  highlight: true,
-                })
-              }
+          parts.forEach((part, i) => {
+            if (i !== 0) {
+              ranges.push({
+                anchor: { path, offset: offset - search.length },
+                focus: { path, offset },
+                highlight: true,
+              })
+            }
 
-              offset = offset + part.length + search.length
-            })
-          }
-
-          return ranges
+            offset = offset + part.length + search.length
+          })
         }
+
+        return ranges
       }
+    },
+    mounted() {
+      console.log(this);
     }
   };
 </script>

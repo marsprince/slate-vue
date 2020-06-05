@@ -228,7 +228,8 @@ export const Editable = tsx.component({
       'renderLeaf': this.renderLeaf,
       'renderElement': this.renderElement,
       'decorate': this.decorate,
-      'readOnly': this.readOnly
+      'readOnly': this.readOnly,
+      'placeholder': this.placeholder
     }
   },
   data() {
@@ -847,36 +848,6 @@ export const Editable = tsx.component({
       copy: this.onCopy,
       cut: this.onCut,
     };
-    const decorations = decorate([editor, []]);
-    const initDecorations = () => {
-      const {placeholder} = this
-      if (
-        placeholder &&
-        editor.children.length === 1 &&
-        Array.from(Node.texts(editor)).length === 1 &&
-        Node.string(editor) === ''
-      ) {
-        const start = Editor.start(editor, [])
-        decorations.push({
-          [PLACEHOLDER_SYMBOL]: true,
-          placeholder,
-          anchor: start,
-          focus: start,
-        })
-        if(!initPlaceholder) {
-          initPlaceholder = true
-          gvm.$emit('forceUpdate')
-        }
-      } else {
-        // for placeholder update
-        if(initPlaceholder) {
-          initPlaceholder = false
-          gvm.$emit('forceUpdate')
-        }
-      }
-      return decorations
-    }
-    initDecorations()
     return (
       <div
         ref = {ref.id}
@@ -896,7 +867,6 @@ export const Editable = tsx.component({
         {...{on}}
         >
         <Children
-          decorations={decorations}
           node={editor}
           selection={editor.selection}
         />

@@ -18,7 +18,7 @@
 - [x] support huge document
 - [x] support images
 - [x] support links
-- [ ] support markdown preview
+- [x] support markdown preview
 - [ ] support markdown shortcut
 - [x] support mentions
 - [ ] support paste html

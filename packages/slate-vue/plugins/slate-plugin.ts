@@ -58,9 +58,9 @@ export const elementWatcherPlugin = (vm, type) => {
     }
     update.call(vm._watcher)
   }
-  gvm.$on('forceUpdate', ()=>{
-    update.call(vm._watcher)
-  })
+  // gvm.$on('forceUpdate', ()=>{
+  //   update.call(vm._watcher)
+  // })
 }
 
 export const SlateMixin = {
