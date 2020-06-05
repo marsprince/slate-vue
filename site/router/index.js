@@ -63,6 +63,11 @@ export const routes = [
     name: 'search-highlighting',
     component: () => import('../pages/search-highlighting')
   },
+  {
+    path: '/markdown-preview',
+    name: 'markdown-preview',
+    component: () => import('../pages/markdown-preview')
+  },
 ]
 
 export const router = new VueRouter({
