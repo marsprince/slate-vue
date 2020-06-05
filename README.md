@@ -19,7 +19,7 @@
 - [x] support images
 - [x] support links
 - [x] support markdown preview
-- [ ] support markdown shortcut
+- [x] support markdown shortcut
 - [x] support mentions
 - [ ] support paste html
 - [x] support plain text
