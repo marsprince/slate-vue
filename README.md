@@ -25,7 +25,7 @@
 - [x] support plain text
 - [x] support readonly
 - [x] support rich text
-- [ ] support search highlighting
+- [x] support search highlighting
 
 ## known bugs
 

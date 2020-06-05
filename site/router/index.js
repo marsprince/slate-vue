@@ -58,6 +58,11 @@ export const routes = [
     name: 'hovering-toolbar',
     component: () => import('../pages/hovering-toolbar')
   },
+  {
+    path: '/search-highlighting',
+    name: 'search-highlighting',
+    component: () => import('../pages/search-highlighting')
+  },
 ]
 
 export const router = new VueRouter({
