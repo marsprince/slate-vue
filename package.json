@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "slate-packages",
+  "name": "slate-vue-packages",
   "workspaces": [
     "packages/*"
   ],

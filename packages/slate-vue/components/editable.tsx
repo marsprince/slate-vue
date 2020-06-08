@@ -2,12 +2,12 @@ import Children from './children';
 import * as tsx from "vue-tsx-support";
 import { useEffect, useRef } from '../plugins/vue-hooks';
 import {VueEditor} from '..';
-import { IS_FOCUSED, EDITOR_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, IS_READ_ONLY, PLACEHOLDER_SYMBOL, VUE_COMPONENT } from '../utils/weak-maps';
+import { IS_FOCUSED, EDITOR_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, IS_READ_ONLY, PLACEHOLDER_SYMBOL } from '../utils/weak-maps';
 import {DOMNode,isDOMNode, DOMRange, isDOMElement, isDOMText, isPlainTextOnlyPaste} from '../utils/dom';
 import {Transforms, Range,Editor, Element, Node} from 'slate';
 import {DOMStaticRange} from '../utils/dom';
 import { IS_FIREFOX, IS_SAFARI, IS_EDGE_LEGACY } from '../utils/environment'
-import {SlateMixin, gvm} from '..';
+import {SlateMixin} from '..';
 import { vueRuntime } from '../plugins/vue-runtime';
 import Hotkeys from '../utils/hotkeys'
 

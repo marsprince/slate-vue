@@ -1,5 +1,6 @@
 import { Editor, Operation, Node, Path, Text, Descendant, NodeEntry, Transforms as SlateTransforms, Location } from 'slate';
 import { NODE_TO_KEY } from '../utils/weak-maps';
+import Vue from 'vue'
 
 export const getChildren = (node: Node) => {
   return Editor.isEditor(node) ? node._state: node.children
@@ -120,9 +121,9 @@ export const transform = function(editor: Editor, op: Operation) {
         const value = newProperties[key]
 
         if (value == null) {
-          delete node[key]
+          Vue.delete(node, key)
         } else {
-          node[key] = value
+          Vue.set(node, key, value)
         }
       }
 

@@ -1,6 +1,7 @@
 import { Node, Ancestor, Editor, Range } from 'slate'
 import Vue from 'vue';
 import { Key } from './key'
+import { VueEditor } from '..';
 
 /**
  * Two weak maps that allow us rebuild a path given a node. They are populated
@@ -46,5 +47,7 @@ export const PLACEHOLDER_SYMBOL = (Symbol('placeholder') as unknown) as string
 /**
  * vue component
  */
-export const VUE_COMPONENT = new Map<string, Vue>()
 export const KEY_TO_VNODE = new Map<Object, any>()
+
+export const EDITOR_TO_GVM = new Map<VueEditor, any>()
+export const GVM_TO_EDITOR = new Map<any, VueEditor>()

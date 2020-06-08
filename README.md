@@ -10,7 +10,7 @@
 ### all example support
 
 - [x] support checklists
-- [ ] support voids
+- [x] support voids
 - [x] support embeds
 - [x] support forced layout
 - [x] support hovering toolbar

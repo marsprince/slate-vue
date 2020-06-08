@@ -1,6 +1,6 @@
 import './types'
 
-export {SlatePlugin, SlateMixin, gvm, SelectedMixin, FocusedMixin, ReadOnlyMixin} from "./plugins/slate-plugin"
+export {SlatePlugin, SlateMixin, SelectedMixin, FocusedMixin, ReadOnlyMixin} from "./plugins/slate-plugin"
 export {Slate} from "./components/slate"
 export {Editable} from "./components/editable"
 export {VueEditor} from "./plugins/vue-editor"

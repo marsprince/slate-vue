@@ -78,6 +78,11 @@ export const routes = [
     name: 'paste-html',
     component: () => import('../pages/paste-html')
   },
+  {
+    path: '/editable-voids',
+    name: 'editable-voids',
+    component: () => import('../pages/editable-voids')
+  },
 ]
 
 export const router = new VueRouter({

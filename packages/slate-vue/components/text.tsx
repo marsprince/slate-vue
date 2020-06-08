@@ -5,7 +5,7 @@ import * as tsx from 'vue-tsx-support'
 import { Range, Element, Text as SlateText, Node, Editor } from 'slate';
 
 import leaf from './leaf'
-import { gvm, VueEditor } from '../index';
+import { VueEditor } from '../index';
 // import { RenderLeafProps } from './editable'
 import {
   KEY_TO_ELEMENT,

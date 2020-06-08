@@ -81,9 +81,6 @@
 
         return ranges
       }
-    },
-    mounted() {
-      console.log(this);
     }
   };
 </script>
