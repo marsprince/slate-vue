@@ -2,6 +2,8 @@ An implement for [slate](https://github.com/ianstormtaylor/slate) supported vue2
 
 See all examples in [online example](https://marsprince.github.io/slate-vue).
 
+See vue2.x document in [slate-vue](https://github.com/marsprince/slate-vue/tree/master/packages/slate-vue)
+
 ## progress:
 
 ### all feature support
