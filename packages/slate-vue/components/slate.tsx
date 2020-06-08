@@ -7,11 +7,15 @@ import {EDITOR_TO_ON_CHANGE} from '../utils/weak-maps';
 import Vue from 'vue';
 import {getGvm} from '../plugins/slate-plugin'
 import { VueEditor } from '..';
+import {fragment} from './fragment'
 
 export const Slate = tsx.component({
   name: 'slate',
   props: {
     value: String,
+  },
+  components: {
+    fragment
   },
   created() {
     // This method is forked from Vuex, but is not an efficient methods, still need to be improved

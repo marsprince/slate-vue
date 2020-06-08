@@ -7,6 +7,7 @@ import ElementComponent from './element'
 import { SlateMixin, VueEditor } from '../index';
 import { KEY_TO_VNODE, NODE_TO_INDEX, NODE_TO_KEY, NODE_TO_PARENT } from '../utils/weak-maps';
 import {elementWatcherPlugin} from '../plugins/slate-plugin';
+import {fragment} from '../index';
 
 /**
  * Children.
@@ -18,7 +19,8 @@ const Children = tsx.component({
   },
   components: {
     TextComponent,
-    ElementComponent
+    ElementComponent,
+    fragment
   },
   inject: ['decorate'],
   mixins: [SlateMixin],

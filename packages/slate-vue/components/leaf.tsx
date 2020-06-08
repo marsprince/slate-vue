@@ -5,7 +5,7 @@ import * as tsx from 'vue-tsx-support'
 import string from './string'
 import { PLACEHOLDER_SYMBOL } from '../utils/weak-maps'
 import { RenderLeafProps } from './editable'
-import { watcherPlugin } from '../plugins/slate-plugin';
+import {fragment} from './fragment';
 
 /**
  * Individual leaves in a text node with unique formatting.
@@ -18,7 +18,8 @@ const Leaf = tsx.component({
   },
   inject: ['renderLeaf'],
   components: {
-    string
+    string,
+    fragment
   },
   render(h) {
     const { renderLeaf = DefaultLeaf, text, leaf} = this;

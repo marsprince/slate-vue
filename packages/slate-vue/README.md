@@ -55,3 +55,13 @@ import {fragment} from 'slate-vue'
 ```
 
 Forked from [vue-fragment](https://github.com/Thunberg087/vue-fragment)
+
+## Problems
+
+### Doesn't change?
+
+If your component is related to the editor(like toolbar), you must add slateMixin for rerender:
+
+```javascript
+import {SlateMixin} from 'slate-vue'
+```

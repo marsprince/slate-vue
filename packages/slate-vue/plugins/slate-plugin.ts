@@ -1,7 +1,6 @@
 import { createEditor, Operation, Editor, Range } from 'slate';
 import {hooks} from './vue-hooks';
 import {withVue} from './with-vue';
-import {fragment} from '../components/fragment';
 import Vue from 'vue'
 import { NODE_TO_KEY, EDITOR_TO_GVM, GVM_TO_EDITOR } from '../utils/weak-maps';
 import {VueEditor} from './vue-editor'
@@ -131,7 +130,6 @@ export const SlatePlugin = {
         }
       }
     })
-    Vue.component('fragment', fragment)
     Vue.use(hooks)
   }
 }
