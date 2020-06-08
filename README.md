@@ -3,9 +3,8 @@
 ### all feature support
 
 - [x] base use
-- [x] hotkey
 - [x] history
-- [x] paste and copy
+- [x] hyperscript
 - [ ] ......
 
 ### all example support
@@ -21,7 +20,7 @@
 - [x] support markdown preview
 - [x] support markdown shortcut
 - [x] support mentions
-- [ ] support paste html
+- [x] support paste html
 - [x] support plain text
 - [x] support readonly
 - [x] support rich text

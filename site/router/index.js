@@ -73,6 +73,11 @@ export const routes = [
     name: 'markdown-shortcuts',
     component: () => import('../pages/markdown-shortcuts')
   },
+  {
+    path: '/paste-html',
+    name: 'paste-html',
+    component: () => import('../pages/paste-html')
+  },
 ]
 
 export const router = new VueRouter({

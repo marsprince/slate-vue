@@ -751,7 +751,7 @@ export const Editable = tsx.component({
       const {readOnly} = this
       if (
         (!HAS_BEFORE_INPUT_SUPPORT ||
-          isPlainTextOnlyPaste(event.nativeEvent)) &&
+          isPlainTextOnlyPaste(event)) &&
         !readOnly &&
         hasEditableTarget(editor, event.target) &&
         !isEventHandled(event, this.onPaste)
