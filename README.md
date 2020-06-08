@@ -4,6 +4,8 @@ See all examples in [online example](https://marsprince.github.io/slate-vue).
 
 See vue2.x document in [slate-vue](https://github.com/marsprince/slate-vue/tree/master/packages/slate-vue)
 
+See all example code in [pages](https://github.com/marsprince/slate-vue/tree/master/site/pages)
+
 ## progress:
 
 ### all feature support
