@@ -123,7 +123,7 @@ export const SlatePlugin = {
   install(Vue, options) {
     Vue.mixin({
       beforeCreate() {
-        // assue that the editor root start from the component using Slate
+        // assume that the editor's root starts from the component which is using Slate
         if(this.$options.components.Slate) {
           this.$editor = createEditorInstance()
         } else {
