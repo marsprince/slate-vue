@@ -1,3 +1,5 @@
+An implement for [slate](https://github.com/ianstormtaylor/slate) supported vue2 and vue3. Most of the slate-react's components can be easily migrated by no code change.
+
 ## progress:
 
 ### all feature support
@@ -27,10 +29,6 @@
 - [x] support search highlighting
 
 ## known bugs
-
-
-## performance
-
 
 ## next plan
 
