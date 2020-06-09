@@ -11,7 +11,7 @@
     "watch": "yarn build --watch",
     "start": "npm-run-all --parallel --print-label watch serve",
     "release": "NODE_ENV=production yarn build && lerna publish",
-    "commit": "git-cz"
+    "commit": "git add . && git-cz"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
