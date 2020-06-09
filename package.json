@@ -11,7 +11,8 @@
     "watch": "yarn build --watch",
     "start": "npm-run-all --parallel --print-label watch serve",
     "release": "NODE_ENV=production yarn build && lerna publish",
-    "commit": "git add . && git-cz"
+    "commit": "git add . && git-cz",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -22,6 +23,7 @@
     "@vue/babel-preset-jsx": "^1.1.2",
     "babel-loader": "^8.1.0",
     "commitizen": "^4.1.2",
+    "conventional-changelog-cli": "^2.0.34",
     "css-loader": "^3.5.2",
     "cz-conventional-changelog": "^3.2.0",
     "faker": "^4.1.0",
