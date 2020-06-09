@@ -10,7 +10,8 @@
     "release:site": "webpack --config ./config/webpack/site/webpack.publish.conf.js",
     "watch": "yarn build --watch",
     "start": "npm-run-all --parallel --print-label watch serve",
-    "release": "NODE_ENV=production yarn build && lerna publish"
+    "release": "NODE_ENV=production yarn build && lerna publish",
+    "commit": "git-cz"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -20,7 +21,9 @@
     "@vue/babel-preset-app": "^4.3.1",
     "@vue/babel-preset-jsx": "^1.1.2",
     "babel-loader": "^8.1.0",
+    "commitizen": "^4.1.2",
     "css-loader": "^3.5.2",
+    "cz-conventional-changelog": "^3.2.0",
     "faker": "^4.1.0",
     "html-webpack-plugin": "^4.0.4",
     "lerna": "^3.20.2",
