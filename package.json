@@ -10,7 +10,7 @@
     "release:site": "webpack --config ./config/webpack/site/webpack.publish.conf.js",
     "watch": "yarn build --watch",
     "start": "npm-run-all --parallel --print-label watch serve",
-    "release": "NODE_ENV=production yarn release:site && yarn build && lerna publish"
+    "release": "NODE_ENV=production yarn build && lerna publish"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
