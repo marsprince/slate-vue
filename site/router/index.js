@@ -4,84 +4,88 @@ Vue.use(VueRouter)
 
 export const routes = [
   {
-    path: '/plaintext',
-    name: 'plaintext',
-    component: () => import('../pages/plaintext')
-  },
-  {
-    path: '/richtext',
-    name: 'richtext',
-    component: () => import('../pages/richtext')
-  },
-  {
-    path: '/huge-document',
-    name: 'hugeDocument',
-    component: () => import('../pages/hugeDocument')
-  },
-  {
-    path: '/readonly',
-    name: 'readonly',
-    component: () => import('../pages/readonly')
-  },
-  {
-    path: '/links',
-    name: 'links',
-    component: () => import('../pages/links')
-  },
-  {
-    path: '/images',
-    name: 'images',
-    component: () => import('../pages/images')
-  },
-  {
-    path: '/mentions',
-    name: 'mentions',
-    component: () => import('../pages/mentions')
-  },
-  {
     path: '/check-lists',
-    name: 'check-lists',
+    name: 'Checklists',
     component: () => import('../pages/check-lists')
   },
   {
+    path: '/editable-voids',
+    name: 'Editable Voids',
+    component: () => import('../pages/editable-voids')
+  },
+  {
     path: '/embeds',
-    name: 'embeds',
+    name: 'Embeds',
     component: () => import('../pages/embeds')
   },
   {
     path: '/forced-layout',
-    name: 'forced-layout',
+    name: 'Forced Layout',
     component: () => import('../pages/forced-layout')
   },
   {
     path: '/hovering-toolbar',
-    name: 'hovering-toolbar',
+    name: 'Hovering Toolbar',
     component: () => import('../pages/hovering-toolbar')
   },
   {
-    path: '/search-highlighting',
-    name: 'search-highlighting',
-    component: () => import('../pages/search-highlighting')
+    path: '/huge-document',
+    name: 'Huge Document',
+    component: () => import('../pages/hugeDocument')
+  },
+  {
+    path: '/images',
+    name: 'Images',
+    component: () => import('../pages/images')
+  },
+  {
+    path: '/links',
+    name: 'Links',
+    component: () => import('../pages/links')
   },
   {
     path: '/markdown-preview',
-    name: 'markdown-preview',
+    name: 'Markdown Preview',
     component: () => import('../pages/markdown-preview')
   },
   {
     path: '/markdown-shortcuts',
-    name: 'markdown-shortcuts',
+    name: 'Markdown Shortcuts',
     component: () => import('../pages/markdown-shortcuts')
   },
   {
+    path: '/mentions',
+    name: 'Mentions',
+    component: () => import('../pages/mentions')
+  },
+  {
     path: '/paste-html',
-    name: 'paste-html',
+    name: 'Paste HTML',
     component: () => import('../pages/paste-html')
   },
   {
-    path: '/editable-voids',
-    name: 'editable-voids',
-    component: () => import('../pages/editable-voids')
+    path: '/plaintext',
+    name: 'Plain Text',
+    component: () => import('../pages/plaintext')
+  },
+  {
+    path: '/readonly',
+    name: 'Read-only',
+    component: () => import('../pages/readonly')
+  },
+  {
+    path: '/richtext',
+    name: 'Rich Text',
+    component: () => import('../pages/richtext')
+  },
+  {
+    path: '/search-highlighting',
+    name: 'Search Highlighting',
+    component: () => import('../pages/search-highlighting')
+  },
+  {
+    path: '/',
+    redirect: 'richtext'
   },
 ]
 
