@@ -52,5 +52,10 @@
     "slate-hyperscript": "^0.58.3",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
