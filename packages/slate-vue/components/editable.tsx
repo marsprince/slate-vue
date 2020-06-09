@@ -665,7 +665,7 @@ export const Editable = tsx.component({
         !this.readOnly &&
         !this.isUpdatingSelection &&
         hasEditableTarget(editor, event.target) &&
-        isEventHandled(event, this.onFocus)
+        !isEventHandled(event, this.onFocus)
       ) {
         const el = VueEditor.toDOMNode(editor, editor)
         this.latestElement = window.document.activeElement
@@ -687,7 +687,7 @@ export const Editable = tsx.component({
         this.readOnly ||
         this.isUpdatingSelection ||
         !hasEditableTarget(editor, event.target) ||
-        isEventHandled(event, this.onBlur)
+        !isEventHandled(event, this.onBlur)
       ) {
         return
       }
@@ -927,11 +927,11 @@ export const Editable = tsx.component({
     initListener();
     // Update element-related weak maps with the DOM element ref.
     updateRef();
+    // Whenever the editor updates, make sure the DOM selection state is in sync.
+    updateSelection();
     // The autoFocus TextareaHTMLAttribute doesn't do anything on a div, so it
     // needs to be manually focused.
     updateAutoFocus();
-    // Whenever the editor updates, make sure the DOM selection state is in sync.
-    updateSelection();
   },
   render() {
     const editor = this.$editor;
