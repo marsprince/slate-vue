@@ -48,11 +48,17 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "cz-conventional-changelog": "^3.2.0",
     "image-extensions": "^1.1.0",
     "is-url": "^1.2.4",
     "prismjs": "^1.20.0",
     "slate-hyperscript": "^0.58.3",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
