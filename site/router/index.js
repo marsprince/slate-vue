@@ -84,6 +84,11 @@ export const routes = [
     component: () => import('../pages/search-highlighting')
   },
   {
+    path: '/table',
+    name: 'Tables',
+    component: () => import('../pages/table')
+  },
+  {
     path: '/',
     redirect: 'richtext'
   },
