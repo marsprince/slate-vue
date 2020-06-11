@@ -211,6 +211,10 @@ export const Editable = tsx.component({
       default: defaultDecorate
     },
     placeholder: String,
+    spellCheck: Boolean,
+    autoCorrect: String,
+    autoCapitalize: String,
+
     // user event
     onBeforeInput: Function,
     onKeyDown: Function,
@@ -949,8 +953,18 @@ export const Editable = tsx.component({
       drop: this._onDrop,
       paste: this._onPaste
     };
+    const attrs = {
+      spellcheck: !HAS_BEFORE_INPUT_SUPPORT ? undefined : this.spellCheck,
+      autocorrect: !HAS_BEFORE_INPUT_SUPPORT ? undefined : this.autoCorrect,
+      autocapitalize: !HAS_BEFORE_INPUT_SUPPORT ? undefined : this.autoCapitalize,
+    }
     return (
       <div
+        // COMPAT: The Grammarly Chrome extension works by changing the DOM
+        // out from under `contenteditable` elements, which leads to weird
+        // behaviors so we have to disable it like editor. (2017/04/24)
+        data-gramm={false}
+        role={this.readOnly ? undefined : 'textbox'}
         ref = {ref.id}
         contenteditable={this.readOnly ? false : true}
         data-slate-editor
@@ -966,6 +980,7 @@ export const Editable = tsx.component({
          // ...style,
         }}
         {...{on}}
+        {...{attrs}}
         >
         <Children
           node={editor}
