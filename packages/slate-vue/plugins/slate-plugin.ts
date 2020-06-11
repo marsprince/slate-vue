@@ -6,10 +6,6 @@ import { NODE_TO_KEY, EDITOR_TO_GVM, GVM_TO_EDITOR } from '../utils/weak-maps';
 import {VueEditor} from './vue-editor'
 import { withHistory } from 'slate-history'
 
-export interface SlatePluginOptions {
-
-}
-
 const createGvm = () => {
   return new Vue({
     data: {
@@ -119,7 +115,7 @@ export const createEditorInstance = () => {
 }
 
 export const SlatePlugin = {
-  install(Vue, options) {
+  install(Vue) {
     Vue.mixin({
       beforeCreate() {
         // assume that the editor's root starts from the component which is using Slate

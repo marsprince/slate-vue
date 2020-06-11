@@ -4,15 +4,14 @@
  * }
  */
 import * as tsx from "vue-tsx-support"
-import { Editor, Node, Range, NodeEntry, Element as SlateElement } from 'slate'
+import { Editor, Node } from 'slate'
 import getDirection from 'direction'
 
 import Text from './text'
 import Children from './children'
-import { elementWatcherPlugin, ReadOnlyMixin } from '../plugins/slate-plugin';
-import { NODE_TO_PARENT, NODE_TO_INDEX, KEY_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, NODE_TO_KEY } from '../utils/weak-maps';
-import { useEffect, useRef } from '../plugins/vue-hooks';
-import { VueEditor } from '..';
+import { elementWatcherPlugin, useEffect, useRef, ReadOnlyMixin, VueEditor } from '../plugins';
+import { NODE_TO_PARENT, NODE_TO_INDEX, KEY_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE } from '../utils/weak-maps';
+import { RenderElementProps } from '../types';
 
 /**
  * Element.
@@ -121,7 +120,7 @@ export const Element = tsx.component({
  * The default element renderer.
  */
 
-export const DefaultElement = (props) => {
+export const DefaultElement = (props: RenderElementProps) => {
   return tsx.component({
     render() {
       const { attributes, children, element } = props

@@ -27,5 +27,6 @@ export default {
     format: 'cjs',
     exports: 'named',
     sourcemap: true
-  }]
+  }],
+  external: [ 'slate', 'vue-tsx-support', 'vue-tsx-support/enable-check', 'vue', 'slate-history' ]
 };

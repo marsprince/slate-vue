@@ -1,10 +1,8 @@
-// @ts-nocheck
-import { Text, Element } from 'slate'
 import * as tsx from 'vue-tsx-support'
 
 import string from './string'
 import { PLACEHOLDER_SYMBOL } from '../utils/weak-maps'
-import { RenderLeafProps } from './editable'
+import { RenderLeafProps } from '../types'
 import {fragment} from './fragment';
 
 /**
@@ -56,7 +54,8 @@ const Leaf = tsx.component({
     const renderChildren = renderLeaf({
       children,
       attributes,
-      leaf
+      leaf,
+      text
     })
     return h(renderChildren)
   }
@@ -66,10 +65,10 @@ const Leaf = tsx.component({
  * The default custom leaf renderer.
  */
 
-const DefaultLeaf = (props) => {
+const DefaultLeaf = (props: RenderLeafProps) => {
   return tsx.component({
     render() {
-      let { attributes, children } = props
+      const { attributes, children } = props
       return <span {...{attrs: attributes}}>{children}</span>
     }
   })

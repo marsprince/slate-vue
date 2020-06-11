@@ -1,7 +1,7 @@
 // the minimum component, just a span
 import * as tsx from "vue-tsx-support";
-import { Editor, Text, Path, Element, Node } from 'slate'
-import {VueEditor} from '../plugins/vue-editor';
+import { Editor, Path, Node } from 'slate'
+import {VueEditor} from '../plugins';
 
 /**
  * Leaf strings with text in them.

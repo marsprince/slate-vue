@@ -2,11 +2,11 @@
 // under text is just render logic, so provide isLast, parent ,text for children
 
 import * as tsx from 'vue-tsx-support'
-import { Range, Element, Text as SlateText, Node, Editor } from 'slate';
+import { Text as SlateText, Node, Editor } from 'slate';
 
 import leaf from './leaf'
-import { VueEditor } from '../index';
-// import { RenderLeafProps } from './editable'
+import { VueEditor } from '../plugins';
+
 import {
   KEY_TO_ELEMENT,
   NODE_TO_ELEMENT,

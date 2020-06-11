@@ -5,8 +5,7 @@
 import * as tsx from 'vue-tsx-support'
 import {EDITOR_TO_ON_CHANGE} from '../utils/weak-maps';
 import Vue from 'vue';
-import {getGvm} from '../plugins/slate-plugin'
-import { VueEditor } from '..';
+import { VueEditor, getGvm } from '../plugins';
 import {fragment} from './fragment'
 
 export const Slate = tsx.component({
