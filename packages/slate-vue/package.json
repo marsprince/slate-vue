@@ -8,7 +8,7 @@
     "slate-history": "^0.58.3",
     "vue-tsx-support": "^2.3.3"
   },
-  "main": "./dist/index.common.js",
+  "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",
   "repository": "https://github.com/marsprince/slate-vue.git",
   "author": "liujia02 <bit_liujia@163.com>",
