@@ -75,7 +75,17 @@ Most of the usage is same with [slate-react](https://github.com/ianstormtaylor/s
 this.$editor
 ```
 
-Slate-history is already init in it.
+If you want to apply some plugins(like slate-history), use editorCreated hook:
+
+```javascript
+Vue.use(SlatePlugin, {
+  editorCreated(editor) {
+    withHistory(editor)
+  }
+})
+```
+
+It will be called after each editor created.
 
 ### renderElement, renderLeaf
 

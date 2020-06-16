@@ -4,7 +4,6 @@ import {withVue} from './with-vue';
 import Vue from 'vue'
 import { NODE_TO_KEY, EDITOR_TO_GVM, GVM_TO_EDITOR } from '../utils/weak-maps';
 import {VueEditor} from './vue-editor'
-import { withHistory } from 'slate-history'
 
 const createGvm = () => {
   return new Vue({
@@ -107,7 +106,7 @@ export const FocusedMixin = {
 }
 
 export const createEditorInstance = () => {
-  const editor = withHistory(withVue(createEditor()))
+  const editor = withVue(createEditor())
   const gvm = createGvm()
   EDITOR_TO_GVM.set(editor, gvm)
   GVM_TO_EDITOR.set(gvm, editor)
@@ -115,14 +114,19 @@ export const createEditorInstance = () => {
 }
 
 export const SlatePlugin = {
-  install(Vue) {
+  install(Vue, {editorCreated}) {
     Vue.mixin({
       beforeCreate() {
-        // assume that the editor's root starts from the component which is using Slate
-        if(this.$options.components.Slate) {
-          this.$editor = createEditorInstance()
-        } else {
-          this.$editor = this.$parent && this.$parent.$editor
+        if(!this.$editor) {
+          // assume that the editor's root starts from the component which is using Slate
+          if(this.$options.components.Slate) {
+            this.$editor = createEditorInstance()
+            if(editorCreated) {
+              editorCreated.call(this, this.$editor)
+            }
+          } else {
+            this.$editor = this.$parent && this.$parent.$editor
+          }
         }
       }
     })

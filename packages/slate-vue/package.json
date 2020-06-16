@@ -5,7 +5,6 @@
     "direction": "^1.0.4",
     "is-hotkey": "^0.1.6",
     "slate": "^0.57.1",
-    "slate-history": "^0.58.3",
     "vue-tsx-support": "^2.3.3"
   },
   "main": "./dist/index.cjs.js",
