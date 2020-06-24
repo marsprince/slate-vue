@@ -17,12 +17,9 @@
     "commit": "git add . && git-cz"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
+    "@razors/build-babel": "^0.0.4",
     "@rollup/plugin-babel": "^5.0.0",
     "@rollup/plugin-commonjs": "^12.0.0",
-    "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
-    "@vue/babel-preset-app": "^4.3.1",
-    "@vue/babel-preset-jsx": "^1.1.2",
     "babel-loader": "^8.1.0",
     "commitizen": "^4.1.2",
     "css-loader": "^3.5.2",
@@ -34,8 +31,6 @@
     "npm-run-all": "^4.1.5",
     "rollup": "^2.7.2",
     "rollup-plugin-typescript2": "^0.27.0",
-    "slate": "*",
-    "slate-vue": "*",
     "style-loader": "^1.1.4",
     "ts-loader": "^6.2.2",
     "typescript": "^3.8.3",
