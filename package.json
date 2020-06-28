@@ -17,20 +17,18 @@
     "commit": "git add . && git-cz"
   },
   "devDependencies": {
-    "@razors/build-babel": "^0.0.4",
-    "@rollup/plugin-babel": "^5.0.0",
-    "@rollup/plugin-commonjs": "^12.0.0",
+    "@razors/build-babel": "^0.0.8",
+    "@razors/build-rollup": "^0.0.8",
     "babel-loader": "^8.1.0",
     "commitizen": "^4.1.2",
     "css-loader": "^3.5.2",
+    "cz-conventional-changelog": "^3.2.0",
     "faker": "^4.1.0",
     "html-webpack-plugin": "^4.0.4",
     "lerna": "^3.20.2",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "npm-run-all": "^4.1.5",
-    "rollup": "^2.7.2",
-    "rollup-plugin-typescript2": "^0.27.0",
     "style-loader": "^1.1.4",
     "ts-loader": "^6.2.2",
     "typescript": "^3.8.3",
@@ -43,7 +41,6 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "cz-conventional-changelog": "^3.2.0",
     "image-extensions": "^1.1.0",
     "is-url": "^1.2.4",
     "prismjs": "^1.20.0",
