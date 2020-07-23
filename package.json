@@ -53,5 +53,8 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
+  },
+  "resolutions": {
+    "lodash": "^4.17.19"
   }
 }
