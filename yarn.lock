@@ -7476,9 +7476,9 @@ slate-hyperscript@^0.58.3:
   dependencies:
     is-plain-object "^3.0.0"
 
-slate@^0.57.1:
-  version "0.57.3"
-  resolved "https://registry.yarnpkg.com/slate/-/slate-0.57.3.tgz#2b2bd5c85c2d56c9b663787b7e45a64a439ea8c1"
+slate@^0.58.4:
+  version "0.58.4"
+  resolved "https://registry.yarnpkg.com/slate/-/slate-0.58.4.tgz#4259387e632b45b00cf88bcecf5570d7d16ddd8b"
   dependencies:
     "@types/esrever" "^0.2.0"
     esrever "^0.2.0"
