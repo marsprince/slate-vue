@@ -21,7 +21,7 @@
     "@razors/build-rollup": "^0.0.8",
     "babel-loader": "^8.1.0",
     "commitizen": "^4.1.2",
-    "css-loader": "^3.5.2",
+    "css-loader": "^4.2.0",
     "cz-conventional-changelog": "^3.2.0",
     "faker": "^4.1.0",
     "html-webpack-plugin": "^4.0.4",
