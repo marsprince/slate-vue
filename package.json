@@ -17,7 +17,7 @@
     "commit": "git add . && git-cz"
   },
   "devDependencies": {
-    "@razors/build-babel": "^0.0.8",
+    "@razors/build-babel": "^0.0.12",
     "@razors/build-rollup": "^0.0.8",
     "babel-loader": "^8.1.0",
     "commitizen": "^4.1.2",
