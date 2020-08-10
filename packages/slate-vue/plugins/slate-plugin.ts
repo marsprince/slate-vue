@@ -114,15 +114,15 @@ export const createEditorInstance = () => {
 }
 
 export const SlatePlugin = {
-  install(Vue, {editorCreated}) {
+  install(Vue, options) {
     Vue.mixin({
       beforeCreate() {
         if(!this.$editor) {
           // assume that the editor's root starts from the component which is using Slate
           if(this.$options.components.Slate) {
             this.$editor = createEditorInstance()
-            if(editorCreated) {
-              editorCreated.call(this, this.$editor)
+            if(options?.editorCreated) {
+              options.editorCreated.call(this, this.$editor)
             }
           } else {
             this.$editor = this.$parent && this.$parent.$editor

@@ -2,7 +2,7 @@ import { Editor, Operation, Node, Path, Text, Descendant, NodeEntry, Transforms 
 import { NODE_TO_KEY } from '../utils/weak-maps';
 import Vue from 'vue'
 
-export const getChildren = (node: Node) => {
+export const getChildren = (node: Node): any => {
   return Editor.isEditor(node) ? node._state: node.children
 }
 
