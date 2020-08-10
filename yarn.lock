@@ -1567,9 +1567,9 @@
   dependencies:
     "@vue/babel-preset-app" "^4.4.5"
 
-"@razors/build-rollup@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@razors/build-rollup/-/build-rollup-0.0.8.tgz#1eea1386758b4a8ae3a5141ab7949ccd98dc3836"
+"@razors/build-rollup@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@razors/build-rollup/-/build-rollup-0.0.12.tgz#a12972bbfad34b7f59d5a36b90a60447f7ccd48f"
   dependencies:
     "@rollup/plugin-babel" "^5.0.4"
     "@rollup/plugin-commonjs" "^13.0.0"
@@ -1578,6 +1578,7 @@
     rollup "^2.18.0"
     rollup-plugin-css-only "^2.1.0"
     rollup-plugin-node-externals "^2.2.0"
+    rollup-plugin-preserve-shebang "^1.0.1"
     rollup-plugin-typescript2 "^0.27.1"
     rollup-plugin-vue "5.1.9"
     vue-template-compiler "^2.6.11"
@@ -7236,6 +7237,12 @@ rollup-plugin-node-externals@^2.2.0:
   resolved "https://registry.yarnpkg.com/rollup-plugin-node-externals/-/rollup-plugin-node-externals-2.2.0.tgz#23946e8c0fdd0e321cc3f225d4cebc3d819d17c4"
   dependencies:
     find-up "^4.1.0"
+
+rollup-plugin-preserve-shebang@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-preserve-shebang/-/rollup-plugin-preserve-shebang-1.0.1.tgz#17109cdb4ed12c3cac9379b802182427cdbee5a1"
+  dependencies:
+    magic-string "^0.25.7"
 
 rollup-plugin-typescript2@^0.27.1:
   version "0.27.1"
