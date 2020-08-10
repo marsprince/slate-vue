@@ -1567,9 +1567,9 @@
   dependencies:
     "@vue/babel-preset-app" "^4.4.5"
 
-"@razors/build-rollup@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@razors/build-rollup/-/build-rollup-0.0.8.tgz#1eea1386758b4a8ae3a5141ab7949ccd98dc3836"
+"@razors/build-rollup@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@razors/build-rollup/-/build-rollup-0.0.12.tgz#a12972bbfad34b7f59d5a36b90a60447f7ccd48f"
   dependencies:
     "@rollup/plugin-babel" "^5.0.4"
     "@rollup/plugin-commonjs" "^13.0.0"
@@ -1578,6 +1578,7 @@
     rollup "^2.18.0"
     rollup-plugin-css-only "^2.1.0"
     rollup-plugin-node-externals "^2.2.0"
+    rollup-plugin-preserve-shebang "^1.0.1"
     rollup-plugin-typescript2 "^0.27.1"
     rollup-plugin-vue "5.1.9"
     vue-template-compiler "^2.6.11"
@@ -2823,7 +2824,7 @@ clone@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
 
-clone@^2.1.1:
+clone@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/clone/-/clone-2.1.2.tgz#1b7f4b9f591f1e8f83670401600345a02887435f"
 
@@ -5264,15 +5265,16 @@ lerna@^3.20.2:
     import-local "^2.0.0"
     npmlog "^4.1.2"
 
-less-loader@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/less-loader/-/less-loader-5.0.0.tgz#498dde3a6c6c4f887458ee9ed3f086a12ad1b466"
+less-loader@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/less-loader/-/less-loader-6.2.0.tgz#8b26f621c155b342eefc24f5bd6e9dc40c42a719"
   dependencies:
-    clone "^2.1.1"
-    loader-utils "^1.1.0"
-    pify "^4.0.1"
+    clone "^2.1.2"
+    less "^3.11.3"
+    loader-utils "^2.0.0"
+    schema-utils "^2.7.0"
 
-less@^3.11.1, less@^3.9.0:
+less@^3.11.1, less@^3.11.3, less@^3.9.0:
   version "3.12.2"
   resolved "https://registry.yarnpkg.com/less/-/less-3.12.2.tgz#157e6dd32a68869df8859314ad38e70211af3ab4"
   dependencies:
@@ -6603,8 +6605,8 @@ pretty-error@^2.1.1:
     utila "~0.4"
 
 prismjs@^1.20.0:
-  version "1.20.0"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.20.0.tgz#9b685fc480a3514ee7198eac6a3bf5024319ff03"
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.21.0.tgz#36c086ec36b45319ec4218ee164c110f9fc015a3"
   optionalDependencies:
     clipboard "^2.0.0"
 
@@ -7235,6 +7237,12 @@ rollup-plugin-node-externals@^2.2.0:
   resolved "https://registry.yarnpkg.com/rollup-plugin-node-externals/-/rollup-plugin-node-externals-2.2.0.tgz#23946e8c0fdd0e321cc3f225d4cebc3d819d17c4"
   dependencies:
     find-up "^4.1.0"
+
+rollup-plugin-preserve-shebang@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-preserve-shebang/-/rollup-plugin-preserve-shebang-1.0.1.tgz#17109cdb4ed12c3cac9379b802182427cdbee5a1"
+  dependencies:
+    magic-string "^0.25.7"
 
 rollup-plugin-typescript2@^0.27.1:
   version "0.27.1"
@@ -8375,8 +8383,8 @@ vue-loader@^15.9.1:
     vue-style-loader "^4.1.0"
 
 vue-router@^3.2.0:
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.3.4.tgz#4e38abc34a11c41b6c3d8244449a2e363ba6250b"
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.4.2.tgz#541221d7ac467786c1c9381bcf36019d883b9cf8"
 
 vue-runtime-helpers@^1.1.2:
   version "1.1.2"
