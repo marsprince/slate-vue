@@ -1638,9 +1638,10 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@razors/build-babel@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@razors/build-babel/-/build-babel-0.0.14.tgz#a58429567ae9abba83fa8863b6222d0fda00cbfd"
+"@razors/build-babel@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@razors/build-babel/-/build-babel-0.0.16.tgz#e8d8d9c8d9fdeb9770de56b34687793dbed3c007"
+  integrity sha512-ESetpXnDqrx9DJuUxBBTwKuut7FoKfA0P3xwMzQG9YFY51bR5fHIXZ1eTwNfCBqq+MNEvlDzUm7IH9z9I2tR5w==
   dependencies:
     "@vue/babel-preset-app" "^4.4.5"
 
