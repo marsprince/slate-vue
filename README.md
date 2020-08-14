@@ -1,6 +1,8 @@
 # Slate-vue
 
-[![NPM Version](https://badge.fury.io/js/slate-vue.svg)](https://www.npmjs.com/package/slate-vue)
+[![NPM Version](https://img.shields.io/npm/v/slate-vue?color=brightgreen)](https://www.npmjs.com/package/slate-vue)
+[![NPM Size](https://img.shields.io/badge/gzip-36kb-brightgreen)]()
+[![]()]()
 
 An implement for [slate](https://github.com/ianstormtaylor/slate) supported vue2 and vue3. Most of the slate-react's components can be easily migrated by no code change.
 

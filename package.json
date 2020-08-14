@@ -1,7 +1,9 @@
 {
   "private": true,
   "name": "slate-vue-packages",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "repository": {
     "url": "https://github.com/marsprince/slate-vue"
   },
@@ -12,10 +14,12 @@
     "watch": "yarn build --watch",
     "start": "npm-run-all --parallel --print-label watch serve",
     "commit": "git add . && git-cz",
-    "release": "shipjs prepare"
+    "release": "shipjs prepare",
+    "test": "jest"
   },
   "devDependencies": {
     "@razors/build-babel": "^0.0.14",
+    "@razors/build-jest": "^0.0.16",
     "@razors/build-rollup": "^0.0.14",
     "babel-loader": "^8.1.0",
     "commitizen": "^4.1.2",
