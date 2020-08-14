@@ -20,7 +20,7 @@
   "devDependencies": {
     "@razors/build-babel": "^0.0.16",
     "@razors/build-jest": "^0.0.16",
-    "@razors/build-rollup": "^0.0.14",
+    "@razors/build-rollup": "^0.0.16",
     "babel-loader": "^8.1.0",
     "commitizen": "^4.1.2",
     "css-loader": "^4.2.1",

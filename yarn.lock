@@ -1930,9 +1930,10 @@
     vue-jest "^3.0.5"
     vue-template-compiler "^2.6.11"
 
-"@razors/build-rollup@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@razors/build-rollup/-/build-rollup-0.0.14.tgz#45b5dce99560b286d14be68d6356de6e07d7a4d5"
+"@razors/build-rollup@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@razors/build-rollup/-/build-rollup-0.0.16.tgz#dde0f6e157e8f7a874f33b544f28d556442852ed"
+  integrity sha512-yWdMo1NCIj11hQlMEQ8waryWGDvjZb3onSqYkQ5enj1Aj9zRGwe7AiQGOKADQFztfDjBlZhdXpN/pvsIJhA2rw==
   dependencies:
     "@rollup/plugin-babel" "^5.0.4"
     "@rollup/plugin-commonjs" "^14.0.0"
