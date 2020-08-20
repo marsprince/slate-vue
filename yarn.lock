@@ -1914,10 +1914,10 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@razors/build-babel@^0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@razors/build-babel/-/build-babel-0.0.16.tgz#e8d8d9c8d9fdeb9770de56b34687793dbed3c007"
-  integrity sha512-ESetpXnDqrx9DJuUxBBTwKuut7FoKfA0P3xwMzQG9YFY51bR5fHIXZ1eTwNfCBqq+MNEvlDzUm7IH9z9I2tR5w==
+"@razors/build-babel@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@razors/build-babel/-/build-babel-0.0.17.tgz#999d1fd8df86f272d641a749aed85695b51168ad"
+  integrity sha512-/Dy2HIZQwYm0lFB+zID//18T/gCELqlHBpHchzBNInPRF2qva5550Flu4hPLqRTySKYU7wW8KF5O37fnL2Kf0g==
   dependencies:
     "@vue/babel-preset-app" "^4.4.5"
 
