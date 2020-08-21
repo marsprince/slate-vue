@@ -1921,9 +1921,10 @@
   dependencies:
     "@vue/babel-preset-app" "^4.4.5"
 
-"@razors/build-jest@^0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@razors/build-jest/-/build-jest-0.0.16.tgz#f1c73d065330e5e7c16d431a72acb87a27bf0cb5"
+"@razors/build-jest@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@razors/build-jest/-/build-jest-0.0.17.tgz#426f6eb482a2c830391742d407b6bd65d2fdae83"
+  integrity sha512-vpEpz+cGRRsR7Q9VGctIY3xHgKAxr/0dnSDae7xYpJIbTavCRPDWyshf259HpwkXhvqFHCZL59aK1kMiUir6MA==
   dependencies:
     babel-jest "^26.1.0"
     jest "^26.1.0"
