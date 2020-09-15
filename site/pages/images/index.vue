@@ -3,7 +3,8 @@
     <Toolbar>
       <InsertImageButton></InsertImageButton>
     </Toolbar>
-    <Editable placeholder="Enter some plain text..." :renderElement="renderElement"></Editable>
+    <Editable
+      placeholder="Enter some plain text..." :renderElement="renderElement"></Editable>
   </Slate>
 </template>
 

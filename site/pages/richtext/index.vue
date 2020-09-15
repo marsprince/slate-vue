@@ -10,8 +10,9 @@
       <BlockButton format="block-quote" icon="format_quote" />
       <BlockButton format="numbered-list" icon="format_list_numbered" />
       <BlockButton format="bulleted-list" icon="format_list_bulleted" />
+      <emoji></emoji>
     </Toolbar>
-    <Editable placeholder="Enter some rich text…" :renderLeaf="renderLeaf" :renderElement="renderElement"></Editable>
+    <Editable placeholder="Enter some rich text…" :renderLeaf="renderLeaf" :renderElement="renderElement" :onBlur="saveSelection"></Editable>
   </Slate>
 </template>
 
@@ -21,6 +22,7 @@
   import MarkButton from '../components/markButton';
   import BlockButton from '../components/blockButton'
   import Toolbar from '../components/toolbar';
+  import Emoji from '../components/emoji'
 
   // this value is for editor
   const initialValue = [
@@ -66,13 +68,19 @@
       Editable,
       Toolbar,
       MarkButton,
-      BlockButton
+      BlockButton,
+      Emoji
     },
     data() {
       return {
         initialValue,
         renderLeaf,
         renderElement
+      }
+    },
+    methods: {
+      saveSelection() {
+        this.$editor.savedSelection = this.$editor.selection;
       }
     }
   };
