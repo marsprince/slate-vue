@@ -16,13 +16,49 @@ export const Slate = tsx.component({
   components: {
     fragment
   },
+  data() {
+    return {
+      name: null
+    }
+  },
   created() {
     // This method is forked from Vuex, but is not an efficient methods, still need to be improved
     // prepare two objects, one for immer, the other for vue
     // when we get immer result, patch it to vue
-    this.$editor.children = JSON.parse(this.value);
-    const $$data = JSON.parse(this.value);
-    this.$editor._state= Vue.observable($$data)
+    this.renderSlate()
+  },
+  watch: {
+    value(newVal, oldVal) {
+      if(newVal!==oldVal) {
+        if(!newVal) {
+          // slate empty
+          newVal = JSON.stringify([
+            {
+              children: [
+                { text: '' },
+              ],
+            },
+          ])
+        }
+        this.renderSlate(newVal)
+      }
+    }
+  },
+  methods: {
+    genUid() {
+      return Math.floor(Date.now() * Math.random()).toString(16)
+    },
+    /**
+     * force slate render by change fragment name
+     * @param newVal
+     */
+    renderSlate(newVal) {
+      const value = newVal || this.value
+      this.$editor.children = JSON.parse(value);
+      const $$data = JSON.parse(value);
+      this.$editor._state= Vue.observable($$data)
+      this.name = this.genUid()
+    }
   },
   render() {
     EDITOR_TO_ON_CHANGE.set(this.$editor,()=>{
@@ -41,7 +77,7 @@ export const Slate = tsx.component({
       this.$emit('onChange')
     })
     return (
-      <fragment>
+      <fragment name={this.name}>
         {this.$scopedSlots.default()}
       </fragment>
     )

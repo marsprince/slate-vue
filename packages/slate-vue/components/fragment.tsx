@@ -118,7 +118,10 @@ export const fragment = tsx.component({
 
     return h(
       "div",
-      { },
+      {
+        // force render
+        key: this.name
+      },
       children
     )
   }
