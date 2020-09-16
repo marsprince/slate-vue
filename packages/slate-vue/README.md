@@ -75,7 +75,7 @@ Most of the usage is same with [slate-react](https://github.com/ianstormtaylor/s
 this.$editor
 ```
 
-If you want to apply some plugins(like slate-history), use editorCreated hook:
+If you want to apply some plugins(e.g. slate-history), use editorCreated hook:
 
 ```javascript
 Vue.use(SlatePlugin, {
@@ -114,6 +114,14 @@ import {fragment} from 'slate-vue'
 ```
 
 Forked from [vue-fragment](https://github.com/Thunberg087/vue-fragment)
+
+### VueEditor
+
+```javascript
+import {VueEditor} from 'slate-vue'
+```
+
+Same api with [react-editor](https://docs.slatejs.org/libraries/slate-react#reacteditor)
 
 ## Problems
 
