@@ -340,7 +340,7 @@ export const runtimeNode = {
   }
 }
 
-export const isVueObject = (obj) => {
+export const isVueObject = (obj: any) => {
   return obj.__ob__
 }
 

@@ -25,7 +25,7 @@ export const Slate = tsx.component({
     // This method is forked from Vuex, but is not an efficient methods, still need to be improved
     // prepare two objects, one for immer, the other for vue
     // when we get immer result, patch it to vue
-    this.renderSlate()
+    ;(this as any).renderSlate()
   },
   watch: {
     value(newVal, oldVal) {
@@ -52,24 +52,24 @@ export const Slate = tsx.component({
      * force slate render by change fragment name
      * @param newVal
      */
-    renderSlate(newVal) {
+    renderSlate(newVal: any) {
       const value = newVal || this.value
-      this.$editor.children = JSON.parse(value);
+      ;(this as any).$editor.children = JSON.parse(value);
       const $$data = JSON.parse(value);
-      this.$editor._state= Vue.observable($$data)
-      this.name = this.genUid()
+      ;(this as any).$editor._state= Vue.observable($$data)
+      ;(this as any).name = this.genUid()
     }
   },
   render() {
-    EDITOR_TO_ON_CHANGE.set(this.$editor,()=>{
+    EDITOR_TO_ON_CHANGE.set((this as any).$editor,()=>{
       // patch to update all use
       // update editable manual
       // notify all update
-      this.$editor._state.__ob__.dep.notify()
+      ;(this as any).$editor._state.__ob__.dep.notify()
       // update focus manual
-      const gvm = getGvm(this.$editor)
-      gvm.focused = VueEditor.isFocused(this.$editor)
-      let op = this.$editor._operation
+      const gvm = getGvm((this as any).$editor)
+      gvm.focused = VueEditor.isFocused((this as any).$editor)
+      let op = (this as any).$editor._operation
       if(op && op.type === 'set_selection') {
         gvm.updateSelected()
       }
@@ -78,7 +78,7 @@ export const Slate = tsx.component({
     })
     return (
       <fragment name={this.name}>
-        {this.$scopedSlots.default()}
+        {(this as any).$scopedSlots.default()}
       </fragment>
     )
   }

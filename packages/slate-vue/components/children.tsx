@@ -12,7 +12,7 @@ import {fragment} from './fragment';
  * Children.
  */
 
-const Children = tsx.component({
+const Children: any = tsx.component({
   props: {
     node: Object
   },
@@ -27,7 +27,7 @@ const Children = tsx.component({
     elementWatcherPlugin(this, 'children')
   },
   render() {
-    const editor: any = this.$editor;
+    const editor: any = (this as any).$editor;
     const {node} = this;
     const path = VueEditor.findPath(editor, node)
     const isLeafBlock =

@@ -5,6 +5,7 @@
  */
 import * as tsx from "vue-tsx-support"
 import { Editor, Node } from 'slate'
+// @ts-ignore
 import getDirection from 'direction'
 
 import Text from './text'
@@ -30,9 +31,9 @@ export const Element = tsx.component({
     elementWatcherPlugin(this, 'element')
   },
   hooks() {
-    const ref = this.ref = useRef(null);
+    const ref = (this as any).ref = useRef(null);
     const element = this.element
-    const key = VueEditor.findKey(this.$editor, element)
+    const key = VueEditor.findKey((this as any).$editor, element)
 
     useEffect(()=>{
       if (ref.current) {
@@ -47,8 +48,8 @@ export const Element = tsx.component({
   },
   render(h) {
     // call renderElement with children, attribute and element
-    const {element, renderElement = DefaultElement, ref} = this;
-    const editor = this.$editor
+    const {element, renderElement = DefaultElement, ref} = this as any;
+    const editor = (this as any).$editor
     const isInline = editor.isInline(element)
     let children: JSX.Element | null = (
       <Children
@@ -83,14 +84,14 @@ export const Element = tsx.component({
     if (Editor.isVoid(editor, element)) {
       attributes['data-slate-void'] = true
 
-      if (!this.readOnly && isInline) {
+      if (!(this as any).readOnly && isInline) {
         attributes.contentEditable = false
       }
 
       const Tag = isInline ? 'span' : 'div'
       const [[text]] = Node.texts(element)
 
-      children = this.readOnly ? null : (
+      children = (this as any).readOnly ? null : (
         <Tag
           data-slate-spacer
           style={{
@@ -124,7 +125,7 @@ export const DefaultElement = (props: RenderElementProps) => {
   return tsx.component({
     render() {
       const { attributes, children, element } = props
-      const editor = this.$editor
+      const editor = (this as any).$editor
       const Tag = editor.isInline(element) ? 'span' : 'div'
       return (
         <Tag {...{attrs: attributes}} style={{ position: 'relative' }}>

@@ -22,8 +22,8 @@ const runtime = () => {
   }
 }
 
-export const vueRuntimeFunc = (func): any => {
-  return (...args) => {
+export const vueRuntimeFunc = (func: any): any => {
+  return (...args: any) => {
     const restore = runtime()
     const result = func(...args)
     restore()
@@ -31,7 +31,7 @@ export const vueRuntimeFunc = (func): any => {
   }
 }
 
-export const vueRuntime = (func, ...args): any => {
+export const vueRuntime = (func: any, ...args: any): any => {
   const restore = runtime()
   const result = func(...args)
   restore()

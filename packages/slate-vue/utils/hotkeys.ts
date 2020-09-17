@@ -1,3 +1,4 @@
+// @ts-ignore
 import { isKeyHotkey } from 'is-hotkey'
 import { IS_APPLE } from './environment'
 
@@ -49,9 +50,9 @@ const WINDOWS_HOTKEYS = {
  */
 
 const create = (key: string) => {
-  const generic = HOTKEYS[key]
-  const apple = APPLE_HOTKEYS[key]
-  const windows = WINDOWS_HOTKEYS[key]
+  const generic = (HOTKEYS as any)[key]
+  const apple = (APPLE_HOTKEYS as any)[key]
+  const windows = (WINDOWS_HOTKEYS as any)[key]
   const isGeneric = generic && isKeyHotkey(generic)
   const isApple = apple && isKeyHotkey(apple)
   const isWindows = windows && isKeyHotkey(windows)

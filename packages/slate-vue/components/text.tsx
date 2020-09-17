@@ -37,9 +37,9 @@ const Text = tsx.component({
     }
   },
   hooks() {
-    const ref = this.ref = useRef(null);
+    const ref = (this as any).ref = useRef(null);
     const {text} = this;
-    const editor = this.$editor;
+    const editor = (this as any).$editor;
     const key = VueEditor.findKey(editor, text)
     const initRef = () => {
       useEffect(()=>{
@@ -57,12 +57,12 @@ const Text = tsx.component({
     initRef()
   },
   render(h, ctx) {
-    const { text, placeholder } = this
-    let decorations = this.decorations;
+    const { text, placeholder } = this as any
+    let decorations: any = this.decorations;
     if(!decorations) {
-      const editor = this.$editor
+      const editor = (this as any).$editor
       const p = VueEditor.findPath(editor, text)
-      decorations = this.decorate([text, p])
+      decorations = (this as any).decorate([text, p])
 
       // init placeholder
       if (
@@ -91,7 +91,7 @@ const Text = tsx.component({
         )
     }
     return (
-      <span data-slate-node="text" ref={this.ref.id}>
+      <span data-slate-node="text" ref={(this as any).ref.id}>
         {children}
       </span>
     )
