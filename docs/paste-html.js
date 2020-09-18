@@ -1,4 +1,4 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[12],{1127:function(e,t,r){"use strict";r.r(t);var n=function(){var e=this.$createElement,t=this._self._c||e;return t("Slate",{attrs:{value:JSON.stringify(this.initialValue)}},[t("Editable",{attrs:{placeholder:"Enter some plain text...",renderElement:this.renderElement,renderLeaf:this.renderLeaf}})],1)};n._withStripped=!0;var o=r(12),i=r(52);
+(window.webpackJsonp=window.webpackJsonp||[]).push([[12],{1331:function(e,t,r){"use strict";r.r(t);var n=function(){var e=this.$createElement,t=this._self._c||e;return t("Slate",{attrs:{value:JSON.stringify(this.initialValue)}},[t("Editable",{attrs:{placeholder:"Enter some plain text...",renderElement:this.renderElement,renderLeaf:this.renderLeaf}})],1)};n._withStripped=!0;var o=r(12),i=r(52);
 /*!
  * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
  *
