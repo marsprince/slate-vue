@@ -1,5 +1,6 @@
 <template>
-  <Slate :value="JSON.stringify(initialValue)">
+  <Slate :value="value">
+    <button @click="clear">clear</button>
     <Editable placeholder="Enter some plain text..." spellcheck="true" autoCorrect="on"></Editable>
   </Slate>
 </template>
@@ -23,7 +24,12 @@
     },
     data() {
       return {
-        initialValue
+        value: JSON.stringify(initialValue)
+      }
+    },
+    methods: {
+      clear() {
+        this.value = ''
       }
     }
   };
