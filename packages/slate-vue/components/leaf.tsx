@@ -20,9 +20,9 @@ const Leaf = tsx.component({
     fragment
   },
   render(h) {
-    const { renderLeaf = DefaultLeaf, text, leaf} = this;
+    const { renderLeaf = DefaultLeaf, text, leaf} = this as any;
     let children =  (
-      <string text={text} editor={this.$editor} leaf={leaf}/>
+      <string text={text} editor={(this as any).$editor} leaf={leaf}/>
       );
     if (leaf[PLACEHOLDER_SYMBOL]) {
       children = (

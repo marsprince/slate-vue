@@ -53,7 +53,7 @@ const string = tsx.component({
     TextString
   },
   render() {
-    const { leaf, editor,isLast, parent, text } = this
+    const { leaf, editor, isLast, parent, text } = this as any
     const path = VueEditor.findPath(editor, text)
     const parentPath = Path.parent(path)
 

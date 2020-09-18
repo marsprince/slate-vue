@@ -1,7 +1,7 @@
 // forked from vue-fragment
 // https://github.com/y-nk/vue-fragment
 import * as tsx from 'vue-tsx-support'
-const freeze = (object, property, value) => {
+const freeze = (object: any, property: any, value: any) => {
   Object.defineProperty(object, property, {
     configurable: true,
     get() { return value; },
@@ -9,7 +9,7 @@ const freeze = (object, property, value) => {
   });
 };
 
-const unfreeze = (object, property, value = null) => {
+const unfreeze = (object: any, property: any, value: any = null) => {
   Object.defineProperty(object, property, {
     configurable: true,
     writable: true,
@@ -47,8 +47,8 @@ export const fragment = tsx.component({
   // },
 
   mounted() {
-    const container = this.$el;
-    const parent = container.parentNode;
+    const container: any = this.$el;
+    const parent: any = container.parentNode;
 
     const head = document.createComment(`fragment#${this.name}#head`)
     const tail = document.createComment(`fragment#${this.name}#tail`)
@@ -56,17 +56,17 @@ export const fragment = tsx.component({
     parent.insertBefore(head, container)
     parent.insertBefore(tail, container)
 
-    container.appendChild = (node) => {
+    container.appendChild = (node: any) => {
       parent.insertBefore(node, tail)
       freeze(node, 'parentNode', container)
     }
 
-    container.insertBefore = (node, ref) => {
+    container.insertBefore = (node: any, ref: any) => {
       parent.insertBefore(node, ref)
       freeze(node, 'parentNode', container)
     }
 
-    container.removeChild = (node) => {
+    container.removeChild = (node: any) => {
       parent.removeChild(node)
       unfreeze(node, 'parentNode')
     }
@@ -84,12 +84,12 @@ export const fragment = tsx.component({
     freeze(tail, 'parentNode', container)
 
     const insertBefore = parent.insertBefore;
-    parent.insertBefore = (node, ref) => {
+    parent.insertBefore = (node: any, ref: any) => {
       insertBefore.call(parent, node, ref !== container ? ref : head)
     }
 
     const removeChild = parent.removeChild;
-    parent.removeChild = (node) => {
+    parent.removeChild = (node: any) => {
       if (node === container) {
         while(head.nextSibling !== tail)
           container.removeChild(head.nextSibling)

@@ -18,7 +18,7 @@ const createGvm = () => {
     },
     methods: {
       updateSelected() {
-        const editor = GVM_TO_EDITOR.get(this)
+        const editor = GVM_TO_EDITOR.get(this) as VueEditor
         const {selection} = editor
         if(selection) {
           this.selected.elements.forEach(node => {
@@ -42,7 +42,7 @@ export const getGvm = (editor: VueEditor) => {
 }
 
 // for element and element[]
-export const elementWatcherPlugin = (vm, type) => {
+export const elementWatcherPlugin = (vm: any, type: string) => {
   const update = vm._watcher.update;
   vm._watcher.update = () => {
     const op: Operation = vm.$editor._operation;
@@ -64,22 +64,24 @@ export const elementWatcherPlugin = (vm, type) => {
 
 export const SlateMixin = {
   mounted() {
-    const editor = this.$editor
-    editor._state.__ob__.dep.addSub(this._watcher)
+    const editor = (this as any).$editor
+    editor._state.__ob__.dep.addSub((this as any)._watcher)
   }
 }
 
 export const SelectedMixin = {
   created() {
-    const gvm = getGvm(this.$editor)
-    const element = this.element || this.node
+    const gvm = getGvm((this as any).$editor)
+    const element = (this as any).element || (this as any).node
     gvm.selected.elements.push(element)
   },
   computed: {
     selected() {
-      if(this.element) {
-        const gvm = getGvm(this.$editor)
-        return gvm.selected[NODE_TO_KEY.get(this.element).id]
+      if((this as any).element) {
+        const gvm = getGvm((this as any).$editor)
+        const key = NODE_TO_KEY.get((this as any).element)
+        if(!key) return false
+        return gvm.selected[key.id]
       } else {
         return false
       }
@@ -90,7 +92,7 @@ export const SelectedMixin = {
 export const ReadOnlyMixin = {
   computed: {
     readOnly() {
-      const gvm = getGvm(this.$editor)
+      const gvm = getGvm((this as any).$editor)
       return gvm.readOnly
     }
   }
@@ -99,7 +101,7 @@ export const ReadOnlyMixin = {
 export const FocusedMixin = {
   computed: {
     focused() {
-      const gvm = getGvm(this.$editor)
+      const gvm = getGvm((this as any).$editor)
       return gvm.focused
     }
   }
@@ -114,7 +116,7 @@ export const createEditorInstance = () => {
 }
 
 export const SlatePlugin = {
-  install(Vue, options) {
+  install(Vue: any, options: any) {
     Vue.mixin({
       beforeCreate() {
         if(!this.$editor) {
