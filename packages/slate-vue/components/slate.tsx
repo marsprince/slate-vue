@@ -26,20 +26,19 @@ export const Slate = tsx.component({
     // prepare two objects, one for immer, the other for vue
     // when we get immer result, patch it to vue
     ;(this as any).renderSlate()
+    ;(this as any).$editor.clear = () => {
+      this.renderSlate(JSON.stringify([
+        {
+          children: [
+            { text: '' },
+          ],
+        },
+      ]))
+    }
   },
   watch: {
     value(newVal, oldVal) {
       if(newVal!==oldVal) {
-        if(!newVal) {
-          // slate empty
-          newVal = JSON.stringify([
-            {
-              children: [
-                { text: '' },
-              ],
-            },
-          ])
-        }
         this.renderSlate(newVal)
       }
     }
@@ -53,11 +52,17 @@ export const Slate = tsx.component({
      * @param newVal
      */
     renderSlate(newVal: any) {
-      const value = newVal || this.value
-      ;(this as any).$editor.children = JSON.parse(value);
+      const value = newVal || (this as any).value
+      const editor = (this as any).$editor
+      editor.children = JSON.parse(value);
       const $$data = JSON.parse(value);
-      ;(this as any).$editor._state= Vue.observable($$data)
+      editor._state= Vue.observable($$data)
+
+      ;(this as any).clearEditor();
       ;(this as any).name = this.genUid()
+    },
+    clearEditor() {
+      ;(this as any).$editor.selection = null
     }
   },
   render() {

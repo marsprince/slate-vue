@@ -29,7 +29,7 @@
     },
     methods: {
       clear() {
-        this.value = ''
+        this.$editor.clear()
       }
     }
   };
