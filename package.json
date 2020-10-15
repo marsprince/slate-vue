@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "rollup --config ./config/rollup/rollup.config.js",
-    "serve": "webpack-dev-server --config ./config/webpack/site/webpack.dev.conf.js",
+    "serve": "webpack serve --config ./config/webpack/site/webpack.dev.conf.js",
     "release:site": "webpack --config ./config/webpack/site/webpack.publish.conf.js",
     "watch": "yarn build --watch",
     "start": "npm-run-all --parallel --print-label watch serve",
@@ -26,7 +26,7 @@
     "css-loader": "^4.2.1",
     "cz-conventional-changelog": "^3.2.0",
     "faker": "^5.0.0",
-    "html-webpack-plugin": "^4.0.4",
+    "html-webpack-plugin": "^4.5.0",
     "lerna": "^3.20.2",
     "less": "^3.11.1",
     "less-loader": "^7.0.0",
@@ -39,7 +39,7 @@
     "vue-template-compiler": "^2.6.11",
     "vue-tsx-support": "^2.3.3",
     "webpack": "^5.0.0",
-    "webpack-cli": "^3.3.11",
+    "webpack-cli": "^4.0.0",
     "webpack-dev-server": "^3.10.3",
     "webpack-merge": "^5.1.1"
   },

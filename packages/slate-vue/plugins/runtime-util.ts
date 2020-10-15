@@ -273,7 +273,7 @@ export const runtimeNode = {
       reverse?: boolean
       pass?: (entry: NodeEntry) => boolean
     } = {}
-  ): Iterable<NodeEntry> {
+  ): Generator<NodeEntry> {
     const { pass, reverse = false } = options
     const { from = [], to } = options
     const visited = new Set()
