@@ -59,6 +59,6 @@
   },
   "resolutions": {
     "lodash": "^4.17.19",
-    "dot-prop": "^5.1.1"
+    "dot-prop": "^6.0.0"
   }
 }

@@ -4910,9 +4910,10 @@ dot-case@^3.0.3:
     no-case "^3.0.3"
     tslib "^1.10.0"
 
-dot-prop@^3.0.0, dot-prop@^4.2.0, dot-prop@^5.1.0, dot-prop@^5.1.1:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/dot-prop/-/dot-prop-5.2.0.tgz#c34ecc29556dc45f1f4c22697b6f4904e0cc4fcb"
+dot-prop@^3.0.0, dot-prop@^4.2.0, dot-prop@^5.1.0, dot-prop@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/dot-prop/-/dot-prop-6.0.0.tgz#bd579fd704d970981c4b05de591db648959f2ebb"
+  integrity sha512-xCbB8IN3IT+tdgoEPOnJmYTNJDrygGFOmiQEiVa5eAD+JEB1vTgMNhVGRnN5Eex/6amck7cdcrixb1qN9Go+GQ==
   dependencies:
     is-obj "^2.0.0"
 
