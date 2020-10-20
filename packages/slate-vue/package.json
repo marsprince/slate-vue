@@ -6,7 +6,7 @@
     "is-hotkey": "^0.1.6",
     "slate": "^0.59.0",
     "vue": "^2.6.11",
-    "vue-tsx-support": "^2.3.3"
+    "vue-tsx-support": "^3.0.0"
   },
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",
