@@ -51,7 +51,7 @@ export const Element = tsx.component({
     const {element, renderElement = DefaultElement, ref} = this as any;
     const editor = (this as any).$editor
     const isInline = editor.isInline(element)
-    let children: JSX.Element | null = (
+    let children: VueTsxSupport.JSX.Element | null = (
       <Children
         node={element}
       />
