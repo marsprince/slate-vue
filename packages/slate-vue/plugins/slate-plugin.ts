@@ -48,7 +48,6 @@ export const elementWatcherPlugin = (vm: any, type: string) => {
     const op: Operation = vm.$editor._operation;
     // some op doesn't change element, so prevent updating
     if(op) {
-      console.log(op);
       if(op.type === 'remove_text' || op.type === 'insert_text' || op.type === 'set_selection') {
         return
       }

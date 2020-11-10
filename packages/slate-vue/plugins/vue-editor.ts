@@ -180,7 +180,9 @@ export const VueEditor = {
 
     return (
       targetEl.closest(`[data-slate-editor]`) === editorEl &&
-      (!editable || targetEl.isContentEditable)
+      (!editable ||
+        targetEl.isContentEditable ||
+        !!targetEl.getAttribute('data-slate-zero-width'))
     )
   },
 
@@ -263,19 +265,39 @@ export const VueEditor = {
 
   /**
    * Find a native DOM range from a Slate `range`.
+   *
+   * Notice: the returned range will always be ordinal regardless of the direction of Slate `range` due to DOM API limit.
+   *
+   * there is no way to create a reverse DOM Range using Range.setStart/setEnd
+   * according to https://dom.spec.whatwg.org/#concept-range-bp-set.
    */
 
   toDOMRange(editor: VueEditor, range: Range): DOMRange {
     const { anchor, focus } = range
+    const isBackward = Range.isBackward(range)
     const domAnchor = VueEditor.toDOMPoint(editor, anchor)
     const domFocus = Range.isCollapsed(range)
       ? domAnchor
       : VueEditor.toDOMPoint(editor, focus)
+
     const domRange = window.document.createRange()
-    const start = Range.isBackward(range) ? domFocus : domAnchor
-    const end = Range.isBackward(range) ? domAnchor : domFocus
-    domRange.setStart(start[0], start[1])
-    domRange.setEnd(end[0], end[1])
+    const [startNode, startOffset] = isBackward ? domFocus : domAnchor
+    const [endNode, endOffset] = isBackward ? domAnchor : domFocus
+
+    // A slate Point at zero-width Leaf always has an offset of 0 but a native DOM selection at
+    // zero-width node has an offset of 1 so we have to check if we are in a zero-width node and
+    // adjust the offset accordingly.
+    const startEl = (isDOMElement(startNode)
+      ? startNode
+      : startNode.parentElement) as HTMLElement
+    const isStartAtZeroWidth = !!startEl.getAttribute('data-slate-zero-width')
+    const endEl = (isDOMElement(endNode)
+      ? endNode
+      : endNode.parentElement) as HTMLElement
+    const isEndAtZeroWidth = !!endEl.getAttribute('data-slate-zero-width')
+
+    domRange.setStart(startNode, isStartAtZeroWidth ? 1 : startOffset)
+    domRange.setEnd(endNode, isEndAtZeroWidth ? 1 : endOffset)
     return domRange
   },
 

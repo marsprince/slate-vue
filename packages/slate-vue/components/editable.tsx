@@ -20,6 +20,19 @@ interface IEvent extends Event {
 const HAS_BEFORE_INPUT_SUPPORT = !(IS_FIREFOX || IS_EDGE_LEGACY)
 
 /**
+ * Check if the target is inside void and in the editor.
+ */
+
+const isTargetInsideVoid = (
+  editor: VueEditor,
+  target: EventTarget | null
+): boolean => {
+  const slateNode =
+    hasTarget(editor, target) && VueEditor.toSlateNode(editor, target)
+  return Editor.isVoid(editor, slateNode)
+}
+
+/**
  * Check if an event is overrided by a handler.
  */
 
@@ -284,24 +297,30 @@ export const Editable = tsx.component({
         const { activeElement } = window.document
         const el = VueEditor.toDOMNode(editor, editor)
         const domSelection = window.getSelection()
-        const domRange =
-          domSelection &&
-          domSelection.rangeCount > 0 &&
-          domSelection.getRangeAt(0)
 
         if (activeElement === el) {
-          (this as any).latestElement = activeElement
+          ;(this as any).latestElement = activeElement
           IS_FOCUSED.set(editor, true)
         } else {
           IS_FOCUSED.delete(editor)
         }
 
-        if (
-          domRange &&
-          hasEditableTarget(editor, domRange.startContainer) &&
-          hasEditableTarget(editor, domRange.endContainer)
-        ) {
-          const range = VueEditor.toSlateRange(editor, domRange)
+        if (!domSelection) {
+          return Transforms.deselect(editor)
+        }
+
+        const { anchorNode, focusNode } = domSelection
+
+        const anchorNodeSelectable =
+          hasEditableTarget(editor, anchorNode) ||
+          isTargetInsideVoid(editor, anchorNode)
+
+        const focusNodeSelectable =
+          hasEditableTarget(editor, focusNode) ||
+          isTargetInsideVoid(editor, focusNode)
+
+        if (anchorNodeSelectable && focusNodeSelectable) {
+          const range = VueEditor.toSlateRange(editor, domSelection)
           Transforms.select(editor, range)
         } else {
           Transforms.deselect(editor)
@@ -876,7 +895,7 @@ export const Editable = tsx.component({
         }
       })
     };
-    const updateSelection = ()=> {
+    const updateSelection = () => {
       useEffect(() => {
         const { selection } = editor
         const domSelection = window.getSelection()
@@ -892,13 +911,22 @@ export const Editable = tsx.component({
           return
         }
 
-        const newDomRange = selection && VueEditor.toDOMRange(editor, selection)
+        // verify that the dom selection is in the editor
+        const editorElement = EDITOR_TO_ELEMENT.get(editor)!
+        let hasDomSelectionInEditor = false
+        if (
+          editorElement.contains(domSelection.anchorNode) &&
+          editorElement.contains(domSelection.focusNode)
+        ) {
+          hasDomSelectionInEditor = true
+        }
 
-        // If the DOM selection is already correct, we're done.
+        // If the DOM selection is in the editor and the editor selection is already correct, we're done.
         if (
           hasDomSelection &&
-          newDomRange &&
-          isRangeEqual(domSelection.getRangeAt(0), newDomRange)
+          hasDomSelectionInEditor &&
+          selection &&
+          Range.equals(VueEditor.toSlateRange(editor, domSelection), selection)
         ) {
           return
         }
@@ -906,12 +934,32 @@ export const Editable = tsx.component({
         // Otherwise the DOM selection is out of sync, so update it.
         const el = VueEditor.toDOMNode(editor, editor)
         ;(this as any).isUpdatingSelection = true
-        domSelection.removeAllRanges()
+
+        const newDomRange = selection && VueEditor.toDOMRange(editor, selection)
 
         if (newDomRange) {
-          domSelection.addRange(newDomRange)
-          // const leafEl = newDomRange.startContainer.parentElement!
-          // scrollIntoView(leafEl, { scrollMode: 'if-needed' })
+          if (Range.isBackward(selection)) {
+            domSelection.setBaseAndExtent(
+              newDomRange.endContainer,
+              newDomRange.endOffset,
+              newDomRange.startContainer,
+              newDomRange.startOffset
+            )
+          } else {
+            domSelection.setBaseAndExtent(
+              newDomRange.startContainer,
+              newDomRange.startOffset,
+              newDomRange.endContainer,
+              newDomRange.endOffset
+            )
+          }
+          const leafEl = newDomRange.startContainer.parentElement!
+          // scrollIntoView(leafEl, {
+          //   scrollMode: 'if-needed',
+          //   boundary: el,
+          // })
+        } else {
+          domSelection.removeAllRanges()
         }
 
         setTimeout(() => {
