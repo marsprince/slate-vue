@@ -1,3 +1,7 @@
+# [](https://github.com/marsprince/slate-vue/compare/v0.1.8...v) (2020-11-10)
+
+
+
 # [](https://github.com/marsprince/slate-vue/compare/v0.1.7...v) (2020-11-10)
 
 
