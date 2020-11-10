@@ -1,5 +1,5 @@
 import "vue-tsx-support/enable-check"
-import Vue from 'vue'
+import Vue, {RenderContext} from 'vue'
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
     hooks?: Function,
@@ -27,3 +27,11 @@ export interface RenderLeafProps {
     'data-slate-leaf': true
   }
 }
+
+type Maybe<T> = T | undefined | null
+
+export type TsxComponent<Props> = (
+  args: Partial<RenderContext<Props>> & {
+    [k in keyof Props]: Maybe<Props[k]>
+  }
+) => VueTsxSupport.JSX.Element;

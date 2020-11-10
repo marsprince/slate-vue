@@ -1,7 +1,13 @@
 // the minimum component, just a span
 import * as tsx from "vue-tsx-support";
 import { Editor, Path, Node } from 'slate'
-import {VueEditor} from '../plugins';
+import {VueEditor} from '../plugins'
+import { TsxComponent } from '../types';
+
+interface ZeroWidthStringProps {
+  length?: number
+  isLineBreak?: boolean
+}
 
 /**
  * Leaf strings with text in them.
@@ -27,8 +33,8 @@ const TextString = tsx.component({
  * Leaf strings without text, render as zero-width strings.
  */
 
-const ZeroWidthString = (props: { length?: number; isLineBreak?: boolean }) => {
-  const { length = 0, isLineBreak = false } = props
+const ZeroWidthString: TsxComponent<ZeroWidthStringProps> = ({ props }) => {
+  const { length = 0, isLineBreak = false } = props as ZeroWidthStringProps
   return (
     <span
       data-slate-zero-width={isLineBreak ? 'n' : 'z'}
@@ -72,7 +78,7 @@ const string = tsx.component({
       !editor.isInline(parent) &&
       Editor.string(editor, parentPath) === ''
     ) {
-      return <ZeroWidthString isLineBreak />
+      return <ZeroWidthString isLineBreak={true} />
     }
 
     // COMPAT: If the text is empty, it's because it's on the edge of an inline
