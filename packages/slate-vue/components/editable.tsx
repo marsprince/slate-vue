@@ -7,6 +7,7 @@ import {Transforms, Range,Editor, Element, Node} from 'slate';
 import {DOMStaticRange} from '../utils/dom';
 import { IS_FIREFOX, IS_SAFARI, IS_EDGE_LEGACY } from '../utils/environment'
 import Hotkeys from '../utils/hotkeys'
+import { addOnBeforeInput } from '../utils/beforeInput';
 
 interface IEvent extends Event {
   data: string | null
@@ -329,6 +330,14 @@ export const Editable = tsx.component({
     },
     _onBeforeInput(event: IEvent) {
       const editor = (this as any).$editor;
+      // in FireFox, we use a dispatchEvent and only support insertData
+      if(IS_FIREFOX) {
+        event.preventDefault()
+        event.stopPropagation()
+        const text = (event as any).detail as string
+        Editor.insertText(editor, text)
+        return
+      }
       if (
         !this.readOnly &&
         hasEditableTarget(editor, event.target) &&
@@ -983,6 +992,12 @@ export const Editable = tsx.component({
     // The autoFocus TextareaHTMLAttribute doesn't do anything on a div, so it
     // needs to be manually focused.
     updateAutoFocus();
+    // patch beforeinput in FireFox
+    if(IS_FIREFOX) {
+      useEffect(() => {
+        addOnBeforeInput(ref.current, true)
+      }, [])
+    }
   },
   render() {
     const editor = (this as any).$editor;
