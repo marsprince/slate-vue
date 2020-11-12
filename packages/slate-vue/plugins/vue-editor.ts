@@ -33,6 +33,7 @@ import { vueRuntimeFunc } from './vue-runtime';
 
 export interface VueEditor extends Editor {
   insertData: (data: DataTransfer) => void
+  setFragmentData: (data: DataTransfer) => void
   _operation: Operation | null
 }
 
@@ -192,6 +193,14 @@ export const VueEditor = {
 
   insertData(editor: VueEditor, data: DataTransfer): void {
     editor.insertData(data)
+  },
+
+  /**
+   * Sets data from the currently selected fragment on a `DataTransfer`.
+   */
+
+  setFragmentData(editor: VueEditor, data: DataTransfer): void {
+    editor.setFragmentData(data)
   },
 
   /**
