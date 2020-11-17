@@ -1,3 +1,18 @@
+# [](https://github.com/marsprince/slate-vue/compare/v0.1.9...v) (2020-11-17)
+
+
+### Bug Fixes
+
+* **component:** avoid getting in no cacheVnode ([d2e8963](https://github.com/marsprince/slate-vue/commit/d2e8963e649bf13efcbac6a67317c8d879d1c32e)), closes [#63](https://github.com/marsprince/slate-vue/issues/63)
+* **editable:** trigger beforeinput event in FireFox ([52af03a](https://github.com/marsprince/slate-vue/commit/52af03a2416472baca4f636b0cf6a9ffa0101b16))
+
+
+### Features
+
+* **plugin:** make setFragmentData pluginnable ([eb91a3d](https://github.com/marsprince/slate-vue/commit/eb91a3d916c15ead8ceb5692a0fefe39147e8faa))
+
+
+
 # [](https://github.com/marsprince/slate-vue/compare/v0.1.8...v) (2020-11-10)
 
 
