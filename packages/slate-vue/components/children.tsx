@@ -48,7 +48,8 @@ const Children: any = tsx.component({
       // set n and its parent
       NODE_TO_PARENT.set(n, node)
       // when modify vnode, only new vnode or spliting vnode must be update, others will be reuse
-      if(editor._operation) {
+      // #62, #63: sometimes(like paste) no cacheVnode but have key, avoid getting in
+      if(editor._operation && KEY_TO_VNODE.get(key)) {
         const operationPath = editor._operation.path
         // split_node
         if(editor._operation.type === 'split_node') {
