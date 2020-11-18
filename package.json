@@ -18,7 +18,7 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@razors/build-babel": "^0.0.17",
+    "@razors/build-babel": "^0.0.20",
     "@razors/build-jest": "^0.0.17",
     "@razors/build-rollup": "^0.0.17",
     "babel-loader": "^8.1.0",
