@@ -12,7 +12,8 @@ import Text from './text'
 import Children from './children'
 import { elementWatcherPlugin, useEffect, useRef, ReadOnlyMixin, VueEditor } from '../plugins';
 import { NODE_TO_PARENT, NODE_TO_INDEX, KEY_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE } from '../utils/weak-maps';
-import { RenderElementProps } from '../types';
+import { providedByEditable, RenderElementAttributes, RenderElementProps, UseRef } from '../types';
+import { VNode } from 'vue';
 
 /**
  * Element.
@@ -27,13 +28,19 @@ export const Element = tsx.component({
     Children
   },
   mixins: [ReadOnlyMixin],
+  // For types
+  data(): Pick<providedByEditable, 'readOnly' | 'renderElement'> & UseRef {
+    return {
+      ref: null
+    }
+  },
   mounted() {
     elementWatcherPlugin(this, 'element')
   },
   hooks() {
-    const ref = (this as any).ref = useRef(null);
+    const ref = this.ref = useRef(null);
     const element = this.element
-    const key = VueEditor.findKey((this as any).$editor, element)
+    const key = VueEditor.findKey(this.$editor, element)
 
     useEffect(()=>{
       if (ref.current) {
@@ -46,23 +53,17 @@ export const Element = tsx.component({
       }
     })
   },
-  render(h) {
+  render(h): VNode {
     // call renderElement with children, attribute and element
-    const {element, renderElement = DefaultElement, ref} = this as any;
-    const editor = (this as any).$editor
+    const {element, renderElement = DefaultElement, ref} = this;
+    const editor = this.$editor
     const isInline = editor.isInline(element)
     let children: VueTsxSupport.JSX.Element | null = (
       <Children
         node={element}
       />
     )
-    const attributes: {
-      'data-slate-node': 'element'
-      'data-slate-void'?: true
-      'data-slate-inline'?: true
-      contentEditable?: false
-      dir?: 'rtl'
-    } = {
+    const attributes: RenderElementAttributes = {
       'data-slate-node': 'element'
     };
     if (isInline) {
@@ -84,14 +85,14 @@ export const Element = tsx.component({
     if (Editor.isVoid(editor, element)) {
       attributes['data-slate-void'] = true
 
-      if (!(this as any).readOnly && isInline) {
+      if (!this.readOnly && isInline) {
         attributes.contentEditable = false
       }
 
       const Tag = isInline ? 'span' : 'div'
       const [[text]] = Node.texts(element)
 
-      children = (this as any).readOnly ? null : (
+      children = this.readOnly ? null : (
         <Tag
           data-slate-spacer
           style={{
@@ -113,7 +114,7 @@ export const Element = tsx.component({
       element,
       attributes,
       children
-    }), {ref: ref.id})
+    }), {ref: ref!.id})
   }
 })
 
@@ -125,7 +126,7 @@ export const DefaultElement = (props: RenderElementProps) => {
   return tsx.component({
     render() {
       const { attributes, children, element } = props
-      const editor = (this as any).$editor
+      const editor = this.$editor
       const Tag = editor.isInline(element) ? 'span' : 'div'
       return (
         <Tag {...{attrs: attributes}} style={{ position: 'relative' }}>

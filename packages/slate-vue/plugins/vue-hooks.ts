@@ -60,7 +60,8 @@ export function useEffect(rawEffect, deps?:Array) {
 
 export function useRef(initial) {
   ensureCurrentInstance()
-  const id = ++callIndex
+  // vue ref type must be string
+  const id = (++callIndex).toString()
   const { _refsStore: refs } = currentInstance
   // added for auto inject $refs
   currentInstance.$on('hook:mounted', function() {

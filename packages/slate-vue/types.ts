@@ -1,5 +1,8 @@
 import "vue-tsx-support/enable-check"
-import Vue, {RenderContext} from 'vue'
+import Vue, { RenderContext, VueConstructor } from 'vue';
+import { VueEditor } from './plugins';
+import { Node, Path, Element } from 'Slate';
+
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
     hooks?: Function,
@@ -7,16 +10,25 @@ declare module 'vue/types/options' {
   }
 }
 
+declare module 'vue/types/vue' {
+  interface Vue {
+    // editor instance
+    $editor: VueEditor
+  }
+}
+
+export interface RenderElementAttributes {
+  'data-slate-node': 'element'
+  'data-slate-void'?: true
+  'data-slate-inline'?: true
+  contentEditable?: false
+  dir?: 'rtl'
+}
+
 export interface RenderElementProps {
   children: any
   element: Element
-  attributes: {
-    'data-slate-node': 'element'
-    'data-slate-inline'?: true
-    'data-slate-void'?: true
-    dir?: 'rtl'
-    ref: any
-  }
+  attributes: RenderElementAttributes
 }
 
 export interface RenderLeafProps {
@@ -25,6 +37,29 @@ export interface RenderLeafProps {
   text: Text
   attributes: {
     'data-slate-leaf': true
+  }
+}
+
+// vue provide by editable component
+export interface providedByEditable {
+  readOnly?: boolean
+  placeholder?: string | boolean
+  renderLeaf?: (props: RenderLeafProps) => VueConstructor
+  renderElement?: (props: RenderElementProps) => VueConstructor,
+  decorate?: (props: [Node, Path]) => Array<any>
+}
+
+// vue provide by text component
+export interface providedByText {
+  isLast?: boolean
+  text?: Node
+  parent?: Node
+}
+
+export interface UseRef {
+  ref: null | {
+    current: any,
+    id: string
   }
 }
 

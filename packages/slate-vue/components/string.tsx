@@ -2,7 +2,7 @@
 import * as tsx from "vue-tsx-support";
 import { Editor, Path, Node } from 'slate'
 import {VueEditor} from '../plugins'
-import { TsxComponent } from '../types';
+import { providedByText, TsxComponent } from '../types';
 
 interface ZeroWidthStringProps {
   length?: number
@@ -58,15 +58,18 @@ const string = tsx.component({
   components: {
     TextString
   },
+  data(): providedByText {
+    return {}
+  },
   render() {
-    const { leaf, editor, isLast, parent, text } = this as any
-    const path = VueEditor.findPath(editor, text)
+    const { leaf, editor, isLast, parent, text } = this
+    const path = VueEditor.findPath(editor, text as Node)
     const parentPath = Path.parent(path)
 
     // COMPAT: Render text inside void nodes with a zero-width space.
     // So the node can contain selection but the text is not visible.
     if (editor.isVoid(parent)) {
-      return <ZeroWidthString length={Node.string(parent).length} />
+      return <ZeroWidthString length={Node.string(parent as Node).length} />
     }
 
     // COMPAT: If this is the last text node in an empty block, render a zero-
@@ -74,7 +77,7 @@ const string = tsx.component({
     // to support expected plain text.
     if (
       leaf.text === '' &&
-      parent.children[parent.children.length - 1] === text &&
+      (parent as Element & Editor).children[(parent as Element & Editor).children.length - 1] === text &&
       !editor.isInline(parent) &&
       Editor.string(editor, parentPath) === ''
     ) {

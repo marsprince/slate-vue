@@ -2,8 +2,9 @@ import * as tsx from 'vue-tsx-support'
 
 import string from './string'
 import { PLACEHOLDER_SYMBOL } from '../utils/weak-maps'
-import { RenderLeafProps } from '../types'
+import { providedByEditable, RenderLeafProps } from '../types';
 import {fragment} from './fragment';
+import { VNode, VueConstructor } from 'vue';
 
 /**
  * Individual leaves in a text node with unique formatting.
@@ -19,10 +20,14 @@ const Leaf = tsx.component({
     string,
     fragment
   },
-  render(h) {
-    const { renderLeaf = DefaultLeaf, text, leaf} = this as any;
+  // For types
+  data(): Pick<providedByEditable, 'renderLeaf'> {
+    return {}
+  },
+  render(h): VNode {
+    const { renderLeaf = DefaultLeaf, text, leaf} = this;
     let children =  (
-      <string text={text} editor={(this as any).$editor} leaf={leaf}/>
+      <string text={text} editor={this.$editor} leaf={leaf}/>
       );
     if (leaf[PLACEHOLDER_SYMBOL]) {
       children = (
@@ -65,7 +70,7 @@ const Leaf = tsx.component({
  * The default custom leaf renderer.
  */
 
-const DefaultLeaf = (props: RenderLeafProps) => {
+const DefaultLeaf = (props: RenderLeafProps): VueConstructor => {
   return tsx.component({
     render() {
       const { attributes, children } = props

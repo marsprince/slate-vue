@@ -32,9 +32,14 @@ import { vueRuntimeFunc } from './vue-runtime';
  */
 
 export interface VueEditor extends Editor {
-  insertData: (data: DataTransfer) => void
-  setFragmentData: (data: DataTransfer) => void
-  _operation: Operation | null
+  insertData(data: DataTransfer): void
+  setFragmentData (data: DataTransfer): void
+  _operation?: Operation
+  _state: {
+    [key: string]: any
+  }
+
+  clear(): void
 }
 
 export const VueEditor = {
