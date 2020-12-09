@@ -13,8 +13,7 @@ const createGvm = () => {
       // selected element key
       selected: {
         elements: []
-      },
-      readOnly: false
+      }
     },
     methods: {
       updateSelected() {
@@ -89,11 +88,12 @@ export const SelectedMixin = {
   },
 }
 
+// just compat old version ...
 export const ReadOnlyMixin = {
   computed: {
     readOnly() {
-      const gvm = getGvm((this as any).$editor)
-      return gvm.readOnly
+      // must be consistent with readonly props in editable
+      return VueEditor.isReadOnly((this as any).$editor)
     }
   }
 }

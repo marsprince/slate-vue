@@ -12,14 +12,14 @@
 </template>
 
 <script>
-  import { ReadOnlyMixin, Transforms, VueEditor } from 'slate-vue';
+  import { Transforms, VueEditor } from 'slate-vue';
 
   export default {
     name: 'checkListItem',
     props: {
       element: Object
     },
-    mixins: [ReadOnlyMixin],
+    inject: ['readOnly'],
     computed: {
       checked() {
         return this.element.checked

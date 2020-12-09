@@ -93,11 +93,15 @@ ReturnType must be any legal type which is equal with the first argument in Vue'
 
 ### select, focus , readonly
 
-use Vue.mixin
+Use Vue.mixin
 ```javascript
-import {SelectedMixin, FocusedMixin, ReadOnlyMixin} from 'slate-vue'
+import {SelectedMixin, FocusedMixin} from 'slate-vue'
 ```
-And you will get selected, focused, readOnly data in your component
+And you will get selected, focused data in your component
+
+Use global inject: ```inject: ['readOnly]``` 
+
+And you will get readOnly data in your component
 
 ### useEffect, useRef
 

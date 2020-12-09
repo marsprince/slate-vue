@@ -10,7 +10,7 @@ import getDirection from 'direction'
 
 import Text from './text'
 import Children from './children'
-import { elementWatcherPlugin, useEffect, useRef, ReadOnlyMixin, VueEditor } from '../plugins';
+import { elementWatcherPlugin, useEffect, useRef, VueEditor } from '../plugins';
 import { NODE_TO_PARENT, NODE_TO_INDEX, KEY_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE } from '../utils/weak-maps';
 import { providedByEditable, RenderElementAttributes, RenderElementProps, UseRef } from '../types';
 import { VNode } from 'vue';
@@ -23,11 +23,10 @@ export const Element = tsx.component({
   props: {
     element: Object
   },
-  inject: ['renderElement'],
+  inject: ['readOnly', 'renderElement'],
   components:{
     Children
   },
-  mixins: [ReadOnlyMixin],
   // For types
   data(): Pick<providedByEditable, 'readOnly' | 'renderElement'> & UseRef {
     return {

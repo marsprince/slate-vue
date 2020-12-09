@@ -21,13 +21,12 @@ const Children: any = tsx.component({
     ElementComponent,
     fragment
   },
-  inject: ['decorate'],
   mixins: [SlateMixin],
   mounted() {
     elementWatcherPlugin(this, 'children')
   },
   render() {
-    const editor: any = (this as any).$editor;
+    const editor = this.$editor;
     const {node} = this;
     const path = VueEditor.findPath(editor, node)
     const isLeafBlock =
@@ -50,7 +49,7 @@ const Children: any = tsx.component({
       // when modify vnode, only new vnode or spliting vnode must be update, others will be reuse
       // #62, #63: sometimes(like paste) no cacheVnode but have key, avoid getting in
       if(editor._operation && KEY_TO_VNODE.get(key)) {
-        const operationPath = editor._operation.path
+        const operationPath = editor._operation.path as Path
         // split_node
         if(editor._operation.type === 'split_node') {
           // only sibling
