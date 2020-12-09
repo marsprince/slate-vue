@@ -19,7 +19,7 @@ import { VNode } from 'vue';
  * Element.
  */
 
-export const Element = tsx.component({
+const Element = tsx.component({
   props: {
     element: Object
   },

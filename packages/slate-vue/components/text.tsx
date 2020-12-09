@@ -13,6 +13,8 @@ import {
   ELEMENT_TO_NODE, PLACEHOLDER_SYMBOL,
 } from '../utils/weak-maps';
 import { useRef, useEffect } from '../plugins/vue-hooks';
+import { providedByEditable, UseRef } from '../types';
+import { VNode } from 'vue';
 
 /**
  * Text.
@@ -36,10 +38,15 @@ const Text = tsx.component({
       'parent': this.parent
     }
   },
+  data(): Pick<providedByEditable, 'placeholder' | 'decorate'> & UseRef {
+    return {
+      ref: null
+    }
+  },
   hooks() {
-    const ref = (this as any).ref = useRef(null);
+    const ref = this.ref = useRef(null);
     const {text} = this;
-    const editor = (this as any).$editor;
+    const editor = this.$editor;
     const key = VueEditor.findKey(editor, text)
     const initRef = () => {
       useEffect(()=>{
@@ -56,13 +63,15 @@ const Text = tsx.component({
 
     initRef()
   },
-  render(h, ctx) {
-    const { text, placeholder } = this as any
-    let decorations: any = this.decorations;
+  render(h, ctx): VNode {
+    const { text, placeholder } = this
+    let decorations: Array<any> = this.decorations;
     if(!decorations) {
-      const editor = (this as any).$editor
+      const editor = this.$editor
       const p = VueEditor.findPath(editor, text)
-      decorations = (this as any).decorate([text, p])
+      if(this.decorate) {
+        decorations = this.decorate([text, p])
+      }
 
       // init placeholder
       if (
@@ -91,7 +100,7 @@ const Text = tsx.component({
         )
     }
     return (
-      <span data-slate-node="text" ref={(this as any).ref.id}>
+      <span data-slate-node="text" ref={this.ref!.id}>
         {children}
       </span>
     )
