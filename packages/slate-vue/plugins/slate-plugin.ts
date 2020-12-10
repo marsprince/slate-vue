@@ -1,3 +1,4 @@
+import * as tsx from 'vue-tsx-support'
 import { createEditor, Operation, Editor, Range } from 'slate';
 import {hooks} from './vue-hooks';
 import {withVue} from './with-vue';
@@ -61,23 +62,24 @@ export const elementWatcherPlugin = (vm: any, type: string) => {
   // })
 }
 
-export const SlateMixin = {
+export const SlateMixin = tsx.component({
   mounted() {
-    const editor = (this as any).$editor
+    const editor = this.$editor
+    // vue internal
     editor._state.__ob__.dep.addSub((this as any)._watcher)
   }
-}
+})
 
-export const SelectedMixin = {
+export const SelectedMixin = tsx.component({
   created() {
-    const gvm = getGvm((this as any).$editor)
+    const gvm = getGvm(this.$editor)
     const element = (this as any).element || (this as any).node
     gvm.selected.elements.push(element)
   },
   computed: {
     selected() {
       if((this as any).element) {
-        const gvm = getGvm((this as any).$editor)
+        const gvm = getGvm(this.$editor)
         const key = NODE_TO_KEY.get((this as any).element)
         if(!key) return false
         return gvm.selected[key.id]
@@ -86,26 +88,26 @@ export const SelectedMixin = {
       }
     }
   },
-}
+})
 
 // just compat old version ...
-export const ReadOnlyMixin = {
+export const ReadOnlyMixin = tsx.component({
   computed: {
     readOnly() {
       // must be consistent with readonly props in editable
-      return VueEditor.isReadOnly((this as any).$editor)
+      return VueEditor.isReadOnly(this.$editor)
     }
   }
-}
+})
 
-export const FocusedMixin = {
+export const FocusedMixin = tsx.component({
   computed: {
     focused() {
-      const gvm = getGvm((this as any).$editor)
+      const gvm = getGvm(this.$editor)
       return gvm.focused
     }
   }
-}
+})
 
 export const createEditorInstance = () => {
   const editor = withVue(createEditor())
@@ -115,8 +117,12 @@ export const createEditorInstance = () => {
   return editor
 }
 
+interface SlatePluginOptions {
+  editorCreated?: (editor: VueEditor) => any
+}
+
 export const SlatePlugin = {
-  install(Vue: any, options: any) {
+  install(Vue: any, options?: SlatePluginOptions) {
     Vue.mixin({
       beforeCreate() {
         if(!this.$editor) {

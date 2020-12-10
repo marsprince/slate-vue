@@ -1,8 +1,9 @@
 // the minimum component, just a span
 import * as tsx from "vue-tsx-support";
-import { Editor, Path, Node } from 'slate'
+import { Editor, Path, Node, Text } from 'slate';
 import {VueEditor} from '../plugins'
 import { providedByText, TsxComponent } from '../types';
+import { PropType } from 'vue';
 
 interface ZeroWidthStringProps {
   length?: number
@@ -51,7 +52,9 @@ const ZeroWidthString: TsxComponent<ZeroWidthStringProps> = ({ props }) => {
  */
 const string = tsx.component({
   props: {
-    leaf: Object,
+    leaf: {
+      type: Object as PropType<Text>
+    },
     editor: Object
   },
   inject: ['isLast', 'parent', 'text'],

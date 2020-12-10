@@ -4,7 +4,8 @@ import string from './string'
 import { PLACEHOLDER_SYMBOL } from '../utils/weak-maps'
 import { providedByEditable, RenderLeafProps } from '../types';
 import {fragment} from './fragment';
-import { VNode, VueConstructor } from 'vue';
+import { VNode, VueConstructor, PropType } from 'vue';
+import { Text } from 'slate';
 
 /**
  * Individual leaves in a text node with unique formatting.
@@ -12,8 +13,12 @@ import { VNode, VueConstructor } from 'vue';
 
 const Leaf = tsx.component({
   props: {
-    text: Object,
-    leaf: Object
+    text: {
+      type: Object as PropType<Text>
+    },
+    leaf:  {
+      type: Object as PropType<Text>
+    },
   },
   inject: ['renderLeaf'],
   components: {

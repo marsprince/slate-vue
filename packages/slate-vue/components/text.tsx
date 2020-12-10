@@ -2,7 +2,7 @@
 // under text is just render logic, so provide isLast, parent ,text for children
 
 import * as tsx from 'vue-tsx-support'
-import { Text as SlateText, Node, Editor } from 'slate';
+import { Text as SlateText, Node, Editor, Element, Range } from 'slate';
 
 import leaf from './leaf'
 import { VueEditor } from '../plugins';
@@ -14,7 +14,7 @@ import {
 } from '../utils/weak-maps';
 import { useRef, useEffect } from '../plugins/vue-hooks';
 import { providedByEditable, UseRef } from '../types';
-import { VNode } from 'vue';
+import { PropType, VNode } from 'vue';
 
 /**
  * Text.
@@ -22,10 +22,16 @@ import { VNode } from 'vue';
 
 const Text = tsx.component({
   props: {
-    text: Object,
+    text: {
+      type: Object as PropType<SlateText>
+    },
     isLast: Boolean,
-    parent: Object,
-    decorations: Array
+    parent: {
+      type: Object as PropType<Element>
+    },
+    decorations: {
+      type: Array as PropType<Array<Range>>
+    },
   },
   components: {
     leaf
@@ -65,7 +71,7 @@ const Text = tsx.component({
   },
   render(h, ctx): VNode {
     const { text, placeholder } = this
-    let decorations: Array<any> = this.decorations;
+    let decorations: Array<Range> = this.decorations;
     if(!decorations) {
       const editor = this.$editor
       const p = VueEditor.findPath(editor, text)

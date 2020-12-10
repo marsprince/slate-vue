@@ -26,6 +26,7 @@ import {
   normalizeDOMPoint,
 } from '../utils/dom'
 import { vueRuntimeFunc } from './vue-runtime';
+import { Flatten } from '../types';
 
 /**
  * A React and DOM-specific version of the `Editor` interface.
@@ -35,9 +36,7 @@ export interface VueEditor extends Editor {
   insertData(data: DataTransfer): void
   setFragmentData (data: DataTransfer): void
   _operation?: Operation
-  _state: {
-    [key: string]: any
-  }
+  _state: Flatten<Array<Node>>
 
   clear(): void
 }

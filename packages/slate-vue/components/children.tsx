@@ -1,12 +1,13 @@
 // functional children component to render node
 // node is an union type: editor, element,text
 import * as tsx from "vue-tsx-support";
-import { Editor, Range, Element, NodeEntry, Ancestor, Descendant, Operation, Path } from 'slate';
+import { Editor, Range, Element, NodeEntry, Ancestor, Descendant, Operation, Path, Node } from 'slate';
 import TextComponent from './text'
 import ElementComponent from './element'
 import { VueEditor, elementWatcherPlugin, SlateMixin } from '../plugins';
 import { KEY_TO_VNODE, NODE_TO_INDEX, NODE_TO_KEY, NODE_TO_PARENT } from '../utils/weak-maps';
 import {fragment} from './fragment';
+import { PropType } from 'vue';
 
 /**
  * Children.
@@ -14,7 +15,10 @@ import {fragment} from './fragment';
 
 const Children: any = tsx.component({
   props: {
-    node: Object
+    // only element or editor
+    node: {
+      type: Object as PropType<Ancestor>
+    }
   },
   components: {
     TextComponent,
@@ -34,7 +38,7 @@ const Children: any = tsx.component({
       !editor.isInline(node) &&
       Editor.hasInlines(editor, node)
     const children = []
-    const childArr = Editor.isEditor(node) ? node._state :node.children
+    const childArr = Editor.isEditor(node) ? node._state as any : (node as Element).children
     // cacheVnode in manual to reuse
     let cacheVnode = null;
     for(let i=0;i<childArr.length;i++) {

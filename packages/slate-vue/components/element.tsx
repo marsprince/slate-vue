@@ -4,7 +4,7 @@
  * }
  */
 import * as tsx from "vue-tsx-support"
-import { Editor, Node } from 'slate'
+import { Editor, Node, Element as SlateElement } from 'slate'
 // @ts-ignore
 import getDirection from 'direction'
 
@@ -13,15 +13,17 @@ import Children from './children'
 import { elementWatcherPlugin, useEffect, useRef, VueEditor } from '../plugins';
 import { NODE_TO_PARENT, NODE_TO_INDEX, KEY_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE } from '../utils/weak-maps';
 import { providedByEditable, RenderElementAttributes, RenderElementProps, UseRef } from '../types';
-import { VNode } from 'vue';
+import { VNode, PropType } from 'vue';
 
 /**
- * Element.
+ * Element
  */
 
 const Element = tsx.component({
   props: {
-    element: Object
+    element: {
+      type: Object as PropType<SlateElement>
+    }
   },
   inject: ['readOnly', 'renderElement'],
   components:{

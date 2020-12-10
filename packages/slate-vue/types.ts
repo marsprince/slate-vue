@@ -1,7 +1,7 @@
 import "vue-tsx-support/enable-check"
 import Vue, { RenderContext, VueConstructor } from 'vue';
 import { VueEditor } from './plugins';
-import { Node, Path, Element } from 'Slate';
+import { Node, Path, Element, Text } from 'Slate';
 
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
@@ -70,3 +70,15 @@ export type TsxComponent<Props> = (
     [k in keyof Props]: Maybe<Props[k]>
   }
 ) => VueTsxSupport.JSX.Element;
+
+interface o {
+  [key: string]: any
+}
+
+type Observable<T> = T extends o ? (T & PickObservableObject): T;
+
+interface PickObservableObject {
+  __ob__: any
+}
+
+export type Flatten<T> = T extends (infer U)[] ? Observable<U> : T;
