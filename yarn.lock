@@ -2962,6 +2962,14 @@
   dependencies:
     "@vue/babel-preset-app" "^4.4.5"
 
+"@razors/build-commit@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@razors/build-commit/-/build-commit-0.0.20.tgz#0d950f2925818dbe07c245cbf4ff69b50c59b223"
+  integrity sha512-EpWCfhHqjfCcChW7f32GXYB8gJS44MYRCzMEbtTHFUZ5ej7hnNrsFvjDBQ3rix8e/cvAzHrqoe1jw+xsvxUp9w==
+  dependencies:
+    commitizen "^4.1.2"
+    cz-conventional-changelog "^3.2.0"
+
 "@razors/build-jest@^0.0.20":
   version "0.0.20"
   resolved "https://registry.yarnpkg.com/@razors/build-jest/-/build-jest-0.0.20.tgz#03f7232ece79f4365ec6886e01df53d39cdc1f2c"
