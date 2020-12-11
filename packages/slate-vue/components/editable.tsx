@@ -3,11 +3,13 @@ import * as tsx from "vue-tsx-support";
 import {VueEditor, elementWatcherPlugin, SlateMixin, useEffect, useRef, vueRuntime} from '../plugins';
 import { IS_FOCUSED, EDITOR_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, IS_READ_ONLY } from '../utils/weak-maps';
 import {DOMNode,isDOMNode, DOMRange, isDOMElement, isDOMText, isPlainTextOnlyPaste} from '../utils/dom';
-import {Transforms, Range,Editor, Element, Node} from 'slate';
+import {Transforms, Range,Editor, Element as SlateElement, Node} from 'slate';
 import {DOMStaticRange} from '../utils/dom';
 import { IS_FIREFOX, IS_SAFARI, IS_EDGE_LEGACY } from '../utils/environment'
 import Hotkeys from '../utils/hotkeys'
 import { addOnBeforeInput } from '../utils/beforeInput';
+import { PropType } from 'vue';
+import { UseRef } from '../types';
 
 interface IEvent extends Event {
   data: string | null
@@ -122,7 +124,13 @@ const getPlainText = (domNode: DOMNode) => {
   return text
 }
 
-let initPlaceholder = false
+interface EditableData {
+  latestElement: null | Element,
+  isComposing: boolean,
+  isUpdatingSelection: boolean
+}
+
+type PropsEventListener = PropType<(event: any) => void>
 
 // the contentEditable div
 export const Editable = tsx.component({
@@ -142,19 +150,48 @@ export const Editable = tsx.component({
     autoCapitalize: String,
 
     // user event
-    onBeforeInput: Function,
-    onKeyDown: Function,
-    onClick: Function,
-    onCompositionEnd: Function,
-    onCompositionStart: Function,
-    onCut: Function,
-    onCopy: Function,
-    onDragOver: Function,
-    onDragStart: Function,
-    onDragStop: Function,
-    onPaste: Function,
-    onFocus: Function,
-    onBlur: Function
+    onBeforeInput: {
+      type: Function as PropsEventListener
+    },
+    onKeyDown: {
+      type: Function as PropsEventListener
+    },
+    onClick: {
+      type: Function as PropsEventListener
+    },
+    onCompositionEnd: {
+      type: Function as PropsEventListener
+    },
+    onCompositionStart: {
+      type: Function as PropsEventListener
+    },
+    onCut: {
+      type: Function as PropsEventListener
+    },
+    onCopy: {
+      type: Function as PropsEventListener
+    },
+    onDragOver: {
+      type: Function as PropsEventListener
+    },
+    onDragStart: {
+      type: Function as PropsEventListener
+    },
+    onDragStop: {
+      type: Function as PropsEventListener
+    },
+    onPaste: {
+      type: Function as PropsEventListener
+    },
+    onFocus: {
+      type: Function as PropsEventListener
+    },
+    onBlur: {
+      type: Function as PropsEventListener
+    },
+    onDrop: {
+      type: Function as PropsEventListener
+    },
   },
   components: {
     Children
@@ -169,21 +206,22 @@ export const Editable = tsx.component({
       'placeholder': this.placeholder
     }
   },
-  data() {
+  data(): EditableData & UseRef {
     return {
       latestElement: null,
       isComposing: false,
-      isUpdatingSelection: false
+      isUpdatingSelection: false,
+      ref: null
     }
   },
   methods: {
     _onClick(event: IEvent) {
-      const editor = (this as any).$editor
+      const editor = this.$editor
       if (
         !this.readOnly &&
         hasTarget(editor, event.target) &&
         isDOMNode(event.target) &&
-        !isEventHandled(event, (this as any).onClick)
+        !isEventHandled(event, this.onClick)
       ) {
         const node = VueEditor.toSlateNode(editor, event.target)
         const path = VueEditor.findPath(editor, node)
@@ -197,14 +235,14 @@ export const Editable = tsx.component({
     },
     onSelectionchange() {
       const { readOnly } = this;
-      const editor = (this as any).$editor
-      if (!readOnly && !(this as any).isComposing && !(this as any).isUpdatingSelection) {
+      const editor = this.$editor
+      if (!readOnly && !this.isComposing && !this.isUpdatingSelection) {
         const { activeElement } = window.document
         const el = VueEditor.toDOMNode(editor, editor)
         const domSelection = window.getSelection()
 
         if (activeElement === el) {
-          ;(this as any).latestElement = activeElement
+          this.latestElement = activeElement
           IS_FOCUSED.set(editor, true)
         } else {
           IS_FOCUSED.delete(editor)
@@ -233,7 +271,7 @@ export const Editable = tsx.component({
       }
     },
     _onBeforeInput(event: IEvent) {
-      const editor = (this as any).$editor;
+      const editor = this.$editor;
       // in FireFox, we use a dispatchEvent and only support insertData
       if(IS_FIREFOX) {
         event.preventDefault()
@@ -245,7 +283,7 @@ export const Editable = tsx.component({
       if (
         !this.readOnly &&
         hasEditableTarget(editor, event.target) &&
-        !isEventHandled(event, (this as any).onBeforeInput)
+        !isEventHandled(event, this.onBeforeInput)
       ) {
         const { selection } = editor
         const { inputType: type } = event
@@ -367,12 +405,12 @@ export const Editable = tsx.component({
       }
     },
     _onCompositionEnd(event: any) {
-      const editor = (this as any).$editor;
+      const editor = this.$editor;
       if (
         hasEditableTarget(editor, event.target) &&
-        !isEventHandled(event, (this as any).onCompositionEnd)
+        !isEventHandled(event, this.onCompositionEnd)
       ) {
-        (this as any).isComposing = false
+        this.isComposing = false
 
         // COMPAT: In Chrome, `beforeinput` events for compositions
         // aren't correct and never fire the "insertFromComposition"
@@ -384,20 +422,20 @@ export const Editable = tsx.component({
       }
     },
     _onCompositionStart(event: IEvent) {
-      const editor = (this as any).$editor
+      const editor = this.$editor
       if (
         hasEditableTarget(editor, event.target) &&
-        !isEventHandled(event, (this as any).onCompositionStart)
+        !isEventHandled(event, this.onCompositionStart)
       ) {
-        (this as any).isComposing = true
+        this.isComposing = true
       }
     },
     _onKeyDown(event: any) {
-      const editor = (this as any).$editor
+      const editor = this.$editor
       if (
         !this.readOnly &&
         hasEditableTarget(editor, event.target) &&
-        !isEventHandled(event, (this as any).onKeyDown)
+        !isEventHandled(event, this.onKeyDown)
       ) {
         const nativeEvent = event
         const { selection } = editor
@@ -410,6 +448,8 @@ export const Editable = tsx.component({
           event.preventDefault()
 
           if (editor.redo) {
+            // slate-history
+            // @ts-ignore
             editor.redo()
           }
 
@@ -420,6 +460,8 @@ export const Editable = tsx.component({
           event.preventDefault()
 
           if (editor.undo) {
+            // slate-history
+            // @ts-ignore
             editor.undo()
           }
 
@@ -595,15 +637,15 @@ export const Editable = tsx.component({
       }
     },
     _onFocus(event: any) {
-      const editor = (this as any).$editor
+      const editor = this.$editor
       if (
         !this.readOnly &&
-        !(this as any).isUpdatingSelection &&
+        !this.isUpdatingSelection &&
         hasEditableTarget(editor, event.target) &&
-        !isEventHandled(event, (this as any).onFocus)
+        !isEventHandled(event, this.onFocus)
       ) {
         const el = VueEditor.toDOMNode(editor, editor)
-        ;(this as any).latestElement = window.document.activeElement
+        this.latestElement = window.document.activeElement
 
         // COMPAT: If the editor has nested editable elements, the focus
         // can go to them. In Firefox, this must be prevented because it
@@ -617,12 +659,12 @@ export const Editable = tsx.component({
       }
     },
     _onBlur(event: any) {
-      const editor = (this as any).$editor
+      const editor = this.$editor
       if (
         this.readOnly ||
-        (this as any).isUpdatingSelection ||
+        this.isUpdatingSelection ||
         !hasEditableTarget(editor, event.target) ||
-        !isEventHandled(event, (this as any).onBlur)
+        !isEventHandled(event, this.onBlur)
       ) {
         return
       }
@@ -631,7 +673,7 @@ export const Editable = tsx.component({
       // one, this is due to the window being blurred when the tab
       // itself becomes unfocused, so we want to abort early to allow to
       // editor to stay focused when the tab becomes focused again.
-      if ((this as any).latestElement === window.document.activeElement) {
+      if (this.latestElement === window.document.activeElement) {
         return
       }
 
@@ -664,7 +706,7 @@ export const Editable = tsx.component({
       ) {
         const node = VueEditor.toSlateNode(editor, relatedTarget)
 
-        if (Element.isElement(node) && !editor.isVoid(node)) {
+        if (SlateElement.isElement(node) && !editor.isVoid(node)) {
           return
         }
       }
@@ -672,36 +714,36 @@ export const Editable = tsx.component({
       IS_FOCUSED.delete(editor)
     },
     _onCopy(event: any) {
-      const editor = (this as any).$editor
+      const editor = this.$editor
       if (
         hasEditableTarget(editor, event.target) &&
-        !isEventHandled(event, (this as any).onCopy)
+        !isEventHandled(event, this.onCopy)
       ) {
         event.preventDefault()
         VueEditor.setFragmentData(editor, event.clipboardData)
       }
     },
     _onPaste(event: any) {
-      const editor = (this as any).$editor
+      const editor = this.$editor
       const {readOnly} = this
       if (
         (!HAS_BEFORE_INPUT_SUPPORT ||
           isPlainTextOnlyPaste(event)) &&
         !readOnly &&
         hasEditableTarget(editor, event.target) &&
-        !isEventHandled(event, (this as any).onPaste)
+        !isEventHandled(event, this.onPaste)
       ) {
         event.preventDefault()
         VueEditor.insertData(editor, event.clipboardData)
       }
     },
     _onCut(event: any) {
-      const editor = (this as any).$editor
+      const editor = this.$editor
       const {readOnly} = this
       if (
         !readOnly &&
         hasEditableTarget(editor, event.target) &&
-        !isEventHandled(event, (this as any).onCut)
+        !isEventHandled(event, this.onCut)
       ) {
         event.preventDefault()
         VueEditor.setFragmentData(editor, event.clipboardData)
@@ -713,10 +755,10 @@ export const Editable = tsx.component({
       }
     },
     _onDragOver(event: any) {
-      const editor = (this as any).$editor
+      const editor = this.$editor
       if (
         hasTarget(editor, event.target) &&
-        !isEventHandled(event, (this as any).onDragOver)
+        !isEventHandled(event, this.onDragOver)
       ) {
         // Only when the target is void, call `preventDefault` to signal
         // that drops are allowed. Editable content is droppable by
@@ -729,10 +771,10 @@ export const Editable = tsx.component({
       }
     },
     _onDragStart(event: any) {
-      const editor = (this as any).$editor
+      const editor = this.$editor
       if (
         hasTarget(editor, event.target) &&
-        !isEventHandled(event, (this as any).onDragStart)
+        !isEventHandled(event, this.onDragStart)
       ) {
         const node = VueEditor.toSlateNode(editor, event.target)
         const path = VueEditor.findPath(editor, node)
@@ -749,11 +791,11 @@ export const Editable = tsx.component({
       }
     },
     _onDrop(event: any) {
-      const editor = (this as any).$editor
+      const editor = this.$editor
       if (
         hasTarget(editor, event.target) &&
         !this.readOnly &&
-        !isEventHandled(event, (this as any).onDrop)
+        !isEventHandled(event, this.onDrop)
       ) {
         // COMPAT: Certain browsers don't fire `beforeinput` events at all, and
         // Chromium browsers don't properly fire them for files being
@@ -773,16 +815,16 @@ export const Editable = tsx.component({
     }
   },
   hooks() {
-    const ref = (this as any).ref = useRef(null);
-    const editor = (this as any).$editor;
+    const ref = this.ref = useRef(null);
+    const editor = this.$editor;
     IS_READ_ONLY.set(editor, this.readOnly)
 
     const initListener = ()=>{
       // Attach a native DOM event handler for `selectionchange`
       useEffect(()=>{
-        document.addEventListener('selectionchange', (this as any).onSelectionchange)
+        document.addEventListener('selectionchange', this.onSelectionchange)
         return () => {
-          document.removeEventListener('selectionchange', (this as any).onSelectionchange)
+          document.removeEventListener('selectionchange', this.onSelectionchange)
         }
       });
     };
@@ -813,7 +855,7 @@ export const Editable = tsx.component({
         const { selection } = editor
         const domSelection = window.getSelection()
 
-        if ((this as any).isComposing || !domSelection || !VueEditor.isFocused(editor)) {
+        if (this.isComposing || !domSelection || !VueEditor.isFocused(editor)) {
           return
         }
 
@@ -846,12 +888,12 @@ export const Editable = tsx.component({
 
         // Otherwise the DOM selection is out of sync, so update it.
         const el = VueEditor.toDOMNode(editor, editor)
-        ;(this as any).isUpdatingSelection = true
+        this.isUpdatingSelection = true
 
         const newDomRange = selection && VueEditor.toDOMRange(editor, selection)
 
         if (newDomRange) {
-          if (Range.isBackward(selection)) {
+          if (Range.isBackward(selection as Range)) {
             domSelection.setBaseAndExtent(
               newDomRange.endContainer,
               newDomRange.endOffset,
@@ -882,7 +924,7 @@ export const Editable = tsx.component({
             el.focus()
           }
 
-          ;(this as any).isUpdatingSelection = false
+          this.isUpdatingSelection = false
         })
       })
     }
@@ -904,23 +946,23 @@ export const Editable = tsx.component({
     }
   },
   render() {
-    const editor = (this as any).$editor;
-    const {ref} = this as any;
+    const editor = this.$editor;
+    const {ref} = this;
     // name must be corresponded with standard
-    const on = {
-      click: (this as any)._onClick,
-      keydown: (this as any)._onKeyDown,
-      focus: (this as any)._onFocus,
-      blur: (this as any)._onBlur,
-      beforeinput: (this as any)._onBeforeInput,
-      copy: (this as any)._onCopy,
-      cut: (this as any)._onCut,
-      compositionend: (this as any)._onCompositionEnd,
-      compositionstart: (this as any)._onCompositionStart,
-      dragover: (this as any)._onDragOver,
-      dragstart: (this as any)._onDragStart,
-      drop: (this as any)._onDrop,
-      paste: (this as any)._onPaste
+    const on: any  = {
+      click: this._onClick,
+      keydown: this._onKeyDown,
+      focus: this._onFocus,
+      blur: this._onBlur,
+      beforeinput: this._onBeforeInput,
+      copy: this._onCopy,
+      cut: this._onCut,
+      compositionend: this._onCompositionEnd,
+      compositionstart: this._onCompositionStart,
+      dragover: this._onDragOver,
+      dragstart: this._onDragStart,
+      drop: this._onDrop,
+      paste: this._onPaste
     };
     const attrs = {
       spellcheck: !HAS_BEFORE_INPUT_SUPPORT ? undefined : this.spellCheck,
@@ -934,7 +976,7 @@ export const Editable = tsx.component({
         // behaviors so we have to disable it like editor. (2017/04/24)
         data-gramm={false}
         role={this.readOnly ? undefined : 'textbox'}
-        ref = {ref.id}
+        ref = {(ref as any).id}
         contenteditable={this.readOnly ? false : true}
         data-slate-editor
         data-slate-node="value"
