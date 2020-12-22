@@ -37,7 +37,7 @@ const Text = tsx.component({
     leaf
   },
   inject: ['decorate', 'placeholder'],
-  provide() {
+  provide(): object {
     return {
       'text': this.text,
       'isLast': this.isLast,

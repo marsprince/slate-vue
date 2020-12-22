@@ -197,7 +197,7 @@ export const Editable = tsx.component({
     Children
   },
   mixins: [SlateMixin],
-  provide() {
+  provide(): object {
     return {
       'renderLeaf': this.renderLeaf,
       'renderElement': this.renderElement,
