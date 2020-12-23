@@ -11,7 +11,7 @@ import getDirection from 'direction'
 import Text from './text'
 import Children from './children'
 import { elementWatcherPlugin, useEffect, useRef, VueEditor } from '../plugins';
-import { NODE_TO_PARENT, NODE_TO_INDEX, KEY_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE } from '../utils/weak-maps';
+import { NODE_TO_PARENT, NODE_TO_INDEX, KEY_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE } from 'slate-vue-shared';
 import { providedByEditable, RenderElementAttributes, RenderElementProps, UseRef } from '../types';
 import { VNode, PropType } from 'vue';
 

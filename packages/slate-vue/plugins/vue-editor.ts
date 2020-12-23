@@ -3,19 +3,9 @@
  */
 
 import { Editor, Node, Operation, Path, Point, Range, Transforms } from 'slate';
+import {
+  Key,
 
-import { Key } from '../utils/key'
-import {
-  EDITOR_TO_ELEMENT,
-  ELEMENT_TO_NODE,
-  IS_FOCUSED,
-  IS_READ_ONLY,
-  KEY_TO_ELEMENT,
-  NODE_TO_INDEX,
-  NODE_TO_KEY,
-  NODE_TO_PARENT,
-} from '../utils/weak-maps'
-import {
   DOMElement,
   DOMNode,
   DOMPoint,
@@ -24,7 +14,16 @@ import {
   DOMStaticRange,
   isDOMElement,
   normalizeDOMPoint,
-} from '../utils/dom'
+
+  EDITOR_TO_ELEMENT,
+  ELEMENT_TO_NODE,
+  IS_FOCUSED,
+  IS_READ_ONLY,
+  KEY_TO_ELEMENT,
+  NODE_TO_INDEX,
+  NODE_TO_KEY,
+  NODE_TO_PARENT,
+} from 'slate-vue-shared'
 import { vueRuntimeFunc } from './vue-runtime';
 import { Flatten } from '../types';
 

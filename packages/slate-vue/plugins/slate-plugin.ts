@@ -3,7 +3,7 @@ import { createEditor, Operation, Editor, Range } from 'slate';
 import {hooks} from './vue-hooks';
 import {withVue} from './with-vue';
 import Vue from 'vue'
-import { NODE_TO_KEY, EDITOR_TO_GVM, GVM_TO_EDITOR } from '../utils/weak-maps';
+import { NODE_TO_KEY, EDITOR_TO_GVM, GVM_TO_EDITOR } from 'slate-vue-shared';
 import {VueEditor} from './vue-editor'
 
 const createGvm = () => {

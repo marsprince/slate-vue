@@ -3,7 +3,7 @@
  * is a mutable singleton so it won't ever register as "changed" otherwise.
  */
 import * as tsx from 'vue-tsx-support'
-import {EDITOR_TO_ON_CHANGE} from '../utils/weak-maps';
+import {EDITOR_TO_ON_CHANGE} from 'slate-vue-shared';
 import Vue from 'vue';
 import { VueEditor, getGvm } from '../plugins';
 import {fragment} from './fragment'

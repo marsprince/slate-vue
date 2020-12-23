@@ -1,13 +1,15 @@
 import Children from './children';
 import * as tsx from "vue-tsx-support";
-import {VueEditor, elementWatcherPlugin, SlateMixin, useEffect, useRef, vueRuntime} from '../plugins';
-import { IS_FOCUSED, EDITOR_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, IS_READ_ONLY } from '../utils/weak-maps';
-import {DOMNode,isDOMNode, DOMRange, isDOMElement, isDOMText, isPlainTextOnlyPaste} from '../utils/dom';
-import {Transforms, Range,Editor, Element as SlateElement, Node} from 'slate';
-import {DOMStaticRange} from '../utils/dom';
-import { IS_FIREFOX, IS_SAFARI, IS_EDGE_LEGACY } from '../utils/environment'
-import Hotkeys from '../utils/hotkeys'
-import { addOnBeforeInput } from '../utils/beforeInput';
+import {VueEditor, SlateMixin, useEffect, useRef} from '../plugins';
+import {
+  IS_FOCUSED, EDITOR_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, IS_READ_ONLY,
+  DOMNode,isDOMNode, DOMRange, isDOMElement, isDOMText, isPlainTextOnlyPaste,
+  IS_FIREFOX, IS_SAFARI, IS_EDGE_LEGACY,
+  DOMStaticRange,
+  Hotkeys,
+  addOnBeforeInput
+} from 'slate-vue-shared';
+import {Transforms, Range,Editor, Element as SlateElement} from 'slate';
 import { PropType } from 'vue';
 import { UseRef } from '../types';
 

@@ -1,7 +1,7 @@
 import * as tsx from 'vue-tsx-support'
 
 import string from './string'
-import { PLACEHOLDER_SYMBOL } from '../utils/weak-maps'
+import { PLACEHOLDER_SYMBOL } from 'slate-vue-shared'
 import { providedByEditable, RenderLeafProps } from '../types';
 import {fragment} from './fragment';
 import { VNode, VueConstructor, PropType } from 'vue';
