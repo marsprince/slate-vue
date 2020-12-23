@@ -1,5 +1,6 @@
 const rollupConfigure = require('@razors/build-rollup')
-const SlaveVue = require('../../packages/slate-vue/package.json')
+const SlateVue = require('../../packages/slate-vue/package.json')
+const SlateVueShared = require('../../packages/slate-vue-shared/package.json')
 
 const babelOptions = {
   presets: [
@@ -9,14 +10,28 @@ const babelOptions = {
 }
 
 export default [
-  rollupConfigure(SlaveVue, {
+  rollupConfigure(SlateVue, {
     target: 'es',
     useTypescript: true,
     useVue: true
   }, {
     babel: babelOptions
   }),
-  rollupConfigure(SlaveVue, {
+  rollupConfigure(SlateVue, {
+    target: 'cjs',
+    useTypescript: true,
+    useVue: true
+  }, {
+    babel: babelOptions
+  }),
+  rollupConfigure(SlateVueShared, {
+    target: 'es',
+    useTypescript: true,
+    useVue: true
+  }, {
+    babel: babelOptions
+  }),
+  rollupConfigure(SlateVueShared, {
     target: 'cjs',
     useTypescript: true,
     useVue: true
