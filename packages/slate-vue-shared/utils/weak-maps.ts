@@ -1,6 +1,6 @@
 import { Node, Ancestor, Editor } from 'slate'
 import { Key } from './key'
-import { VueEditor } from '..';
+import { VueEditor } from 'slate-vue';
 import { VNode } from 'vue';
 
 /**

@@ -1,13 +1,11 @@
 {
-  "name": "slate-vue",
+  "name": "slate-vue-shared",
   "version": "0.2.0",
   "dependencies": {
-    "direction": "^1.0.4",
     "is-hotkey": "^0.2.0",
     "slate": "^0.59.0",
-    "slate-vue-shared": "^0.2.0",
     "vue": "^2.6.11",
-    "vue-tsx-support": "^3.0.0"
+    "slate-vue": "^0.2.0"
   },
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",
