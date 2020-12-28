@@ -41,6 +41,19 @@ const hasEditableTarget = (
   )
 };
 
+/**
+ * Check if the target is inside void and in the editor.
+ */
+
+const isTargetInsideVoid = (
+  editor: VueEditor,
+  target: EventTarget | null
+): boolean => {
+  const slateNode =
+    hasTarget(editor, target) && VueEditor.toSlateNode(editor, target)
+  return Editor.isVoid(editor, slateNode)
+}
+
 // COMPAT: Firefox/Edge Legacy don't support the `beforeinput` event
 const HAS_BEFORE_INPUT_SUPPORT = !(IS_FIREFOX || IS_EDGE_LEGACY)
 
@@ -601,5 +614,41 @@ export const EditableComponent = {
         VueEditor.insertData(editor, data)
       }
     }
-  }
+  },
+
+  onSelectionchange(editor: any, ctx: any) {
+    if (!ctx.readOnly && !ctx.isComposing && !ctx.isUpdatingSelection) {
+      const { activeElement } = window.document
+      const el = VueEditor.toDOMNode(editor, editor)
+      const domSelection = window.getSelection()
+
+      if (activeElement === el) {
+        ctx.latestElement = activeElement
+        IS_FOCUSED.set(editor, true)
+      } else {
+        IS_FOCUSED.delete(editor)
+      }
+
+      if (!domSelection) {
+        return Transforms.deselect(editor)
+      }
+
+      const { anchorNode, focusNode } = domSelection
+
+      const anchorNodeSelectable =
+        hasEditableTarget(editor, anchorNode) ||
+        isTargetInsideVoid(editor, anchorNode)
+
+      const focusNodeSelectable =
+        hasEditableTarget(editor, focusNode) ||
+        isTargetInsideVoid(editor, focusNode)
+
+      if (anchorNodeSelectable && focusNodeSelectable) {
+        const range = VueEditor.toSlateRange(editor, domSelection)
+        Transforms.select(editor, range)
+      } else {
+        Transforms.deselect(editor)
+      }
+    }
+  },
 }
