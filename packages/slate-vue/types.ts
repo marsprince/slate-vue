@@ -70,15 +70,3 @@ export type TsxComponent<Props> = (
     [k in keyof Props]: Maybe<Props[k]>
   }
 ) => VueTsxSupport.JSX.Element;
-
-interface o {
-  [key: string]: any
-}
-
-type Observable<T> = T extends o ? (T & PickObservableObject): T;
-
-interface PickObservableObject {
-  __ob__: any
-}
-
-export type Flatten<T> = T extends (infer U)[] ? Observable<U> : T;

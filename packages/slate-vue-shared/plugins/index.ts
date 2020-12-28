@@ -1,0 +1,1 @@
+export { VueEditor } from './vue-editor'
