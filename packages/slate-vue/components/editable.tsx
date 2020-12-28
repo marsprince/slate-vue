@@ -2,15 +2,13 @@ import Children from './children';
 import * as tsx from "vue-tsx-support";
 import {VueEditor, SlateMixin, useEffect, useRef} from '../plugins';
 import {
-  IS_FOCUSED, EDITOR_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, IS_READ_ONLY,
-  DOMNode,isDOMNode, DOMRange, isDOMElement, isDOMText, isPlainTextOnlyPaste,
+  EDITOR_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, IS_READ_ONLY,
   IS_FIREFOX, IS_SAFARI, IS_EDGE_LEGACY,
   DOMStaticRange,
-  Hotkeys,
   addOnBeforeInput,
   EditableComponent
 } from 'slate-vue-shared';
-import {Transforms, Range,Editor, Element as SlateElement} from 'slate';
+import { Range } from 'slate';
 import { PropType } from 'vue';
 import { UseRef } from '../types';
 
@@ -26,106 +24,9 @@ interface IEvent extends Event {
 const HAS_BEFORE_INPUT_SUPPORT = !(IS_FIREFOX || IS_EDGE_LEGACY)
 
 /**
- * Check if the target is inside void and in the editor.
- */
-
-const isTargetInsideVoid = (
-  editor: VueEditor,
-  target: EventTarget | null
-): boolean => {
-  const slateNode =
-    hasTarget(editor, target) && VueEditor.toSlateNode(editor, target)
-  return Editor.isVoid(editor, slateNode)
-}
-
-/**
- * Check if an event is overrided by a handler.
- */
-
-const isEventHandled = (
-  event: any,
-  handler?: (event: any) => void
-) => {
-  if (!handler) {
-    return false
-  }
-  handler(event)
-  return event.defaultPrevented || event.cancelBubble
-}
-
-/**
- * Check if the target is editable and in the editor.
- */
-const hasEditableTarget = (
-  editor: VueEditor,
-  target: EventTarget | null
-): target is DOMNode => {
-  return (
-    isDOMNode(target) &&
-    VueEditor.hasDOMNode(editor, target, { editable: true })
-  )
-};
-
-/**
- * Check if two DOM range objects are equal.
- */
-
-const isRangeEqual = (a: DOMRange, b: DOMRange) => {
-  return (
-    (a.startContainer === b.startContainer &&
-      a.startOffset === b.startOffset &&
-      a.endContainer === b.endContainer &&
-      a.endOffset === b.endOffset) ||
-    (a.startContainer === b.endContainer &&
-      a.startOffset === b.endOffset &&
-      a.endContainer === b.startContainer &&
-      a.endOffset === b.startOffset)
-  )
-};
-
-/**
- * Check if the target is in the editor.
- */
-
-const hasTarget = (
-  editor: VueEditor,
-  target: EventTarget | null
-): target is DOMNode => {
-  return isDOMNode(target) && VueEditor.hasDOMNode(editor, target)
-};
-/**
  * A default memoized decorate function.
  */
 const defaultDecorate = () => []
-
-/**
- * Get a plaintext representation of the content of a node, accounting for block
- * elements which get a newline appended.
- *
- * The domNode must be attached to the DOM.
- */
-
-const getPlainText = (domNode: DOMNode) => {
-  let text = ''
-
-  if (isDOMText(domNode) && domNode.nodeValue) {
-    return domNode.nodeValue
-  }
-
-  if (isDOMElement(domNode)) {
-    for (const childNode of Array.from(domNode.childNodes)) {
-      text += getPlainText(childNode)
-    }
-
-    const display = getComputedStyle(domNode).getPropertyValue('display')
-
-    if (display === 'block' || display === 'list' || domNode.tagName === 'BR') {
-      text += '\n'
-    }
-  }
-
-  return text
-}
 
 interface EditableData {
   latestElement: null | Element,
