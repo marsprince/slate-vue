@@ -1,4 +1,4 @@
-import { Text } from 'slate';
+import { Element, Text } from 'slate';
 
 interface o {
   [key: string]: any
@@ -19,4 +19,18 @@ export interface RenderLeafProps {
   attributes: {
     'data-slate-leaf': true
   }
+}
+
+export interface RenderElementAttributes {
+  'data-slate-node': 'element'
+  'data-slate-void'?: true
+  'data-slate-inline'?: true
+  contentEditable?: false
+  dir?: 'rtl'
+}
+
+export interface RenderElementProps {
+  children: any
+  element: Element
+  attributes: RenderElementAttributes
 }

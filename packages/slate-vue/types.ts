@@ -1,7 +1,10 @@
 import "vue-tsx-support/enable-check"
 import Vue, { RenderContext, VueConstructor } from 'vue';
 import { VueEditor } from './plugins';
-import { Node, Path, Element, Text } from 'Slate';
+import { Node, Path } from 'Slate';
+import {
+  RenderLeafProps, RenderElementProps
+} from 'slate-vue-shared';
 
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
@@ -14,29 +17,6 @@ declare module 'vue/types/vue' {
   interface Vue {
     // editor instance
     $editor: VueEditor
-  }
-}
-
-export interface RenderElementAttributes {
-  'data-slate-node': 'element'
-  'data-slate-void'?: true
-  'data-slate-inline'?: true
-  contentEditable?: false
-  dir?: 'rtl'
-}
-
-export interface RenderElementProps {
-  children: any
-  element: Element
-  attributes: RenderElementAttributes
-}
-
-export interface RenderLeafProps {
-  children: any
-  leaf: Text
-  text: Text
-  attributes: {
-    'data-slate-leaf': true
   }
 }
 
