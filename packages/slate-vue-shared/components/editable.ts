@@ -1,5 +1,5 @@
 import { DOMNode, Hotkeys, IS_EDGE_LEGACY, IS_FIREFOX, IS_FOCUSED, IS_SAFARI, isDOMElement, isDOMNode, isPlainTextOnlyPaste } from '../utils';
-import { VueEditor } from 'slate-vue';
+import { VueEditor } from '../plugins';
 import { Editor, Element as SlateElement, Range, Transforms } from 'slate';
 
 /**
