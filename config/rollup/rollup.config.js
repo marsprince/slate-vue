@@ -26,15 +26,13 @@ export default [
   }),
   rollupConfigure(SlateVueShared, {
     target: 'es',
-    useTypescript: true,
-    useVue: true
+    useTypescript: true
   }, {
     babel: babelOptions
   }),
   rollupConfigure(SlateVueShared, {
     target: 'cjs',
-    useTypescript: true,
-    useVue: true
+    useTypescript: true
   }, {
     babel: babelOptions
   })
