@@ -15,7 +15,7 @@ export type FlatObservableArray<T> = T extends (infer U)[] ? Observable<U> : T;
 export interface RenderLeafProps {
   children: any
   leaf: Text
-  text: Text
+  text: Text | undefined
   attributes: {
     'data-slate-leaf': true
   }
