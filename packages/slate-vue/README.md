@@ -136,3 +136,13 @@ If your component is related to the editor(like toolbar), you must add slateMixi
 ```javascript
 import {SlateMixin} from 'slate-vue'
 ```
+
+### Nuxtjs
+
+For Nuxtjs, you must add ``slate-vue`` and ``vue-tsx-support`` into your transpile option in nuxt.config.js
+
+```javascript
+build: { 
+  transpile: ['slate-vue', 'vue-tsx-support'] 
+}
+```
