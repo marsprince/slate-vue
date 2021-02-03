@@ -3,7 +3,7 @@
 import * as tsx from "vue-tsx-support";
 import { Editor, Range, Element, NodeEntry, Ancestor, Descendant, Operation, Path, Node } from 'slate';
 import TextComponent from './text'
-import ElementComponent from './element'
+import {Element as ElementComponent} from './element'
 import { VueEditor, elementWatcherPlugin, SlateMixin } from '../plugins';
 import { KEY_TO_VNODE, NODE_TO_INDEX, NODE_TO_KEY, NODE_TO_PARENT } from 'slate-vue-shared';
 import {fragment} from './fragment';
@@ -13,7 +13,7 @@ import { PropType } from 'vue';
  * Children.
  */
 
-const Children: any = tsx.component({
+export const Children: any = tsx.component({
   props: {
     // only element or editor
     node: {
@@ -111,4 +111,4 @@ const Children: any = tsx.component({
   }
 });
 
-export default Children
+// export default Children

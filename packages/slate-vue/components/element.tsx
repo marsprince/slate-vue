@@ -9,7 +9,7 @@ import { Editor, Node, Element as SlateElement } from 'slate'
 import getDirection from 'direction'
 
 import Text from './text'
-import Children from './children'
+import {Children} from './children'
 import { elementWatcherPlugin, useEffect, useRef, VueEditor } from '../plugins';
 import {
   NODE_TO_PARENT, NODE_TO_INDEX, KEY_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE,
@@ -22,7 +22,7 @@ import { VNode, PropType } from 'vue';
  * Element
  */
 
-const Element = tsx.component({
+export const Element = tsx.component({
   props: {
     element: {
       type: Object as PropType<SlateElement>
@@ -141,4 +141,4 @@ export const DefaultElement = (props: RenderElementProps) => {
   })
 }
 
-export default Element
+// export default Element

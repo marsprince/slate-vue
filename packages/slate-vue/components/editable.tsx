@@ -1,4 +1,4 @@
-import Children from './children';
+import {Children} from './children';
 import * as tsx from "vue-tsx-support";
 import {VueEditor, SlateMixin, useEffect, useRef} from '../plugins';
 import {
