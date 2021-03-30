@@ -35,7 +35,7 @@ const Leaf = tsx.component({
     let children =  (
       <string text={text} editor={this.$editor} leaf={leaf}/>
       );
-    if (leaf[PLACEHOLDER_SYMBOL]) {
+    if ((leaf as any)[PLACEHOLDER_SYMBOL]) {
       children = (
         <fragment>
           <span
@@ -50,7 +50,7 @@ const Leaf = tsx.component({
               opacity: '0.333',
             }}
           >
-            {leaf.placeholder}
+            {(leaf as any).placeholder}
           </span>
           {children}
         </fragment>

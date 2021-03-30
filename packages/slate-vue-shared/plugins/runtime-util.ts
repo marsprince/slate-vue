@@ -1,9 +1,9 @@
-import { Editor, Operation, Node, Path, Text, Descendant, NodeEntry, Transforms as SlateTransforms, Location } from 'slate';
+import { Editor, Operation, Node, Path, Text, Descendant, NodeEntry, Transforms as SlateTransforms, Location, Element } from 'slate';
 import { NODE_TO_KEY } from '../utils';
-import Vue from 'vue'
+import { VueEditor } from './vue-editor';
 
 export const getChildren = (node: Node): any => {
-  return Editor.isEditor(node) ? node._state: node.children
+  return Editor.isEditor(node) ? (node as VueEditor)._state: (node as Element).children
 }
 
 export const clone = (node: any): any => {
@@ -11,7 +11,7 @@ export const clone = (node: any): any => {
 }
 
 // a minimum version of Editor.transform for runtime
-export const transform = function(editor: Editor, op: Operation) {
+export const transform = function(editor: Editor, op: Operation, Vue?: any) {
   switch (op.type) {
     case 'insert_node': {
       const { path, node } = op
@@ -118,12 +118,14 @@ export const transform = function(editor: Editor, op: Operation) {
           throw new Error(`Cannot set the "${key}" property of nodes!`)
         }
 
-        const value = newProperties[key]
+        const value = (newProperties as any)[key]
 
-        if (value == null) {
-          Vue.delete(node, key)
-        } else {
-          Vue.set(node, key, value)
+        if(Vue) {
+          if (value == null) {
+            Vue.delete(node, key)
+          } else {
+            Vue.set(node, key, value)
+          }
         }
       }
 

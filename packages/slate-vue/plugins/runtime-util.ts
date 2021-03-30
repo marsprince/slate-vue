@@ -3,7 +3,7 @@ import { NODE_TO_KEY } from 'slate-vue-shared';
 import Vue from 'vue'
 
 export const getChildren = (node: Node): any => {
-  return Editor.isEditor(node) ? node._state: node.children
+  return Editor.isEditor(node) ? (node as any)._state: (node as any).children
 }
 
 export const clone = (node: any): any => {
@@ -118,7 +118,7 @@ export const transform = function(editor: Editor, op: Operation) {
           throw new Error(`Cannot set the "${key}" property of nodes!`)
         }
 
-        const value = newProperties[key]
+        const value = (newProperties as any)[key]
 
         if (value == null) {
           Vue.delete(node, key)

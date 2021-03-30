@@ -38,7 +38,7 @@ export const Children: any = tsx.component({
       !editor.isInline(node) &&
       Editor.hasInlines(editor, node)
     const children = []
-    const childArr = Editor.isEditor(node) ? node._state as any : (node as Element).children
+    const childArr: any = Editor.isEditor(node) ? (node as VueEditor)._state : (node as Element).children
     // cacheVnode in manual to reuse
     let cacheVnode = null;
     for(let i=0;i<childArr.length;i++) {
@@ -53,7 +53,7 @@ export const Children: any = tsx.component({
       // when modify vnode, only new vnode or spliting vnode must be update, others will be reuse
       // #62, #63: sometimes(like paste) no cacheVnode but have key, avoid getting in
       if(editor._operation && KEY_TO_VNODE.get(key)) {
-        const operationPath = editor._operation.path as Path
+        const operationPath = (editor._operation as any).path as Path
         // split_node
         if(editor._operation.type === 'split_node') {
           // only sibling
@@ -105,7 +105,7 @@ export const Children: any = tsx.component({
         children.push(cacheVnode)
       }
       // set key and vnode
-      KEY_TO_VNODE.set(key, cacheVnode)
+      KEY_TO_VNODE.set(key, cacheVnode as any)
     }
     return <fragment>{children}</fragment>;
   }

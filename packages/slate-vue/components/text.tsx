@@ -71,7 +71,7 @@ const Text = tsx.component({
   },
   render(h, ctx): VNode {
     const { text, placeholder } = this
-    let decorations: Array<Range> = this.decorations;
+    let decorations: Array<any> = this.decorations;
     if(!decorations) {
       const editor = this.$editor
       const p = VueEditor.findPath(editor, text)
