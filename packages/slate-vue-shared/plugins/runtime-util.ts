@@ -213,7 +213,7 @@ export const runtimeNode = {
     }
 
     return true
-},
+  },
   get(root: Node, path: Path): Node {
     let node = root
 
