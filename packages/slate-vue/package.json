@@ -2,7 +2,7 @@
   "name": "slate-vue",
   "version": "0.2.0",
   "dependencies": {
-    "direction": "^1.0.4",
+    "direction": "^2.0.0",
     "is-hotkey": "^0.2.0",
     "slate": "^0.60.2",
     "slate-vue-shared": "^0.2.0",
