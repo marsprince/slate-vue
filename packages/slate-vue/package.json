@@ -7,7 +7,7 @@
     "slate": "^0.60.2",
     "slate-vue-shared": "^0.2.0",
     "vue": "^2.6.11",
-    "vue-tsx-support": "^3.0.0"
+    "vue-tsx-support": "^3.1.0"
   },
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",
