@@ -16,5 +16,8 @@
       "dom.iterable",
       "scripthost"
     ]
-  }
+  },
+  "include": [
+    "node_modules/vue-tsx-support/enable-check.d.ts"
+  ]
 }

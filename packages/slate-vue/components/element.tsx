@@ -6,7 +6,7 @@
 import * as tsx from "vue-tsx-support"
 import { Editor, Node, Element as SlateElement } from 'slate'
 // @ts-ignore
-import getDirection from 'direction'
+import { direction } from 'direction'
 
 import Text from './text'
 import {Children} from './children'
@@ -62,6 +62,7 @@ export const Element = tsx.component({
     const {element, renderElement = DefaultElement, ref} = this;
     const editor = this.$editor
     const isInline = editor.isInline(element)
+    // @ts-ignore
     let children: VueTsxSupport.JSX.Element | null = (
       <Children
         node={element}
@@ -78,7 +79,7 @@ export const Element = tsx.component({
     // for text direction.
     if (!isInline && Editor.hasInlines(editor, element)) {
       const text = Node.string(element)
-      const dir = getDirection(text)
+      const dir = direction(text)
 
       if (dir === 'rtl') {
         attributes.dir = dir

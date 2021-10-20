@@ -5,7 +5,7 @@ module.exports = merge(base ,{
   mode: 'development',
   devServer: {
     open: true,
-    contentBase: '../../../site/public',
+    static: '../../../site/public',
     historyApiFallback: true,
     port: 3000
   }

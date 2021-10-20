@@ -1,6 +1,6 @@
 import { DOMNode, Hotkeys, IS_EDGE_LEGACY, IS_FIREFOX, IS_FOCUSED, IS_SAFARI, isDOMElement, isDOMNode, isPlainTextOnlyPaste } from '../utils';
 import { VueEditor } from '../plugins';
-import { Editor, Element as SlateElement, Range, Transforms } from 'slate';
+import { Editor, Element as SlateElement, Point, Range, Path, Transforms } from 'slate';
 
 /**
  * Check if the target is in the editor.
@@ -579,18 +579,18 @@ export const EditableComponent = {
       hasTarget(editor, event.target) &&
       !isEventHandled(event, ctx.onDragStart)
     ) {
-      const node = VueEditor.toSlateNode(editor, event.target)
-      const path = VueEditor.findPath(editor, node)
-      const voidMatch = Editor.void(editor, { at: path })
+        
+      const selection = editor.selection
+      const edges = Range.edges(selection)
 
-      // If starting a drag on a void node, make sure it is selected
-      // so that it shows up in the selection's fragment.
-      if (voidMatch) {
-        const range = Editor.range(editor, path)
-        Transforms.select(editor, range)
+      const endVoid = Editor.void(editor, { at: edges[1].path })
+
+      if (endVoid) {
+        const parentNext = Path.next(Path.parent(edges[1].path))
+        Transforms.select(editor, { anchor: edges[0], focus: { offset: 0, path: parentNext } })
       }
 
-      VueEditor.setFragmentData(editor, event.clipboardData)
+      VueEditor.setFragmentData(editor, event.dataTransfer)
     }
   },
   onDrop(event: any, editor: any, ctx: any) {
@@ -599,23 +599,20 @@ export const EditableComponent = {
       !ctx.readOnly &&
       !isEventHandled(event, ctx.onDrop)
     ) {
-      // COMPAT: Certain browsers don't fire `beforeinput` events at all, and
-      // Chromium browsers don't properly fire them for files being
-      // dropped into a `contenteditable`. (2019/11/26)
-      // https://bugs.chromium.org/p/chromium/issues/detail?id=1028668
-      if (
-        !HAS_BEFORE_INPUT_SUPPORT ||
-        (!IS_SAFARI && event.dataTransfer.files.length > 0)
-      ) {
         event.preventDefault()
+
         const range = VueEditor.findEventRange(editor, event)
         const data = event.dataTransfer
+
+        if (editor.selection) {
+          Editor.deleteFragment(editor)
+        }
+        
         Transforms.select(editor, range)
+
         VueEditor.insertData(editor, data)
-      }
     }
   },
-
   onSelectionchange(editor: any, ctx: any) {
     if (!ctx.readOnly && !ctx.isComposing && !ctx.isUpdatingSelection) {
       const { activeElement } = window.document
