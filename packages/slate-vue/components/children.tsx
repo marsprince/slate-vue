@@ -5,7 +5,7 @@ import { Editor, Range, Element, NodeEntry, Ancestor, Descendant, Operation, Pat
 import TextComponent from './text'
 import {Element as ElementComponent} from './element'
 import { VueEditor, elementWatcherPlugin, SlateMixin } from '../plugins';
-import { KEY_TO_VNODE, NODE_TO_INDEX, NODE_TO_KEY, NODE_TO_PARENT } from 'slate-vue-shared';
+import { KEY_TO_VNODE, NODE_TO_INDEX, NODE_TO_KEY, NODE_TO_PARENT } from '@hydrabot/slate-vue-shared';
 import {fragment} from './fragment';
 import { PropType } from 'vue';
 

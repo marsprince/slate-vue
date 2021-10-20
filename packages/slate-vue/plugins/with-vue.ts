@@ -1,7 +1,7 @@
 import { Editor, Node, Path, Operation, Transforms, Range } from 'slate'
 
 import { VueEditor } from './vue-editor'
-import { Key, isDOMText, getPlainText, EDITOR_TO_ON_CHANGE, NODE_TO_KEY } from 'slate-vue-shared'
+import { Key, isDOMText, getPlainText, EDITOR_TO_ON_CHANGE, NODE_TO_KEY } from '@hydrabot/slate-vue-shared'
 
 // TODO: common runtime in shared
 import {vueRuntime} from './vue-runtime';

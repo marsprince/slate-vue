@@ -11,7 +11,7 @@ import {
   KEY_TO_ELEMENT,
   NODE_TO_ELEMENT,
   ELEMENT_TO_NODE, PLACEHOLDER_SYMBOL,
-} from 'slate-vue-shared';
+} from '@hydrabot/slate-vue-shared';
 import { useRef, useEffect } from '../plugins/vue-hooks';
 import { providedByEditable, UseRef } from '../types';
 import { PropType, VNode } from 'vue';

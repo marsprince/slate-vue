@@ -14,7 +14,7 @@ import { elementWatcherPlugin, useEffect, useRef, VueEditor } from '../plugins';
 import {
   NODE_TO_PARENT, NODE_TO_INDEX, KEY_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE,
   RenderElementAttributes, RenderElementProps
-} from 'slate-vue-shared';
+} from '@hydrabot/slate-vue-shared';
 import { providedByEditable, UseRef } from '../types';
 import { VNode, PropType } from 'vue';
 

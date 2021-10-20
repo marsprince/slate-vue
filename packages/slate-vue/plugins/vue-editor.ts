@@ -3,7 +3,7 @@
  */
 import {
   VueEditor
-} from 'slate-vue-shared'
+} from '@hydrabot/slate-vue-shared'
 import { vueRuntimeFunc } from './vue-runtime';
 
 VueEditor.toDOMRange = vueRuntimeFunc(VueEditor.toDOMRange)

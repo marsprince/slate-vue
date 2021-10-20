@@ -2,7 +2,7 @@ import * as tsx from 'vue-tsx-support'
 import { createEditor, Operation, Editor, Range } from 'slate';
 import {hooks} from './vue-hooks';
 import Vue from 'vue'
-import { NODE_TO_KEY, EDITOR_TO_GVM, GVM_TO_EDITOR, withVue } from 'slate-vue-shared';
+import { NODE_TO_KEY, EDITOR_TO_GVM, GVM_TO_EDITOR, withVue } from '@hydrabot/slate-vue-shared';
 import {VueEditor} from './vue-editor'
 
 const createGvm = () => {

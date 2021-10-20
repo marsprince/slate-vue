@@ -1,9 +1,8 @@
 import * as tsx from 'vue-tsx-support'
 
 import string from './string'
-import { PLACEHOLDER_SYMBOL } from 'slate-vue-shared'
+import { PLACEHOLDER_SYMBOL, RenderLeafProps } from '@hydrabot/slate-vue-shared'
 import { providedByEditable } from '../types';
-import { RenderLeafProps } from 'slate-vue-shared'
 import {fragment} from './fragment';
 import { VNode, VueConstructor, PropType } from 'vue';
 import { Text } from 'slate';

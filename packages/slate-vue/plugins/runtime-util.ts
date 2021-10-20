@@ -1,5 +1,5 @@
 import { Editor, Operation, Node, Path, Text, Descendant, NodeEntry, Transforms as SlateTransforms, Location } from 'slate';
-import { NODE_TO_KEY } from 'slate-vue-shared';
+import { NODE_TO_KEY } from '@hydrabot/slate-vue-shared';
 import Vue from 'vue'
 
 export const getChildren = (node: Node): any => {
