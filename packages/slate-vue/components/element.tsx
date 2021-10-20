@@ -6,7 +6,7 @@
 import * as tsx from "vue-tsx-support"
 import { Editor, Node, Element as SlateElement } from 'slate'
 // @ts-ignore
-import { direction } from 'direction'
+import direction from 'direction'
 
 import Text from './text'
 import {Children} from './children'
