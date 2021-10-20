@@ -1,6 +1,6 @@
 import Vue, { RenderContext, VueConstructor } from 'vue';
 import { VueEditor } from './plugins';
-import { Node, Path } from 'Slate';
+import { Node, Path } from 'slate';
 import {
   RenderLeafProps, RenderElementProps
 } from '@hydrabot/slate-vue-shared';

@@ -18,6 +18,7 @@
     "test": "jest"
   },
   "devDependencies": {
+    "@babel/core": "^7.15.8",
     "@razors/build-babel": "^0.0.20",
     "@razors/build-commit": "^0.0.20",
     "@razors/build-jest": "^0.0.20",
@@ -49,6 +50,7 @@
     "is-url": "^1.2.4",
     "lodash": "^4.17.21",
     "prismjs": "^1.25.0",
+    "slate": "^0.66.5",
     "slate-history": "^0.66.0",
     "slate-hyperscript": "^0.66.0",
     "vue": "^2.6.14",
