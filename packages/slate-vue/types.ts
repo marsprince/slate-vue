@@ -1,4 +1,3 @@
-import "vue-tsx-support/enable-check"
 import Vue, { RenderContext, VueConstructor } from 'vue';
 import { VueEditor } from './plugins';
 import { Node, Path } from 'Slate';
@@ -49,4 +48,5 @@ export type TsxComponent<Props> = (
   args: Partial<RenderContext<Props>> & {
     [k in keyof Props]: Maybe<Props[k]>
   }
+// @ts-ignore
 ) => VueTsxSupport.JSX.Element;

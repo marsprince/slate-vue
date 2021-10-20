@@ -171,6 +171,7 @@ export const VueEditor = {
         : target.parentElement) as HTMLElement
     } catch (err) {
       if (
+        err instanceof Error &&
         !err.message.includes('Permission denied to access property "nodeType"')
       ) {
         throw err
@@ -380,6 +381,8 @@ export const VueEditor = {
     if (document.caretRangeFromPoint) {
       domRange = document.caretRangeFromPoint(x, y)
     } else {
+      // COMPAT: `caretPositionFromPoint` was removed from lib.dom.d.ts in TS 4.4
+      // @ts-ignore
       const position = document.caretPositionFromPoint(x, y)
 
       if (position) {
