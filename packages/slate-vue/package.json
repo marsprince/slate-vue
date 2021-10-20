@@ -1,5 +1,5 @@
 {
-  "name": "slate-vue",
+  "name": "@hydrabot/slate-vue",
   "version": "0.2.0",
   "dependencies": {
     "direction": "^2.0.0",
