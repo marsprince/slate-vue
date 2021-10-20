@@ -345,7 +345,7 @@ export const isVueObject = (obj: any) => {
 }
 
 // a Transform version for runtime
-export const Transforms = (() => {
+export const Transforms: any = (() => {
   const {select} = SlateTransforms
   SlateTransforms.select = (editor: Editor, target: Location) => {
     if(isVueObject(target)) {

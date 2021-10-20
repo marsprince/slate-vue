@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "slate-vue-packages",
+  "name": "@hydrabot/slate-vue-packages",
   "workspaces": [
     "packages/*"
   ],
