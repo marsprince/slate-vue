@@ -1,11 +1,11 @@
 {
   "name": "@hydrabot/slate-vue",
-  "version": "0.2.0",
+  "version": "0.2.1-custom",
   "dependencies": {
     "direction": "^2.0.0",
     "is-hotkey": "^0.2.0",
     "slate": "^0.66.5",
-    "slate-vue-shared": "^0.2.0",
+    "@hydrabot/slate-vue-shared": "^0.2.1-custom",
     "vue": "^2.6.11",
     "vue-tsx-support": "^3.0.0"
   },
