@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import {Slate, Editable} from 'slate-vue'
+  import {Slate, Editable} from '@hydrabot/slate-vue'
   import {renderElement, wrapLink} from './render';
   import isUrl from 'is-url'
   import LinkButton from './linkButton'

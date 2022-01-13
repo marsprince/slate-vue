@@ -2,7 +2,7 @@
   import Button from '../components/button'
   import Icon from '../components/icon'
   import {wrapLink, isLinkActive} from './render';
-  import { SlateMixin } from 'slate-vue';
+  import { SlateMixin } from '@hydrabot/slate-vue';
 
   export default {
     name: 'LinkButton',

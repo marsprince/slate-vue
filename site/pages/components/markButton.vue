@@ -2,7 +2,7 @@
   import Button from './button'
   import Icon from './icon'
   import {Editor} from 'slate'
-  import {SlateMixin} from 'slate-vue';
+  import {SlateMixin} from '@hydrabot/slate-vue';
 
   const isMarkActive = (editor, format) => {
     const marks = Editor.marks(editor)

@@ -6,7 +6,7 @@
 
 <script>
   import Prism from 'prismjs'
-  import {Slate, Editable, SlateMixin} from 'slate-vue'
+  import {Slate, Editable, SlateMixin} from '@hydrabot/slate-vue'
   import {Text} from 'slate'
   import {renderLeaf} from './render';
 

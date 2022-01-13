@@ -8,7 +8,7 @@
   import Button from '../components/button'
   import Icon from '../components/icon'
   import {isFormatActive, toggleFormat} from './util';
-  import { SlateMixin, useEffect } from 'slate-vue';
+  import { SlateMixin, useEffect } from '@hydrabot/slate-vue';
 
   export default {
     name: 'formatButton',

@@ -2,7 +2,7 @@
   import Button from './button'
   import Icon from './icon'
   import {Editor, Transforms} from 'slate'
-  import {SlateMixin} from 'slate-vue';
+  import {SlateMixin} from '@hydrabot/slate-vue';
 
   const LIST_TYPES = ['numbered-list', 'bulleted-list']
 

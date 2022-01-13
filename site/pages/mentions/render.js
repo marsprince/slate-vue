@@ -1,4 +1,4 @@
-import { FocusedMixin, SelectedMixin } from 'slate-vue';
+import { FocusedMixin, SelectedMixin } from '@hydrabot/slate-vue';
 import MentionElement from './mentions'
 
 export const renderElement = ({ attributes, children, element }) => {

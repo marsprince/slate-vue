@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import {Slate, Editable} from 'slate-vue'
+  import {Slate, Editable} from '@hydrabot/slate-vue'
   import {Text} from 'slate'
   import {renderLeaf} from './render';
   import Toolbar from '../components/toolbar';

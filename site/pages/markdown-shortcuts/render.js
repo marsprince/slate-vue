@@ -1,5 +1,5 @@
 import {Editor, Range, Point} from 'slate';
-import {Transforms} from 'slate-vue';
+import {Transforms} from '@hydrabot/slate-vue';
 
 const SHORTCUTS = {
   '*': 'list-item',

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import {Slate, Editable} from 'slate-vue'
+  import {Slate, Editable} from '@hydrabot/slate-vue'
 
   // this value is for editor
   const initialValue = [

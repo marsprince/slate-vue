@@ -1,4 +1,4 @@
-import {Transforms} from 'slate-vue';
+import {Transforms} from '@hydrabot/slate-vue';
 import {Node} from 'slate';
 
 export const withLayout = editor => {

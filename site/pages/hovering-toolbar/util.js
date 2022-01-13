@@ -1,4 +1,4 @@
-import {Transforms} from 'slate-vue';
+import {Transforms} from '@hydrabot/slate-vue';
 import {Editor, Text} from 'slate';
 
 export const isFormatActive = (editor, format) => {

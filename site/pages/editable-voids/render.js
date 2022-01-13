@@ -1,4 +1,4 @@
-import {Transforms} from 'slate-vue';
+import {Transforms} from '@hydrabot/slate-vue';
 import EditableVoidElement from './editableVoidElement'
 
 const insertEditableVoid = editor => {

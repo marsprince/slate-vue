@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import {Slate, Editable} from 'slate-vue'
+  import {Slate, Editable} from '@hydrabot/slate-vue'
   import {withHtml, renderElement, renderLeaf} from './render';
 
   // this value is for editor

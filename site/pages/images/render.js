@@ -1,6 +1,6 @@
 import ImageElement from './imageElement'
 import {Transforms} from 'slate';
-import {gvm} from 'slate-vue';
+import {gvm} from '@hydrabot/slate-vue';
 
 export const renderElement = ({ attributes, children, element }) => {
   return {

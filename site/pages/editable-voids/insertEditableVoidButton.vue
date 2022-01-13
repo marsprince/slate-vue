@@ -7,7 +7,7 @@
 <script>
   import Button from '../components/button'
   import Icon from '../components/icon'
-  import {Transforms} from 'slate-vue';
+  import {Transforms} from '@hydrabot/slate-vue';
 
   const insertEditableVoid = editor => {
     const text = { text: '' }

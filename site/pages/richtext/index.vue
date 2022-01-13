@@ -12,11 +12,14 @@
       <BlockButton format="bulleted-list" icon="format_list_bulleted" />
     </Toolbar>
     <Editable placeholder="Enter some rich text…" :renderLeaf="renderLeaf" :renderElement="renderElement"></Editable>
+    <a @click="test()">
+      Test
+    </a>
   </Slate>
 </template>
 
 <script>
-  import {Slate, Editable} from 'slate-vue'
+  import {Slate, Editable, Transforms} from '@hydrabot/slate-vue'
   import {renderLeaf, renderElement} from './render';
   import MarkButton from '../components/markButton';
   import BlockButton from '../components/blockButton'
@@ -73,6 +76,13 @@
         initialValue,
         renderLeaf,
         renderElement
+      }
+    },
+    methods: {
+      test () {
+        console.log(JSON.parse(JSON.stringify(this.$editor)))
+        Transforms.setNodes(this.$editor, { bold: true }, { at: [0, 0] })
+        console.log(JSON.parse(JSON.stringify(this.$editor)))
       }
     }
   };

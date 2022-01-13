@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import {Slate, Editable} from 'slate-vue'
+  import {Slate, Editable} from '@hydrabot/slate-vue'
   import {toggleFormat} from './util';
   import {renderLeaf} from './render';
   import hoveringToolbar from './hoveringToolbar';

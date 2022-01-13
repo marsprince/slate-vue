@@ -8,7 +8,7 @@
 
 <script>
   import Menu from '../components/menu'
-  import { useEffect, VueEditor, SlateMixin } from 'slate-vue';
+  import { useEffect, VueEditor, SlateMixin } from '@hydrabot/slate-vue';
   import {Editor, Range} from 'slate'
   import FormatButton from './formatButton'
 

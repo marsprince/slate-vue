@@ -18,7 +18,7 @@
   </Slate>
 </template>
 <script>
-  import { Slate, Editable, useEffect, useRef, VueEditor, Transforms, fragment } from 'slate-vue';
+  import { Slate, Editable, useEffect, useRef, VueEditor, Transforms, fragment } from '@hydrabot/slate-vue';
   import {renderElement} from './render';
   import {Editor, Range} from 'slate'
   import { CHARACTERS, insertMention, withMentions } from './utils';
