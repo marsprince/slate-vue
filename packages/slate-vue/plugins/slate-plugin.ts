@@ -1,5 +1,5 @@
 import * as tsx from 'vue-tsx-support'
-import { createEditor, Operation, Editor, Range } from 'slate';
+import { createEditor, Operation, Editor, Range, Node } from 'slate';
 import {hooks} from './vue-hooks';
 import Vue from 'vue'
 import { NODE_TO_KEY, EDITOR_TO_GVM, GVM_TO_EDITOR, withVue } from 'slate-vue-shared';
