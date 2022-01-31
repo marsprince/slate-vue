@@ -20,7 +20,7 @@ const createGvm = () => {
         const editor = GVM_TO_EDITOR.get(this) as VueEditor
         const {selection} = editor
         if(selection) {
-          this.selected.elements.forEach(node => {
+          this.selected.elements.forEach((node: Node) => {
             const key = NODE_TO_KEY.get(node)
             if(key) {
               const {id} = key
