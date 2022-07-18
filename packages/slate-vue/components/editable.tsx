@@ -3,10 +3,11 @@ import * as tsx from "vue-tsx-support";
 import {VueEditor, SlateMixin, useEffect, useRef} from '../plugins';
 import {
   EDITOR_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE, IS_READ_ONLY,
-  IS_FIREFOX, IS_SAFARI, IS_EDGE_LEGACY,
+  HAS_BEFORE_INPUT_SUPPORT,
   DOMStaticRange,
   addOnBeforeInput,
-  EditableComponent
+  EditableComponent,
+  IS_FIREFOX_LEGACY
 } from 'slate-vue-shared';
 import { Range } from 'slate';
 import { PropType } from 'vue';
@@ -19,9 +20,6 @@ interface IEvent extends Event {
   inputType: string
   isComposing: boolean
 }
-
-// COMPAT: Firefox/Edge Legacy don't support the `beforeinput` event
-const HAS_BEFORE_INPUT_SUPPORT = !(IS_FIREFOX || IS_EDGE_LEGACY)
 
 /**
  * A default memoized decorate function.
@@ -167,8 +165,19 @@ export const Editable = tsx.component({
     const editor = this.$editor;
     IS_READ_ONLY.set(editor, this.readOnly)
 
-    const initListener = ()=>{
+    const initListener = () => {
+      
       // Attach a native DOM event handler for `selectionchange`
+      useEffect(() => {
+        if (HAS_BEFORE_INPUT_SUPPORT) {
+          document.addEventListener('beforeinput', this.onBeforeInput)
+        }
+        return () => {
+          if (HAS_BEFORE_INPUT_SUPPORT) {
+            document.removeEventListener('beforeinput', this.onBeforeInput)
+          }
+        }
+      });
       useEffect(()=>{
         document.addEventListener('selectionchange', this.onSelectionchange)
         return () => {
@@ -268,7 +277,7 @@ export const Editable = tsx.component({
         setTimeout(() => {
           // COMPAT: In Firefox, it's not enough to create a range, you also need
           // to focus the contenteditable element too. (2016/11/16)
-          if (newDomRange && IS_FIREFOX) {
+          if (newDomRange && IS_FIREFOX_LEGACY) {
             el.focus()
           }
 
@@ -287,7 +296,7 @@ export const Editable = tsx.component({
     // needs to be manually focused.
     updateAutoFocus();
     // patch beforeinput in FireFox
-    if(IS_FIREFOX) {
+    if (IS_FIREFOX_LEGACY) {
       useEffect(() => {
         addOnBeforeInput(ref.current, true)
       }, [])

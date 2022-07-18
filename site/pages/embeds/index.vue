@@ -1,13 +1,16 @@
 <template>
   <Slate :value="JSON.stringify(initialValue)">
-    <Editable placeholder="Enter some plain text..." :renderElement="renderElement"></Editable>
+    <Editable
+      placeholder="Enter some plain text..."
+      :renderElement="renderElement"
+    ></Editable>
   </Slate>
 </template>
 
 <script>
-  import {Slate, Editable} from 'slate-vue'
-  import {renderElement} from './render';
-  import {withEmbeds} from './util';
+  import { Slate, Editable } from 'slate-vue'
+  import { renderElement } from './render'
+  import { withEmbeds } from './util'
 
   // this value is for editor
   const initialValue = [
@@ -38,20 +41,18 @@
     name: 'index',
     components: {
       Slate,
-      Editable
+      Editable,
     },
     data() {
       return {
         initialValue,
-        renderElement
+        renderElement,
       }
     },
     created() {
       withEmbeds(this.$editor)
-    }
-  };
+    },
+  }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

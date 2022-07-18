@@ -1,6 +1,16 @@
-import { DOMNode, Hotkeys, IS_EDGE_LEGACY, IS_FIREFOX, IS_FOCUSED, IS_SAFARI, isDOMElement, isDOMNode, isPlainTextOnlyPaste } from '../utils';
-import { VueEditor } from '../plugins';
-import { Editor, Element as SlateElement, Range, Transforms } from 'slate';
+import {
+  DOMNode,
+  Hotkeys,
+  HAS_BEFORE_INPUT_SUPPORT,
+  IS_FOCUSED,
+  IS_SAFARI,
+  isDOMElement,
+  isDOMNode,
+  isPlainTextOnlyPaste,
+  IS_FIREFOX_LEGACY,
+} from '../utils'
+import { VueEditor } from '../plugins'
+import { Editor, Element as SlateElement, Range, Transforms } from 'slate'
 
 /**
  * Check if the target is in the editor.
@@ -11,16 +21,13 @@ const hasTarget = (
   target: EventTarget | null
 ): target is DOMNode => {
   return isDOMNode(target) && VueEditor.hasDOMNode(editor, target)
-};
+}
 
 /**
  * Check if an event is overrided by a handler.
  */
 
-const isEventHandled = (
-  event: any,
-  handler?: (event: any) => void
-) => {
+const isEventHandled = (event: any, handler?: (event: any) => void) => {
   if (!handler) {
     return false
   }
@@ -39,7 +46,7 @@ const hasEditableTarget = (
     isDOMNode(target) &&
     VueEditor.hasDOMNode(editor, target, { editable: true })
   )
-};
+}
 
 /**
  * Check if the target is inside void and in the editor.
@@ -53,9 +60,6 @@ const isTargetInsideVoid = (
     hasTarget(editor, target) && VueEditor.toSlateNode(editor, target)
   return Editor.isVoid(editor, slateNode)
 }
-
-// COMPAT: Firefox/Edge Legacy don't support the `beforeinput` event
-const HAS_BEFORE_INPUT_SUPPORT = !(IS_FIREFOX || IS_EDGE_LEGACY)
 
 /****************************/
 /**
@@ -87,22 +91,19 @@ export const EditableComponent = {
     }
   },
   onBeforeInput(event: any, editor: any, ctx: any) {
-    // in FireFox, we use a dispatchEvent and only support insertData
-    if(IS_FIREFOX) {
-      event.preventDefault()
-      event.stopPropagation()
-      const text = (event as any).detail as string
-      Editor.insertText(editor, text)
-      return
-    }
     if (
+      !HAS_BEFORE_INPUT_SUPPORT &&
       !ctx.readOnly &&
-      hasEditableTarget(editor, event.target) &&
-      !isEventHandled(event, ctx.onBeforeInput)
+      !isEventHandled(event, ctx.onBeforeInput) &&
+      hasEditableTarget(editor, event.target)
     ) {
+      event.preventDefault()
       const { selection } = editor
       const { inputType: type } = event
       const data = event.dataTransfer || event.data || undefined
+
+      const text = (event as any).detail as string
+      Editor.insertText(editor, text)
 
       // These two types occur while a user is composing text and can't be
       // cancelled. Let them through and wait for the composition to end.
@@ -112,8 +113,6 @@ export const EditableComponent = {
       ) {
         return
       }
-
-      event.preventDefault()
 
       // COMPAT: For the deleting forward/backward input types we don't want
       // to change the selection because it is the range that will be deleted,
@@ -230,7 +229,7 @@ export const EditableComponent = {
       // aren't correct and never fire the "insertFromComposition"
       // type that we need. So instead, insert whenever a composition
       // ends since it will already have been committed to the DOM.
-      if (!IS_SAFARI && !IS_FIREFOX && event.data) {
+      if (!IS_SAFARI && !IS_FIREFOX_LEGACY && event.data) {
         Editor.insertText(editor, event.data)
       }
     }
@@ -461,7 +460,7 @@ export const EditableComponent = {
       // COMPAT: If the editor has nested editable elements, the focus
       // can go to them. In Firefox, this must be prevented because it
       // results in issues with keyboard navigation. (2017/03/30)
-      if (IS_FIREFOX && event.target !== el) {
+      if (IS_FIREFOX_LEGACY && event.target !== el) {
         el.focus()
         return
       }
@@ -534,8 +533,7 @@ export const EditableComponent = {
   },
   onPaste(event: any, editor: any, ctx: any) {
     if (
-      (!HAS_BEFORE_INPUT_SUPPORT ||
-        isPlainTextOnlyPaste(event)) &&
+      (!HAS_BEFORE_INPUT_SUPPORT || isPlainTextOnlyPaste(event)) &&
       !ctx.readOnly &&
       hasEditableTarget(editor, event.target) &&
       !isEventHandled(event, ctx.onPaste)
