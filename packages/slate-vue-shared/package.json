@@ -1,6 +1,6 @@
 {
   "name": "@hydrabot/slate-vue-shared",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "dependencies": {
     "is-hotkey": "^0.2.0",
     "slate": "0.72.3",
