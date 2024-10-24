@@ -46,7 +46,7 @@
     "image-extensions": "^1.1.0",
     "is-url": "^1.2.4",
     "prismjs": "^1.20.0",
-    "slate-history": "^0.59.0",
+    "slate-history": "^0.110.0",
     "slate-hyperscript": "^0.59.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0"
