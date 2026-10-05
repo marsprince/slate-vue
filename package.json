@@ -48,7 +48,7 @@
     "prismjs": "^1.20.0",
     "slate-history": "^0.59.0",
     "slate-hyperscript": "^0.59.0",
-    "vue": "^2.6.11",
+    "vue": "^3.0.0",
     "vue-router": "^3.2.0"
   },
   "config": {
