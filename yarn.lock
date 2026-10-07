@@ -7180,10 +7180,6 @@ image-size@~0.5.0:
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.5.5.tgz#09dfd4ab9d20e29eb1c3e80b8990378df9e3cb9c"
 
-immer@^5.0.0:
-  version "5.3.6"
-  resolved "https://registry.yarnpkg.com/immer/-/immer-5.3.6.tgz#51eab8cbbeb13075fe2244250f221598818cac04"
-
 immer@^7.0.0:
   version "7.0.15"
   resolved "https://registry.yarnpkg.com/immer/-/immer-7.0.15.tgz#dc3bc6db87401659d2e737c67a21b227c484a4ad"
@@ -11149,12 +11145,10 @@ slash@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
 
-slate-history@^0.59.0:
-  version "0.59.0"
-  resolved "https://registry.yarnpkg.com/slate-history/-/slate-history-0.59.0.tgz#3c5ecbe8893ce2ae9523068ccc17c62d52b24a1a"
-  dependencies:
-    immer "^5.0.0"
-    is-plain-object "^3.0.0"
+slate-history@^0.128.0:
+  version "0.128.1"
+  resolved "https://registry.yarnpkg.com/slate-history/-/slate-history-0.128.1.tgz#02489608d45452fa3795d6bd7c3bc8f8fe79ab79"
+  integrity sha512-WplT2hiDG51CRi1TIQ6NaYKcGJcVv33m5GqX4JgOOqMyEZKYzY6cwIxs/rPoJUAIDmYOxFEwB24cf6pzPTjAbA==
 
 slate-hyperscript@^0.59.0:
   version "0.59.0"
